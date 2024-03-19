@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
@@ -9,7 +10,6 @@ import 'core/constants/color_palatte.dart';
 import 'core/helper/AuthFunctions.dart';
 import 'core/helper/local_storage_helper.dart';
 import 'core/models/firebase/firebase_request.dart';
-
 
 class healyouApp extends StatefulWidget {
   const healyouApp({super.key});
@@ -29,15 +29,16 @@ class _healyouAppState extends State<healyouApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'HealYou',
       theme: ThemeData(
-        primaryColor: ColorPalette.primaryColor,
-        scaffoldBackgroundColor: ColorPalette.backgroundColor,
-      ),
+          primaryColor: ColorPalette.primaryColor,
+          scaffoldBackgroundColor: ColorPalette.backgroundColor,
+          fontFamily: 'Sen'),
       home: AuthenticationWrapper(),
       routes: routes,
       debugShowCheckedModeBanner: false,
+      initialRoute: Routes.setTarget,
     );
   }
 }

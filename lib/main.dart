@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/presentations/routes/app_router.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
+import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +21,7 @@ void main() async {
   await LocalStorageHelper.initLocalStorageHelper();
   WidgetsFlutterBinding.ensureInitialized();
   await FireBaseDataBase.initializeDB();
-  
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -36,15 +40,21 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: AppTheme.textTheme,
-        platform: TargetPlatform.iOS,
-      ),
-      home: SplashScreen(),
+          primarySwatch: Colors.blue,
+          textTheme: AppTheme.textTheme,
+          platform: TargetPlatform.iOS,
+          fontFamily: 'Sen'),
+      // home: SplashScreen(),
+      initialRoute: Routes.setTarget,
+
+      getPages: [
+        GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+        GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+      ],
     );
   }
 }
