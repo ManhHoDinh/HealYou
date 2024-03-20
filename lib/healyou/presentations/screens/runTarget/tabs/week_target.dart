@@ -24,7 +24,15 @@ class _WeekTargetState extends State<WeekTarget> {
     double distance = 9.5;
     double time = 120;
     int dayOfWeek = now.weekday;
-    List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    List<String> days = [
+      'Sun',
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+    ];
     List<List<double>> targets = [
       [1000, 2000],
       [3000, 2000],
@@ -88,24 +96,54 @@ class _WeekTargetState extends State<WeekTarget> {
         .toList();
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Text(
-                  '9034',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 32),
-                ),
-                Text('This week')
-              ],
-            ),
-            TextButton(
-                onPressed: () {},
-                child: Row(
-                  children: [Text('3200'), Icon(Icons.north_east)],
-                ))
-          ],
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '9034',
+                    style: TextStyle(
+                        height: 1, fontWeight: FontWeight.w600, fontSize: 32),
+                  ),
+                  Text('This week')
+                ],
+              ),
+              GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(width: 1, color: Color(0xffe7e7e9))),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('3200'),
+                        Container(
+                          margin: EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.all(4),
+                          child: Center(
+                            child: Icon(
+                              Icons.north_east,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xff00d800)),
+                        )
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
         ),
         Container(
           color: Color(0xffE6E6E8),

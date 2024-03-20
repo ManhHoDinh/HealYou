@@ -20,6 +20,54 @@ class _MonthTargetState extends State<MonthTarget> {
     return Column(
       children: [
         SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '9034',
+                    style: TextStyle(
+                        height: 1, fontWeight: FontWeight.w600, fontSize: 32),
+                  ),
+                  Text('This week')
+                ],
+              ),
+              GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(width: 1, color: Color(0xffe7e7e9))),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('3200'),
+                        Container(
+                          margin: EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.all(4),
+                          child: Center(
+                            child: Icon(
+                              Icons.north_east,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xff00d800)),
+                        )
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         TableCalendar(
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, date, _) {
