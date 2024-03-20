@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
           fontFamily: 'Sen'),
       // home: SplashScreen(),
-      initialRoute: Routes.setTarget,
+      initialRoute: Routes.runTarget,
 
       getPages: [
         GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),

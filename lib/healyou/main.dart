@@ -38,7 +38,7 @@ class _healyouAppState extends State<healyouApp> {
       home: AuthenticationWrapper(),
       routes: routes,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.setTarget,
+      initialRoute: Routes.runTarget,
     );
   }
 }

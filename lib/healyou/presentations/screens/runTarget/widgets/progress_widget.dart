@@ -4,14 +4,11 @@ import 'package:flutter/widgets.dart';
 import '../../../../core/constants/color_palatte.dart';
 
 class ProgressWidget extends StatefulWidget {
-  final double size;
+  final double? size;
   final double value;
   final Widget child;
   const ProgressWidget(
-      {super.key,
-      required this.size,
-      required this.value,
-      required this.child});
+      {super.key, this.size, required this.value, required this.child});
 
   @override
   State<ProgressWidget> createState() => _ProgressWidgetState();
@@ -35,7 +32,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
               backgroundColor: Color(0xffEBECFF),
               color: ColorPalette.mainRunColor,
               value: widget.value,
-              strokeWidth: widget.size * 1 / 10,
+              strokeWidth: widget.size != null ? widget.size! * 1 / 10 : 6,
               strokeCap: StrokeCap.round,
             ),
           ),

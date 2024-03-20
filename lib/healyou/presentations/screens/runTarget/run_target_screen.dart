@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/tabs/month_target.dart';
 
+import '../setTarget/set_target_screen.dart';
 import 'tabs/date_target.dart';
+import 'tabs/week_target.dart';
 
 class RuntargetScreen extends StatefulWidget {
   const RuntargetScreen({super.key});
@@ -29,16 +32,13 @@ class _RuntargetScreenState extends State<RuntargetScreen> {
               ],
             ),
           ),
-          body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TabBarView(
-              children: [
-                SingleChildScrollView(
-                    scrollDirection: Axis.vertical, child: DateTarget()),
-                Icon(Icons.directions_transit, size: 350),
-                Icon(Icons.directions_car, size: 350),
-              ],
-            ),
+          body: TabBarView(
+            children: [
+              SingleChildScrollView(
+                  scrollDirection: Axis.vertical, child: DateTarget()),
+              WeekTarget(),
+              MonthTarget()
+            ],
           ),
         ));
   }

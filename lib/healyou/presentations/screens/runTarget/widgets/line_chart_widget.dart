@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 
 class LineChartWidget extends StatefulWidget {
-  const LineChartWidget({super.key});
+  final double target;
+  const LineChartWidget({super.key, required this.target});
 
   @override
   State<LineChartWidget> createState() => _LineChartWidgetState();
 }
 
 class _LineChartWidgetState extends State<LineChartWidget> {
-  List<Color> gradientColors = [
-    ColorPalette.primaryColor,
-    ColorPalette.mainRunColor
-  ];
+  List<Color> gradientColors = [ColorPalette.mainRunColor, Colors.white];
   bool showAvg = false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -58,7 +57,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   Widget topTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 14,
     );
     DateTime now = DateTime.now();
     int dayOfWeek = now.weekday;
@@ -120,49 +119,36 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   String _getDayOfWeekString(int dayOfWeek) {
     switch (dayOfWeek) {
       case 1:
-        return 'Sun';
-      case 2:
         return 'Mon';
-      case 3:
+      case 2:
         return 'Tue';
-      case 4:
+      case 3:
         return 'Wed';
-      case 5:
+      case 4:
         return 'Thu';
-      case 6:
+      case 5:
         return 'Fri';
-      case 7:
+      case 6:
         return 'Sat';
+      case 7:
+        return 'Sun';
       default:
         return '';
     }
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 15,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.left);
-  }
-
   LineChartData mainData() {
     return LineChartData(
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+            y: 5000,
+            color: Color(0xffcccccc), // Color of the horizontal line
+            strokeWidth: 1, // Width of the horizontal line
+            dashArray: [5, 5], // Optional: dash pattern for the line
+          ),
+        ],
+      ),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
@@ -176,7 +162,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
         },
         getDrawingVerticalLine: (value) {
           return const FlLine(
-            color: ColorPalette.greenText,
+            color: Color(0xffcccccc),
             strokeWidth: 1,
           );
         },
@@ -203,38 +189,32 @@ class _LineChartWidgetState extends State<LineChartWidget> {
           sideTitles: SideTitles(
             showTitles: false,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
         ),
       ),
       borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
+          show: true,
+          border: Border(
+              left: BorderSide(width: 1, color: Color(0xffcccccc)),
+              right: BorderSide(width: 1, color: Color(0xffcccccc)))),
       minX: 0,
       maxX: 6,
       minY: 0,
-      maxY: 6,
+      maxY: widget.target,
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 3),
-            FlSpot(1, 2),
-            FlSpot(2, 5),
-            FlSpot(3, 5),
-            FlSpot(4, 2),
-            FlSpot(5, 7),
-            FlSpot(6, 3),
-            // FlSpot(6.8, 3.1),
-            // FlSpot(8, 4),
-            // FlSpot(9.5, 3),
-            // FlSpot(11, 4),
+            FlSpot(0, 3000),
+            FlSpot(1, 2000),
+            FlSpot(2, 5000),
+            FlSpot(3, 5000),
+            FlSpot(4, 2000),
+            FlSpot(5, 7000),
+            FlSpot(6, 3000),
           ],
           isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
+          color: ColorPalette.mainRunColor,
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: const FlDotData(
@@ -243,8 +223,10 @@ class _LineChartWidgetState extends State<LineChartWidget> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
+                  .map((color) => color.withOpacity(0.5))
                   .toList(),
             ),
           ),
