@@ -7,4 +7,8 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => HomeScreen(),
   LoginScreen.routeName : (context) => LoginScreen(),
   SplashScreen.routeName : (context) => SplashScreen(),
+  
 };
+class Routes {
+  static String map= '/map';
+}
