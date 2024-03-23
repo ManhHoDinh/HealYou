@@ -6,53 +6,52 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Weight Selector',
       home: Scaffold(
-        body: WeightSelector(),
+        body: HightSelector(),
       ),
     );
   }
 }
 
-class WeightSelector extends StatefulWidget {
+class HightSelector extends StatefulWidget {
   @override
-  _WeightSelectorState createState() => _WeightSelectorState();
+  _HightSelectorState createState() => _HightSelectorState();
 }
 
-class _WeightSelectorState extends State<WeightSelector> {
+class _HightSelectorState extends State<HightSelector> {
   late ScrollController _scrollController;
-  int _currentWeight = 58;
-  final int _minWeight = 30;
-  final int _maxWeight = 100;
+  int _currentHight = 58;
+  final int _minHight = 30;
+  final int _maxHight = 100;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController(
       initialScrollOffset: (28 *
-          60.0), // Set the initial offset to show the current weight in the center
+          60.0), // Set the initial offset to show the current hight in the center
     );
-    _scrollController.addListener(_selectWeight);
+    _scrollController.addListener(_selectHight);
   }
 
-  void _selectWeight() {
+  void _selectHight() {
     double center = _scrollController.position.pixels +
         _scrollController.position.viewportDimension / 2;
-    int weightIndex = (center / 60).round();
-    int newWeight = _minWeight + weightIndex;
+    int hightIndex = (center / 60).round();
+    int newHight = _minHight + hightIndex;
 
-    if (_currentWeight != newWeight &&
-        newWeight >= _minWeight &&
-        newWeight <= _maxWeight) {
+    if (_currentHight != newHight &&
+        newHight >= _minHight &&
+        newHight <= _maxHight) {
       setState(() {
-        _currentWeight = newWeight;
+        _currentHight = newHight;
       });
     }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_selectWeight);
+    _scrollController.removeListener(_selectHight);
     _scrollController.dispose();
     super.dispose();
   }
@@ -62,9 +61,8 @@ class _WeightSelectorState extends State<WeightSelector> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-              top: 100.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
+        const Padding(
+          padding: EdgeInsets.only(top: 100.0),
           child: Text(
             'HealYou',
             style: TextStyle(
@@ -73,11 +71,10 @@ class _WeightSelectorState extends State<WeightSelector> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(
-              top: 50.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
+        const Padding(
+          padding: EdgeInsets.only(top: 50.0),
           child: Text(
-            'Tell us your weight',
+            'Tell us your hight',
             style: TextStyle(
               fontSize: 40,
               color: Colors.black,
@@ -88,14 +85,14 @@ class _WeightSelectorState extends State<WeightSelector> {
           child: NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
               if (scrollNotification is ScrollEndNotification) {
-                _selectWeight();
+                _selectHight();
               }
               return true;
             },
             child: ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: _maxWeight - _minWeight + 1,
+              itemCount: _maxHight - _minHight + 1,
               itemBuilder: (context, index) {
                 return Center(
                   child: Container(
@@ -105,22 +102,21 @@ class _WeightSelectorState extends State<WeightSelector> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          (_minWeight + index).toString(),
+                          (_minHight + index).toString(),
                           style: TextStyle(
-                            color: (_minWeight + index) == _currentWeight
+                            color: (_minHight + index) == _currentHight
                                 ? Colors.blue
                                 : Colors.grey,
-                            fontSize: (_minWeight + index) == _currentWeight
-                                ? 24
-                                : 16,
+                            fontSize:
+                                (_minHight + index) == _currentHight ? 24 : 16,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           width: 2,
                           height:
-                              (_minWeight + index) == _currentWeight ? 100 : 50,
-                          color: (_minWeight + index) == _currentWeight
+                              (_minHight + index) == _currentHight ? 100 : 50,
+                          color: (_minHight + index) == _currentHight
                               ? Colors.black
                               : Colors.grey,
                         ),
@@ -132,16 +128,16 @@ class _WeightSelectorState extends State<WeightSelector> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 60.0),
-          child: Text(
-            'Selected weight: $_currentWeight kg',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(bottom: 60.0),
+        //   child: Text(
+        //     'Selected hight: $_currentHight kg',
+        //     style: TextStyle(
+        //       fontSize: 22,
+        //       fontHight: FontHight.bold,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

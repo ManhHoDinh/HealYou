@@ -62,7 +62,7 @@ class _WeightSelectorState extends State<WeightSelector> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(
               top: 100.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
           child: Text(
@@ -73,7 +73,7 @@ class _WeightSelectorState extends State<WeightSelector> {
             ),
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(
               top: 50.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
           child: Text(
@@ -129,16 +129,6 @@ class _WeightSelectorState extends State<WeightSelector> {
                   ),
                 );
               },
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 60.0),
-          child: Text(
-            'Selected weight: $_currentWeight kg',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),
