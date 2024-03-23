@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387564562162",
+    "project_id": "healu-20551",
+    "storage_bucket": "healu-20551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387564562162:android:800d3082a1549f5742926b",
+        "android_client_info": {
+          "package_name": "com.example.healyou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXzS-2hLMjKwU8obRH1pd02dHrlSwre3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
