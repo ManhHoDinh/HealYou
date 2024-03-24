@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:healyou/healyou/core/constants/color_palatte.dart';
-import 'package:healyou/healyou/core/helper/image_helper.dart';
-
-import '../../../core/helper/assets_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-  static final String routeName = 'splash_screen';
+  static String routeName = "splash_screen";
 
   @override
-  State<SplashScreen> createState() => _SplashCreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashCreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Splash Screen"),
-          backgroundColor: Colors.white,
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Text(
+          'Heal You',
+          style:
+              TextStyle(fontSize: 24, color: Color.fromARGB(255, 63, 129, 162)),
         ),
-        backgroundColor: Colors.white,
-        body: Center(child: Text("Splash Screen")));
+      ),
+    );
   }
 }
