@@ -30,7 +30,6 @@ class AssetHelper {
   static const String icoGroup = iconAssets + 'ico_group.png';
   static const String icoLineVertical = iconAssets + 'ico_line_vertical.png';
 
-
   //Assets in images
   static const String imgAssets = 'assets/windou/';
 
@@ -44,6 +43,7 @@ class AssetHelper {
 
   //home
   static const String avatar = 'assets/images/avatar.png';
+  static const String step = 'assets/images/step.png';
   static const String room1 = imgAssets + 'room1.png';
   static const String room2 = imgAssets + 'room2.png';
   static const String room3 = imgAssets + 'room3.png';
@@ -58,6 +58,5 @@ class AssetHelper {
   static const String nullImageful = imgAssets + 'null_image_color.png';
   static const String inforhotel = imgAssets + 'hotel_infor_ex.png';
 
- 
   static const String checked = imgAssets + 'checked.png';
 }

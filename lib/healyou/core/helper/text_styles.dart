@@ -8,7 +8,7 @@ extension ExtendedTextStyle on TextStyle {
   }
 
   TextStyle get regular {
-    return copyWith(fontWeight: FontWeight.w400, fontFamily: AppFonts.rubik);
+    return copyWith(fontSize: 16, fontFamily: AppFonts.rubik);
   }
 
   TextStyle get italic {
