@@ -1,27 +1,45 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
+import 'package:healyou/healyou/presentations/routes/app_router.dart';
+import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
+import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
+import 'package:healyou/healyou/presentations/widgets/loading.dart';
+import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healyou/healyou/core/helper/local_storage_helper.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
+import 'package:provider/provider.dart';
 import 'navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'healyou/core/models/firebase/firebase_request.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+// ...
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //add
   await Hive.initFlutter();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await LocalStorageHelper.initLocalStorageHelper();
   WidgetsFlutterBinding.ensureInitialized();
   await FireBaseDataBase.initializeDB();
-  
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]).then((_) => runApp(MyApp()));
+  ]).then((_) => runApp(ChangeNotifierProvider(
+      create: (context) => LoadingProvider(),
+      builder: (context, child) => MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,6 +54,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+
     return MaterialApp(
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,
@@ -44,7 +63,32 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: SplashScreen(),
+      routes: routes,
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen();
+          } else {
+            if (snapshot.hasData) {
+              return FutureBuilder(
+                future: AuthServices.UpdateCurrentUser(),
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Show a loading indicator if necessary
+                    return SplashScreen();
+                  } else {
+                    // If the update is complete, navigate to the MainScreen
+                    return HomeScreen();
+                  }
+                },
+              );
+            } else {
+              return OnboardingScreen();
+            }
+          }
+        },
+      ),
     );
   }
 }

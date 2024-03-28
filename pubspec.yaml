@@ -50,11 +50,13 @@ dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
   #firebase
-  firebase_core: 2.24.2
+  firebase_core: ^2.27.1
   hive_flutter: ^1.1.0
   flutter_svg: ^2.0.10+1
-  firebase_auth: ^4.16.0
-  cloud_firestore: ^4.14.0
+  firebase_auth: ^4.17.9
+  cloud_firestore: ^4.15.9
+  google_sign_in: ^6.2.1
+  provider: ^6.1.2
   
 dev_dependencies:
   flutter_test:
@@ -105,6 +107,9 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 400
+    - family: MVBoli
+      fonts:
+        - asset: assets/fonts/mvboli.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
