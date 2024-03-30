@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+          body: const GenderSelector(),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(75.0),
+            child: FloatingActionButton(
+              child: const Icon(Icons.arrow_forward),
+              onPressed: () {},
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat),
+    );
+  }
+}
+
+class GenderSelector extends StatefulWidget {
+  const GenderSelector({super.key});
+
+  @override
+  _GenderSelectorState createState() => _GenderSelectorState();
+}
+
+class _GenderSelectorState extends State<GenderSelector> {
+  bool isMaleSelected = false;
+  bool isFemaleSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.only(top: 100.0),
+          child: Text(
+            'HealYou',
+            style: TextStyle(fontSize: 20, color: Colors.blue),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(70.0),
+          child: Text(
+            'Tell us your gender',
+            style: TextStyle(
+              fontSize: 50,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: GenderOption(
+                  gender: 'Male',
+                  icon: Icons.male,
+                  isSelected: isMaleSelected,
+                  onSelect: () {
+                    setState(() {
+                      isMaleSelected = true;
+                      isFemaleSelected = false;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 10), // For spacing between the buttons
+              Expanded(
+                child: GenderOption(
+                  gender: 'Female',
+                  icon: Icons.female,
+                  isSelected: isFemaleSelected,
+                  onSelect: () {
+                    setState(() {
+                      isMaleSelected = false;
+                      isFemaleSelected = true;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Add other widgets if necessary
+      ],
+    );
+  }
+}
+
+class GenderOption extends StatelessWidget {
+  final String gender;
+  final IconData icon;
+  final bool isSelected;
+  final VoidCallback onSelect;
+
+  const GenderOption({
+    Key? key,
+    required this.gender,
+    required this.icon,
+    required this.isSelected,
+    required this.onSelect,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onSelect,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5.0),
+        padding: const EdgeInsets.all(50.0),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.orange.shade100 : Colors.transparent,
+          border: Border.all(
+            color: isSelected ? Colors.orange : Colors.grey.shade300,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(icon, color: isSelected ? Colors.orange : Colors.grey),
+            Text(
+              gender,
+              style: TextStyle(
+                color: isSelected ? Colors.orange : Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
