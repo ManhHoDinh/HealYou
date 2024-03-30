@@ -28,11 +28,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //add
   await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  WidgetsFlutterBinding.ensureInitialized();
+  
   await FireBaseDataBase.initializeDB();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
