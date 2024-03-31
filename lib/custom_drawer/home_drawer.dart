@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -184,7 +186,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-    print('Doing Something...'); // Print to console.
+          FirebaseAuth.instance.signOut();
+                    GoogleSignIn().signOut();
+                    Navigator.of(context)
+                        .pushReplacementNamed('onboarding_screen');
+              
   }
 
   Widget inkwell(DrawerList listData) {
