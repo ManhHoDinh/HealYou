@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_success_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
@@ -179,8 +180,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   final credential =
                                       await _handleSignup(); // var credential = await _handleSignup();
                                   if (credential != null) {
-                                    Navigator.of(context).pushReplacementNamed(
-                                        'signup_success_screen');
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            NavigationHome.routeName,
+                                            (route) => false);
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,

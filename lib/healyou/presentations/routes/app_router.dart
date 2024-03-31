@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
@@ -13,4 +14,5 @@ final Map<String, WidgetBuilder> routes = {
   SignupScreen.routeName: (context) => SignupScreen(),
   SignupSuccessScreen.routeName: (context) => SignupSuccessScreen(),
   SplashScreen.routeName: (context) => SplashScreen(),
+  NavigationHome.routeName  : (context) => NavigationHome(),
 };
