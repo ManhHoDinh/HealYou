@@ -7,6 +7,7 @@ import 'package:healyou/healyou/core/helper/assets_helper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healyou/healyou/presentations/screens/map/time_run_map.dart';
+import 'package:healyou/healyou/presentations/screens/run/run_track.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({super.key});
@@ -100,7 +101,7 @@ class MapSampleState extends State<MapSample> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TimeRun()),
+                  MaterialPageRoute(builder: (context) => RunTrackScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
