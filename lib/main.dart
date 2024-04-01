@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
+import 'package:healyou/healyou/main.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
@@ -28,12 +29,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //add
   await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  WidgetsFlutterBinding.ensureInitialized();
-  await FireBaseDataBase.initializeDB();
+  
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -64,31 +65,7 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       routes: routes,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return SplashScreen();
-          } else {
-            if (snapshot.hasData) {
-              return FutureBuilder(
-                future: AuthServices.UpdateCurrentUser(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // Show a loading indicator if necessary
-                    return SplashScreen();
-                  } else {
-                    // If the update is complete, navigate to the MainScreen
-                    return HomeScreen();
-                  }
-                },
-              );
-            } else {
-              return OnboardingScreen();
-            }
-          }
-        },
-      ),
+      home: healyouApp()
     );
   }
 }

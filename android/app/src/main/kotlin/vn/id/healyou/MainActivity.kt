@@ -1,4 +1,4 @@
-package com.example.healyou
+package vn.id.healyou
 
 import io.flutter.embedding.android.FlutterActivity
 

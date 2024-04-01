@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
 
+import '../Home/navigation_home.dart';
+
 class OnboardingScreen extends StatefulWidget {
   static const String routeName = 'onboarding_screen';
 
@@ -14,7 +16,7 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-Future<UserCredential> signInWithGoogle() async {
+void signInWithGoogle(BuildContext context) async {
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser =
       await GoogleSignIn().signIn().catchError((error) {
@@ -30,7 +32,12 @@ Future<UserCredential> signInWithGoogle() async {
     idToken: googleAuth?.idToken,
   );
   // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
+  await FirebaseAuth.instance.signInWithCredential(credential);
+  if (FirebaseAuth.instance.currentUser != null) {
+    //await UpdateCurrentUser();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(NavigationHome.routeName, (route) => false);
+  }
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
@@ -90,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   InkWell(
                       child: OutlinedButton(
                           onPressed: () async {
-                            await signInWithGoogle();
+                             signInWithGoogle(context);
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(
