@@ -1,0 +1,2 @@
+1.To run the code generator, execute the following command: (Freezed)
+    dart run build_runner build
