@@ -50,6 +50,7 @@ dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
   #firebase
+  percent_indicator: ^4.2.3
   firebase_core: 2.24.2
   hive_flutter: ^1.1.0
   flutter_svg: ^2.0.10+1

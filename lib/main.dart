@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
+import 'package:healyou/healyou/presentations/screens/Nutrition/nutrition_screen.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:healyou/app_theme.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.map,
 
       getPages: [
-        GetPage(name: Routes.map, page: () => MapSample()),
+        GetPage(name: Routes.map, page: () => Nutrition()),
       ],
     );
   }
