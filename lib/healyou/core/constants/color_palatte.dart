@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorPalette {
   static const Color backgroundColor = Color(0xffFFFFFF);
-  static const Color primaryColor = Color(0xff476A49);
+  static const Color primaryColor = Color(0xff198FB4);
 
   static const Color greenText = Color(0xff57CC99);
   static const Color darkBlueText = Color(0xff22577A);
@@ -23,6 +23,11 @@ class ColorPalette {
   static const Color mainRunColor = Color(0xff767BF4);
   static const Color lightRunColor = Color(0xffF5F6FF);
   static const Color mediumRunColor = Color(0xffd1d4ff);
+
+  static const Color nearlyWhite = Color(0xFFFAFAFA);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color background = Color(0xFFF2F3F8);
+  static const Color nearlyDarkBlue = Color(0xFF2633C5);
 }
 
 // Color(0xff+x) | Mã hex bỏ # ví dụ #123410 => Color(0xFF123410)
