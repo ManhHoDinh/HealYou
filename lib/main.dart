@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
+import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,6 +14,7 @@ import 'navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'healyou/core/models/firebase/firebase_request.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +23,15 @@ void main() async {
   await LocalStorageHelper.initLocalStorageHelper();
   WidgetsFlutterBinding.ensureInitialized();
   await FireBaseDataBase.initializeDB();
+  AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'heal_you',
+            channelName: "Heal You",
+            channelDescription: 'haha')
+      ],
+      debug: true);
 
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
@@ -49,11 +60,12 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
           fontFamily: 'Sen'),
       // home: SplashScreen(),
-      initialRoute: Routes.runTarget,
+      initialRoute: Routes.otherTarget,
 
       getPages: [
         GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
         GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+        GetPage(name: Routes.otherTarget, page: () => OtherTargetScreen()),
       ],
     );
   }

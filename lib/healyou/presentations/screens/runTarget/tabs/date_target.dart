@@ -19,7 +19,7 @@ class _DateTargetState extends State<DateTarget> {
     double calo = 100;
     double distance = 1000;
     double time = 19;
-    double stepTarget = 7000;
+    double stepTarget = 8000;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(children: [
@@ -38,7 +38,8 @@ class _DateTargetState extends State<DateTarget> {
                   size: 70,
                 ),
                 Text('2000',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50)),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 50)),
                 Text('Today', style: TextStyle(fontSize: 18)),
                 Text('Target: ${stepTarget}', style: TextStyle(fontSize: 18))
               ],

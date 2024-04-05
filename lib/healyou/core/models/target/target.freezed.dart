@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'run_target.dart';
+part of 'target.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,39 +14,38 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RunTarget _$RunTargetFromJson(Map<String, dynamic> json) {
-  return _RunTarget.fromJson(json);
+Target _$TargetFromJson(Map<String, dynamic> json) {
+  return _Target.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RunTarget {
+mixin _$Target {
   String get id => throw _privateConstructorUsedError;
   TargetType get type => throw _privateConstructorUsedError;
   int get target => throw _privateConstructorUsedError;
   int get reached => throw _privateConstructorUsedError;
-  UserModel get user => throw _privateConstructorUsedError;
+  UserModel? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RunTargetCopyWith<RunTarget> get copyWith =>
-      throw _privateConstructorUsedError;
+  $TargetCopyWith<Target> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RunTargetCopyWith<$Res> {
-  factory $RunTargetCopyWith(RunTarget value, $Res Function(RunTarget) then) =
-      _$RunTargetCopyWithImpl<$Res, RunTarget>;
+abstract class $TargetCopyWith<$Res> {
+  factory $TargetCopyWith(Target value, $Res Function(Target) then) =
+      _$TargetCopyWithImpl<$Res, Target>;
   @useResult
   $Res call(
-      {String id, TargetType type, int target, int reached, UserModel user});
+      {String id, TargetType type, int target, int reached, UserModel? user});
 
-  $UserModelCopyWith<$Res> get user;
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
-class _$RunTargetCopyWithImpl<$Res, $Val extends RunTarget>
-    implements $RunTargetCopyWith<$Res> {
-  _$RunTargetCopyWithImpl(this._value, this._then);
+class _$TargetCopyWithImpl<$Res, $Val extends Target>
+    implements $TargetCopyWith<$Res> {
+  _$TargetCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -60,7 +59,7 @@ class _$RunTargetCopyWithImpl<$Res, $Val extends RunTarget>
     Object? type = null,
     Object? target = null,
     Object? reached = null,
-    Object? user = null,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,43 +78,46 @@ class _$RunTargetCopyWithImpl<$Res, $Val extends RunTarget>
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
               as int,
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as UserModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get user {
-    return $UserModelCopyWith<$Res>(_value.user, (value) {
+  $UserModelCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$RunTargetImplCopyWith<$Res>
-    implements $RunTargetCopyWith<$Res> {
-  factory _$$RunTargetImplCopyWith(
-          _$RunTargetImpl value, $Res Function(_$RunTargetImpl) then) =
-      __$$RunTargetImplCopyWithImpl<$Res>;
+abstract class _$$TargetImplCopyWith<$Res> implements $TargetCopyWith<$Res> {
+  factory _$$TargetImplCopyWith(
+          _$TargetImpl value, $Res Function(_$TargetImpl) then) =
+      __$$TargetImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String id, TargetType type, int target, int reached, UserModel user});
+      {String id, TargetType type, int target, int reached, UserModel? user});
 
   @override
-  $UserModelCopyWith<$Res> get user;
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
-class __$$RunTargetImplCopyWithImpl<$Res>
-    extends _$RunTargetCopyWithImpl<$Res, _$RunTargetImpl>
-    implements _$$RunTargetImplCopyWith<$Res> {
-  __$$RunTargetImplCopyWithImpl(
-      _$RunTargetImpl _value, $Res Function(_$RunTargetImpl) _then)
+class __$$TargetImplCopyWithImpl<$Res>
+    extends _$TargetCopyWithImpl<$Res, _$TargetImpl>
+    implements _$$TargetImplCopyWith<$Res> {
+  __$$TargetImplCopyWithImpl(
+      _$TargetImpl _value, $Res Function(_$TargetImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -125,9 +127,9 @@ class __$$RunTargetImplCopyWithImpl<$Res>
     Object? type = null,
     Object? target = null,
     Object? reached = null,
-    Object? user = null,
+    Object? user = freezed,
   }) {
-    return _then(_$RunTargetImpl(
+    return _then(_$TargetImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -144,26 +146,26 @@ class __$$RunTargetImplCopyWithImpl<$Res>
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
               as int,
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as UserModel?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$RunTargetImpl implements _RunTarget {
-  const _$RunTargetImpl(
+class _$TargetImpl implements _Target {
+  const _$TargetImpl(
       {required this.id,
       required this.type,
       required this.target,
       required this.reached,
-      required this.user});
+      this.user = null});
 
-  factory _$RunTargetImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RunTargetImplFromJson(json);
+  factory _$TargetImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TargetImplFromJson(json);
 
   @override
   final String id;
@@ -174,18 +176,19 @@ class _$RunTargetImpl implements _RunTarget {
   @override
   final int reached;
   @override
-  final UserModel user;
+  @JsonKey()
+  final UserModel? user;
 
   @override
   String toString() {
-    return 'RunTarget(id: $id, type: $type, target: $target, reached: $reached, user: $user)';
+    return 'Target(id: $id, type: $type, target: $target, reached: $reached, user: $user)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RunTargetImpl &&
+            other is _$TargetImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.target, target) || other.target == target) &&
@@ -200,27 +203,26 @@ class _$RunTargetImpl implements _RunTarget {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RunTargetImplCopyWith<_$RunTargetImpl> get copyWith =>
-      __$$RunTargetImplCopyWithImpl<_$RunTargetImpl>(this, _$identity);
+  _$$TargetImplCopyWith<_$TargetImpl> get copyWith =>
+      __$$TargetImplCopyWithImpl<_$TargetImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RunTargetImplToJson(
+    return _$$TargetImplToJson(
       this,
     );
   }
 }
 
-abstract class _RunTarget implements RunTarget {
-  const factory _RunTarget(
+abstract class _Target implements Target {
+  const factory _Target(
       {required final String id,
       required final TargetType type,
       required final int target,
       required final int reached,
-      required final UserModel user}) = _$RunTargetImpl;
+      final UserModel? user}) = _$TargetImpl;
 
-  factory _RunTarget.fromJson(Map<String, dynamic> json) =
-      _$RunTargetImpl.fromJson;
+  factory _Target.fromJson(Map<String, dynamic> json) = _$TargetImpl.fromJson;
 
   @override
   String get id;
@@ -231,9 +233,9 @@ abstract class _RunTarget implements RunTarget {
   @override
   int get reached;
   @override
-  UserModel get user;
+  UserModel? get user;
   @override
   @JsonKey(ignore: true)
-  _$$RunTargetImplCopyWith<_$RunTargetImpl> get copyWith =>
+  _$$TargetImplCopyWith<_$TargetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -44,6 +44,7 @@ class AssetHelper {
   //home
   static const String avatar = 'assets/images/avatar.png';
   static const String step = 'assets/images/step.png';
+  static const String glass = 'assets/images/glass.png';
   static const String room1 = imgAssets + 'room1.png';
   static const String room2 = imgAssets + 'room2.png';
   static const String room3 = imgAssets + 'room3.png';

@@ -12,4 +12,5 @@ final Map<String, WidgetBuilder> routes = {
 class Routes {
   static String runTarget = '/runTarget';
   static String setTarget = '/setTarget';
+  static String otherTarget = '/otherTarget';
 }
