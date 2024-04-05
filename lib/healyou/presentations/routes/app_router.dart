@@ -5,6 +5,7 @@ import 'package:healyou/healyou/presentations/screens/account/login_screen.dart'
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_success_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -15,4 +16,5 @@ final Map<String, WidgetBuilder> routes = {
   SignupSuccessScreen.routeName: (context) => SignupSuccessScreen(),
   SplashScreen.routeName: (context) => SplashScreen(),
   NavigationHome.routeName  : (context) => NavigationHome(),
+  GenderSelectorScreen.routeName: (context) => GenderSelectorScreen(),
 };

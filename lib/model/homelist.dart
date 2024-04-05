@@ -4,7 +4,7 @@ import 'package:healyou/hotel_booking/hotel_home_screen.dart';
 import 'package:healyou/introduction_animation/introduction_animation_screen.dart';
 import 'package:flutter/widgets.dart';
 
-import '../healyou/main.dart';
+import '../healyou/healYouMain.dart';
 
 class HomeList {
   HomeList({

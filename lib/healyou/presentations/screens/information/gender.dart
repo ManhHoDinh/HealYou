@@ -1,100 +1,103 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+  
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//           body: const GenderSelector(),
+//           floatingActionButton: Padding(
+//             padding: const EdgeInsets.all(75.0),
+//             child: FloatingActionButton(
+//               child: const Icon(Icons.arrow_forward),
+//               onPressed: () {},
+//             ),
+//           ),
+//           floatingActionButtonLocation:
+//               FloatingActionButtonLocation.centerFloat),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          body: const GenderSelector(),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.all(75.0),
-            child: FloatingActionButton(
-              child: const Icon(Icons.arrow_forward),
-              onPressed: () {},
-            ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat),
-    );
-  }
-}
-
-class GenderSelector extends StatefulWidget {
-  const GenderSelector({super.key});
-
+class GenderSelectorScreen extends StatefulWidget {
+  const GenderSelectorScreen({super.key});
+  static const String routeName = 'gender_screen';
+  
   @override
   _GenderSelectorState createState() => _GenderSelectorState();
 }
 
-class _GenderSelectorState extends State<GenderSelector> {
+class _GenderSelectorState extends State<GenderSelectorScreen> {
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.only(top: 100.0),
-          child: Text(
-            'HealYou',
-            style: TextStyle(fontSize: 20, color: Colors.blue),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(70.0),
-          child: Text(
-            'Tell us your gender',
-            style: TextStyle(
-              fontSize: 50,
-              color: Colors.black,
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Text(
+              'HealYou',
+              style: TextStyle(fontSize: 20, color: Colors.blue),
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: GenderOption(
-                  gender: 'Male',
-                  icon: Icons.male,
-                  isSelected: isMaleSelected,
-                  onSelect: () {
-                    setState(() {
-                      isMaleSelected = true;
-                      isFemaleSelected = false;
-                    });
-                  },
-                ),
+          const Padding(
+            padding: EdgeInsets.all(70.0),
+            child: Text(
+              'Tell us your gender',
+              style: TextStyle(
+                fontSize: 50,
+                color: Colors.black,
               ),
-              const SizedBox(width: 10), // For spacing between the buttons
-              Expanded(
-                child: GenderOption(
-                  gender: 'Female',
-                  icon: Icons.female,
-                  isSelected: isFemaleSelected,
-                  onSelect: () {
-                    setState(() {
-                      isMaleSelected = false;
-                      isFemaleSelected = true;
-                    });
-                  },
-                ),
-              ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        // Add other widgets if necessary
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: GenderOption(
+                    gender: 'Male',
+                    icon: Icons.male,
+                    isSelected: isMaleSelected,
+                    onSelect: () {
+                      setState(() {
+                        isMaleSelected = true;
+                        isFemaleSelected = false;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10), // For spacing between the buttons
+                Expanded(
+                  child: GenderOption(
+                    gender: 'Female',
+                    icon: Icons.female,
+                    isSelected: isFemaleSelected,
+                    onSelect: () {
+                      setState(() {
+                        isMaleSelected = false;
+                        isFemaleSelected = true;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Add other widgets if necessary
+        ],
+      ),
     );
   }
 }

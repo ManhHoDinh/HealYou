@@ -4,6 +4,8 @@ import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../information/gender.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
@@ -114,8 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // Perform your asynchronous operation here
                                   final credential = await _handleSignin();
                                   if (credential != null) {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('home_screen');
+                                    Navigator.pushNamed(context,
+                                        GenderSelectorScreen.routeName);
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,

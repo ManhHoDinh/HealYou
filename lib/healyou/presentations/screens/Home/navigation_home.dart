@@ -81,8 +81,7 @@ class _NavigationHomeState extends State<NavigationHome> {
           setState(() {
             screenView = InviteFriend();
           });
-          break;
-        
+          break;   
         default:
           
           break;

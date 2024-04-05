@@ -5,7 +5,7 @@ import 'package:healyou/healyou/presentations/bottom_navigation_view/tabIconData
 import '../../../main.dart';
 import '../../core/constants/color_palatte.dart';
 import '../../core/helper/image_helper.dart';
-import '../../main.dart';
+import '../../healYouMain.dart';
 
 class WindouBottomBarView extends StatefulWidget {
   const WindouBottomBarView(
