@@ -1,15 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
-import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
-import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
+import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
 import 'core/constants/color_palatte.dart';
 import 'core/helper/AuthFunctions.dart';
-import 'core/helper/local_storage_helper.dart';
-import 'core/models/firebase/firebase_request.dart';
-
 
 class healyouApp extends StatefulWidget {
   const healyouApp({super.key});
@@ -81,12 +77,12 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         return SplashScreen();
                       } else {
                         // If the update is complete, navigate to the MainScreen
-                        return HomeScreen();
+                        return NavigationHome();
                       }
                     },
                   );
                 } else {
-                  return LoginScreen();
+                  return OnboardingScreen();
                 }
               }
             },

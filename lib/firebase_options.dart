@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,40 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDA2L5FTHU4e4k4_fiCbplSIqsZAFOcswg',
+    appId: '1:387564562162:web:f173e320952e4fa442926b',
+    messagingSenderId: '387564562162',
+    projectId: 'healu-20551',
+    authDomain: 'healu-20551.firebaseapp.com',
+    storageBucket: 'healu-20551.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCljKqYrGAgx7_mgE9PuYg03tf9nI8SGTc',
-    appId: '1:683918464292:android:95393a0db7708208ba8fb1',
-    messagingSenderId: '683918464292',
-    projectId: 'windou',
-    storageBucket: 'windou.appspot.com',
+    apiKey: 'AIzaSyDXzS-2hLMjKwU8obRH1pd02dHrlSwre3I',
+    appId: '1:387564562162:android:800d3082a1549f5742926b',
+    messagingSenderId: '387564562162',
+    projectId: 'healu-20551',
+    storageBucket: 'healu-20551.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDnY3xTKkz8aVAr2xDsvcsfwbzCWqsMEB4',
+    appId: '1:387564562162:ios:5b2ce68f1fad509142926b',
+    messagingSenderId: '387564562162',
+    projectId: 'healu-20551',
+    storageBucket: 'healu-20551.appspot.com',
+    iosClientId: '387564562162-em9nmimriet9ae7nkabdk2hve1mmmfph.apps.googleusercontent.com',
+    iosBundleId: 'com.example.healyou',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDnY3xTKkz8aVAr2xDsvcsfwbzCWqsMEB4',
+    appId: '1:387564562162:ios:366bc6502f98de9942926b',
+    messagingSenderId: '387564562162',
+    projectId: 'healu-20551',
+    storageBucket: 'healu-20551.appspot.com',
+    iosClientId: '387564562162-v4k624kujsau9att9mengqd5rgnhqb3i.apps.googleusercontent.com',
+    iosBundleId: 'com.example.healyou.RunnerTests',
   );
 }
