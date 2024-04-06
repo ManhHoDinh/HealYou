@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/information/age.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
-  
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
@@ -28,7 +29,7 @@ import 'package:flutter/material.dart';
 class GenderSelectorScreen extends StatefulWidget {
   const GenderSelectorScreen({super.key});
   static const String routeName = 'gender_screen';
-  
+
   @override
   _GenderSelectorState createState() => _GenderSelectorState();
 }
@@ -93,6 +94,16 @@ class _GenderSelectorState extends State<GenderSelectorScreen> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 60.0), // Adjust the padding as needed
+            child: FloatingActionButton(
+              child: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.pushNamed(context, AgeSelectorScreen.routeName);
+              },
             ),
           ),
           // Add other widgets if necessary
