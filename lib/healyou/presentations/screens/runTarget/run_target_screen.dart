@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/tabs/month_target.dart';
 
+import '../../widgets/AppBar.dart';
 import '../setTarget/set_target_screen.dart';
 import 'tabs/date_target.dart';
 import 'tabs/week_target.dart';
@@ -22,12 +23,7 @@ class _RuntargetScreenState extends State<RuntargetScreen> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Get.to(SetTargetScreen());
-              },
-            ),
+            title: AppBarWidget(title: 'Run Target'),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,

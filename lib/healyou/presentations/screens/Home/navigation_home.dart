@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/healyou/presentations/screens/Home/bottom_navigation_home.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
+import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 
 import '../../../../app_theme.dart';
 import '../../../../custom_drawer/drawer_user_controller.dart';
@@ -81,8 +83,18 @@ class _NavigationHomeState extends State<NavigationHome> {
           setState(() {
             screenView = InviteFriend();
           });
-          break;
-        
+          break; 
+        case DrawerIndex.SetTarget:
+          setState(() {
+            screenView = SetTargetScreen();
+          });
+          break; 
+        case DrawerIndex.RunTarget:
+          setState(() {
+            screenView = RuntargetScreen();
+          });
+          break; 
+            
         default:
           
           break;

@@ -1,20 +1,16 @@
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
-import 'package:healyou/healyou/main.dart';
+import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
-import 'package:get/get.dart';
-import 'package:healyou/healyou/presentations/routes/app_router.dart';
-import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
-import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
-import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +22,9 @@ import 'navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'healyou/core/models/firebase/firebase_request.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
+
+import 'healyou/core/models/firebase/firebase_request.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -41,8 +39,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  WidgetsFlutterBinding.ensureInitialized();
-  await FireBaseDataBase.initializeDB();
   AwesomeNotifications().initialize(
       null,
       [
@@ -73,23 +69,17 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    return GetMaterialApp(
-      title: 'Flutter UI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: AppTheme.textTheme,
-        platform: TargetPlatform.iOS,
-      ),
-      // home: SplashScreen(),
-      initialRoute: Routes.runTarget,
 
-      getPages: [
-        GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
-        GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
-        GetPage(name: Routes.otherTarget, page: () => OtherTargetScreen()),
-      ],
-    );
+    return MaterialApp(
+        title: 'Flutter UI',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: AppTheme.textTheme,
+          platform: TargetPlatform.iOS,
+        ),
+        routes: routes,
+        home: healyouApp());
   }
 }
 
