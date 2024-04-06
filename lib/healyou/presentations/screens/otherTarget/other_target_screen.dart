@@ -6,6 +6,7 @@ import 'package:healyou/healyou/presentations/screens/runTarget/tabs/month_targe
 import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:intl/intl.dart';
 
+import '../Nutrition/nutrition_tab.dart';
 import '../setTarget/set_target_screen.dart';
 
 class OtherTargetScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen> with TickerProvid
           body: TabBarView(
             children: [
               WaterTarget(),
-              Text('haha'),
+              Nutrition(),
               Text('haha'),
             ],
           ),

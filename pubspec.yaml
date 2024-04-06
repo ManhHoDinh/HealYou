@@ -57,16 +57,16 @@ dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
   #firebase
+  percent_indicator: ^4.2.3
   hive_flutter: ^1.1.0
   flutter_svg: ^2.0.10+1
   provider: ^6.1.2
   google_sign_in: ^6.1.6
   cloud_firestore: ^4.14.0
-  google_maps_flutter: ^2.6.0
-  geolocator: ^11.0.0
   firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
-  
+  google_maps_flutter: ^2.6.0
+  geolocator: ^11.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

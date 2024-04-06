@@ -33,4 +33,5 @@ class Routes {
   static String runTarget = '/runTarget';
   static String setTarget = '/setTarget';
   static String otherTarget = '/otherTarget';
+  static String map= '/map';
 }

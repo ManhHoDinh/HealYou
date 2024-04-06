@@ -21,6 +21,9 @@ import 'navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'healyou/core/models/firebase/firebase_request.dart';
+
+import 'healyou/core/models/firebase/firebase_request.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
