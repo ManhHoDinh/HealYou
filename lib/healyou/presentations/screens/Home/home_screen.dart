@@ -6,6 +6,7 @@ import 'package:healyou/app_theme.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
+import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
@@ -180,30 +181,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: ColorPalette.primaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Workout\nof the week",
-                                  style: TextStyles.h6.whiteTextColor.bold,
-                                  textAlign: TextAlign.center,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, RunMap.routeName);
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "Workout\nof the week",
+                                    style: TextStyles.h6.whiteTextColor.bold,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: ImageHelper.loadFromAsset(
-                                    AssetHelper.running,
-                                    fit: BoxFit.fill),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  "jogging",
-                                  style: TextStyles.h6.whiteTextColor.bold
-                                      .copyWith(fontStyle: FontStyle.italic),
-                                  textAlign: TextAlign.center,
+                                Expanded(
+                                  child: ImageHelper.loadFromAsset(
+                                      AssetHelper.running,
+                                      fit: BoxFit.fill),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  child: Text(
+                                    "jogging",
+                                    style: TextStyles.h6.whiteTextColor.bold
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         )),
                         SizedBox(
