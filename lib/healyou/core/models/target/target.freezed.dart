@@ -24,7 +24,9 @@ mixin _$Target {
   TargetType get type => throw _privateConstructorUsedError;
   int get target => throw _privateConstructorUsedError;
   int get reached => throw _privateConstructorUsedError;
-  UserModel? get user => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  DateTime? get time => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +39,12 @@ abstract class $TargetCopyWith<$Res> {
       _$TargetCopyWithImpl<$Res, Target>;
   @useResult
   $Res call(
-      {String id, TargetType type, int target, int reached, UserModel? user});
-
-  $UserModelCopyWith<$Res>? get user;
+      {String id,
+      TargetType type,
+      int target,
+      int reached,
+      String userId,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time});
 }
 
 /// @nodoc
@@ -59,7 +64,8 @@ class _$TargetCopyWithImpl<$Res, $Val extends Target>
     Object? type = null,
     Object? target = null,
     Object? reached = null,
-    Object? user = freezed,
+    Object? userId = null,
+    Object? time = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -78,23 +84,15 @@ class _$TargetCopyWithImpl<$Res, $Val extends Target>
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
               as int,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res>? get user {
-    if (_value.user == null) {
-      return null;
-    }
-
-    return $UserModelCopyWith<$Res>(_value.user!, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -106,10 +104,12 @@ abstract class _$$TargetImplCopyWith<$Res> implements $TargetCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id, TargetType type, int target, int reached, UserModel? user});
-
-  @override
-  $UserModelCopyWith<$Res>? get user;
+      {String id,
+      TargetType type,
+      int target,
+      int reached,
+      String userId,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time});
 }
 
 /// @nodoc
@@ -127,7 +127,8 @@ class __$$TargetImplCopyWithImpl<$Res>
     Object? type = null,
     Object? target = null,
     Object? reached = null,
-    Object? user = freezed,
+    Object? userId = null,
+    Object? time = freezed,
   }) {
     return _then(_$TargetImpl(
       id: null == id
@@ -146,10 +147,14 @@ class __$$TargetImplCopyWithImpl<$Res>
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
               as int,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -158,30 +163,38 @@ class __$$TargetImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TargetImpl implements _Target {
   const _$TargetImpl(
-      {required this.id,
-      required this.type,
-      required this.target,
-      required this.reached,
-      this.user = null});
+      {this.id = "",
+      this.type = TargetType.step,
+      this.target = 0,
+      this.reached = 0,
+      this.userId = "",
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) this.time});
 
   factory _$TargetImpl.fromJson(Map<String, dynamic> json) =>
       _$$TargetImplFromJson(json);
 
   @override
+  @JsonKey()
   final String id;
   @override
+  @JsonKey()
   final TargetType type;
   @override
+  @JsonKey()
   final int target;
   @override
+  @JsonKey()
   final int reached;
   @override
   @JsonKey()
-  final UserModel? user;
+  final String userId;
+  @override
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  final DateTime? time;
 
   @override
   String toString() {
-    return 'Target(id: $id, type: $type, target: $target, reached: $reached, user: $user)';
+    return 'Target(id: $id, type: $type, target: $target, reached: $reached, userId: $userId, time: $time)';
   }
 
   @override
@@ -193,12 +206,14 @@ class _$TargetImpl implements _Target {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.target, target) || other.target == target) &&
             (identical(other.reached, reached) || other.reached == reached) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.time, time) || other.time == time));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, target, reached, user);
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, target, reached, userId, time);
 
   @JsonKey(ignore: true)
   @override
@@ -216,11 +231,13 @@ class _$TargetImpl implements _Target {
 
 abstract class _Target implements Target {
   const factory _Target(
-      {required final String id,
-      required final TargetType type,
-      required final int target,
-      required final int reached,
-      final UserModel? user}) = _$TargetImpl;
+      {final String id,
+      final TargetType type,
+      final int target,
+      final int reached,
+      final String userId,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson)
+      final DateTime? time}) = _$TargetImpl;
 
   factory _Target.fromJson(Map<String, dynamic> json) = _$TargetImpl.fromJson;
 
@@ -233,7 +250,10 @@ abstract class _Target implements Target {
   @override
   int get reached;
   @override
-  UserModel? get user;
+  String get userId;
+  @override
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  DateTime? get time;
   @override
   @JsonKey(ignore: true)
   _$$TargetImplCopyWith<_$TargetImpl> get copyWith =>

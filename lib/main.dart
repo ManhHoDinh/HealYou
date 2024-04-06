@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       // home: SplashScreen(),
-      initialRoute: Routes.otherTarget,
+      initialRoute: Routes.runTarget,
 
       getPages: [
         GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),

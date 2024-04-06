@@ -21,10 +21,11 @@ WaterTargetItem _$WaterTargetItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WaterTargetItem {
   String get id => throw _privateConstructorUsedError;
-  DateTime get time => throw _privateConstructorUsedError;
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  DateTime? get time => throw _privateConstructorUsedError;
   int get target => throw _privateConstructorUsedError;
   bool get isNotify => throw _privateConstructorUsedError;
-  Target? get waterTarget => throw _privateConstructorUsedError;
+  String get waterTargetId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,12 +41,10 @@ abstract class $WaterTargetItemCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      DateTime time,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
       int target,
       bool isNotify,
-      Target? waterTarget});
-
-  $TargetCopyWith<$Res>? get waterTarget;
+      String waterTargetId});
 }
 
 /// @nodoc
@@ -62,20 +61,20 @@ class _$WaterTargetItemCopyWithImpl<$Res, $Val extends WaterTargetItem>
   @override
   $Res call({
     Object? id = null,
-    Object? time = null,
+    Object? time = freezed,
     Object? target = null,
     Object? isNotify = null,
-    Object? waterTarget = freezed,
+    Object? waterTargetId = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       target: null == target
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
@@ -84,23 +83,11 @@ class _$WaterTargetItemCopyWithImpl<$Res, $Val extends WaterTargetItem>
           ? _value.isNotify
           : isNotify // ignore: cast_nullable_to_non_nullable
               as bool,
-      waterTarget: freezed == waterTarget
-          ? _value.waterTarget
-          : waterTarget // ignore: cast_nullable_to_non_nullable
-              as Target?,
+      waterTargetId: null == waterTargetId
+          ? _value.waterTargetId
+          : waterTargetId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TargetCopyWith<$Res>? get waterTarget {
-    if (_value.waterTarget == null) {
-      return null;
-    }
-
-    return $TargetCopyWith<$Res>(_value.waterTarget!, (value) {
-      return _then(_value.copyWith(waterTarget: value) as $Val);
-    });
   }
 }
 
@@ -114,13 +101,10 @@ abstract class _$$WaterTargetItemImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      DateTime time,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
       int target,
       bool isNotify,
-      Target? waterTarget});
-
-  @override
-  $TargetCopyWith<$Res>? get waterTarget;
+      String waterTargetId});
 }
 
 /// @nodoc
@@ -135,20 +119,20 @@ class __$$WaterTargetItemImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? time = null,
+    Object? time = freezed,
     Object? target = null,
     Object? isNotify = null,
-    Object? waterTarget = freezed,
+    Object? waterTargetId = null,
   }) {
     return _then(_$WaterTargetItemImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       target: null == target
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
@@ -157,10 +141,10 @@ class __$$WaterTargetItemImplCopyWithImpl<$Res>
           ? _value.isNotify
           : isNotify // ignore: cast_nullable_to_non_nullable
               as bool,
-      waterTarget: freezed == waterTarget
-          ? _value.waterTarget
-          : waterTarget // ignore: cast_nullable_to_non_nullable
-              as Target?,
+      waterTargetId: null == waterTargetId
+          ? _value.waterTargetId
+          : waterTargetId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -169,30 +153,34 @@ class __$$WaterTargetItemImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WaterTargetItemImpl implements _WaterTargetItem {
   const _$WaterTargetItemImpl(
-      {required this.id,
-      required this.time,
-      required this.target,
-      required this.isNotify,
-      this.waterTarget = null});
+      {this.id = "",
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) this.time,
+      this.target = 0,
+      this.isNotify = false,
+      this.waterTargetId = ""});
 
   factory _$WaterTargetItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$WaterTargetItemImplFromJson(json);
 
   @override
+  @JsonKey()
   final String id;
   @override
-  final DateTime time;
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  final DateTime? time;
   @override
+  @JsonKey()
   final int target;
   @override
+  @JsonKey()
   final bool isNotify;
   @override
   @JsonKey()
-  final Target? waterTarget;
+  final String waterTargetId;
 
   @override
   String toString() {
-    return 'WaterTargetItem(id: $id, time: $time, target: $target, isNotify: $isNotify, waterTarget: $waterTarget)';
+    return 'WaterTargetItem(id: $id, time: $time, target: $target, isNotify: $isNotify, waterTargetId: $waterTargetId)';
   }
 
   @override
@@ -205,14 +193,14 @@ class _$WaterTargetItemImpl implements _WaterTargetItem {
             (identical(other.target, target) || other.target == target) &&
             (identical(other.isNotify, isNotify) ||
                 other.isNotify == isNotify) &&
-            (identical(other.waterTarget, waterTarget) ||
-                other.waterTarget == waterTarget));
+            (identical(other.waterTargetId, waterTargetId) ||
+                other.waterTargetId == waterTargetId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, time, target, isNotify, waterTarget);
+      Object.hash(runtimeType, id, time, target, isNotify, waterTargetId);
 
   @JsonKey(ignore: true)
   @override
@@ -231,11 +219,11 @@ class _$WaterTargetItemImpl implements _WaterTargetItem {
 
 abstract class _WaterTargetItem implements WaterTargetItem {
   const factory _WaterTargetItem(
-      {required final String id,
-      required final DateTime time,
-      required final int target,
-      required final bool isNotify,
-      final Target? waterTarget}) = _$WaterTargetItemImpl;
+      {final String id,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) final DateTime? time,
+      final int target,
+      final bool isNotify,
+      final String waterTargetId}) = _$WaterTargetItemImpl;
 
   factory _WaterTargetItem.fromJson(Map<String, dynamic> json) =
       _$WaterTargetItemImpl.fromJson;
@@ -243,13 +231,14 @@ abstract class _WaterTargetItem implements WaterTargetItem {
   @override
   String get id;
   @override
-  DateTime get time;
+  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  DateTime? get time;
   @override
   int get target;
   @override
   bool get isNotify;
   @override
-  Target? get waterTarget;
+  String get waterTargetId;
   @override
   @JsonKey(ignore: true)
   _$$WaterTargetItemImplCopyWith<_$WaterTargetItemImpl> get copyWith =>

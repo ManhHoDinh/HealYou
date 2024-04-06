@@ -5,14 +5,17 @@ import 'package:healyou/healyou/core/models/user/user.dart';
 part 'water_target_item.g.dart';
 part 'water_target_item.freezed.dart';
 
+DateTime _sendAtFromJson(Timestamp timestamp) =>
+    DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+
 @Freezed()
 class WaterTargetItem with _$WaterTargetItem {
   const factory WaterTargetItem({
-    required String id,
-    required DateTime time,
-    required int target,
-    required bool isNotify,
-    @Default(null) Target? waterTarget,
+    @Default("") String id,
+    @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
+    @Default(0) int target,
+    @Default(false) bool isNotify,
+    @Default("") String waterTargetId,
   }) = _WaterTargetItem;
   factory WaterTargetItem.fromJson(Map<String, dynamic> json) =>
       _$WaterTargetItemFromJson(json);

@@ -1,9 +1,13 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/controller/notify_controller.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
+import 'package:healyou/healyou/core/models/firebase/firebase_request.dart';
+import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
+import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/widgets/water_reminder_item.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +27,8 @@ class _WaterTargetState extends State<WaterTarget> {
   var hour = 0;
   var minute = 0;
   var timeFormat = "AM";
+  int targetItem = 200;
+
   double waterLevel = 0.3;
   @override
   void initState() {
@@ -38,21 +44,20 @@ class _WaterTargetState extends State<WaterTarget> {
   @override
   Widget build(BuildContext context) {
     //  sphericalBottleRef.currentState?.waterLevel = 0.3;
-    int targetItem = 200;
     double height = MediaQuery.of(context).size.height;
     Target target = Target(
-        id: 'id',
-        type: TargetType.water,
-        target: 4500,
-        reached: 2000,
-        user: null);
+      id: 'id',
+      type: TargetType.water,
+      target: 4500,
+      reached: 2000,
+    );
     List<WaterTargetItem> targetItems = [
       new WaterTargetItem(
-          id: '1',
-          time: DateTime.now(),
-          target: 1000,
-          isNotify: false,
-          waterTarget: null)
+        id: '1',
+        time: DateTime.now(),
+        target: 1000,
+        isNotify: false,
+      )
     ];
     return Stack(children: [
       Container(
@@ -80,14 +85,15 @@ class _WaterTargetState extends State<WaterTarget> {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Container(
-                    height: height * 3 / 10,
-                    child: SphericalBottle(
-                        key: sphericalBottleRef,
-                        waterColor: Colors.blue,
-                        bottleColor: Colors.lightBlue,
-                        capColor: Colors.blueGrey),
-                  ),
+                  // Container(
+                  //   height: height * 3 / 10,
+                  //   child: SphericalBottle(
+                  //       key: sphericalBottleRef,
+                  //       waterColor: Colors.blue,
+                  //       bottleColor: Colors.lightBlue,
+                  //       capColor: Colors.blueGrey),
+                  // ),
+
                   Align(
                     alignment: Alignment.center,
                     child: Column(
@@ -152,18 +158,26 @@ class _WaterTargetState extends State<WaterTarget> {
                             TextStyle(fontSize: 18, color: Color(0xff4F8795)),
                       ),
                     ),
-                    Expanded(
-                      child: ListView.separated(
-                          itemBuilder: ((context, index) {
-                            return WaterReminderItem(item: targetItems[index]);
-                          }),
-                          separatorBuilder: ((context, index) {
-                            return SizedBox(
-                              height: 16,
+                    StreamBuilder<List<WaterTargetItem>>(
+                        stream: WaterItemRequest.getAll(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Expanded(
+                              child: ListView.separated(
+                                  itemBuilder: ((context, index) {
+                                    return WaterReminderItem(
+                                        item: snapshot.data![index]);
+                                  }),
+                                  separatorBuilder: ((context, index) {
+                                    return SizedBox(
+                                      height: 16,
+                                    );
+                                  }),
+                                  itemCount: snapshot.data!.length),
                             );
-                          }),
-                          itemCount: targetItems.length),
-                    ),
+                          }
+                          return Container();
+                        }),
                   ],
                 ),
               ),
@@ -203,7 +217,7 @@ class _WaterTargetState extends State<WaterTarget> {
                   content: StatefulBuilder(
                     builder: (context, setState) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.all(20),
                         child: Column(children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -397,8 +411,15 @@ class _WaterTargetState extends State<WaterTarget> {
   void confirmHandler() {
     DateTime now = DateTime.now();
     if (timeFormat == 'PM') hour = hour + 12;
+
     DateTime time = DateTime.utc(now.year, now.month, now.day, hour, minute);
-    print(time);
+    Timestamp timeStamp = Timestamp.fromDate(time);
+    Map<String, dynamic> data = {
+      "time": timeStamp,
+      "target": targetItem,
+      "isNotify": true
+    };
+    WaterItemRequest.addWaterReminder(data);
     setState(() {
       hour = 0;
       minute = 0;
