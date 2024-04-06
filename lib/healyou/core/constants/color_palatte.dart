@@ -19,12 +19,15 @@ class ColorPalette {
   static const Color detailBorder = Color(0xff9B9B9B);
   static const Color lateDay = Color(0xffF4E2BB);
   static const Color absentDay = Color(0xffE45826);
+  //run target
+  static const Color mainRunColor = Color(0xff767BF4);
+  static const Color lightRunColor = Color(0xffF5F6FF);
+  static const Color mediumRunColor = Color(0xffd1d4ff);
 
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
-
 }
 
 // Color(0xff+x) | Mã hex bỏ # ví dụ #123410 => Color(0xFF123410)

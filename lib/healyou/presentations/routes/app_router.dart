@@ -14,5 +14,11 @@ final Map<String, WidgetBuilder> routes = {
   SignupScreen.routeName: (context) => SignupScreen(),
   SignupSuccessScreen.routeName: (context) => SignupSuccessScreen(),
   SplashScreen.routeName: (context) => SplashScreen(),
-  NavigationHome.routeName  : (context) => NavigationHome(),
+  NavigationHome.routeName: (context) => NavigationHome(),
 };
+
+class Routes {
+  static String runTarget = '/runTarget';
+  static String setTarget = '/setTarget';
+  static String otherTarget = '/otherTarget';
+}

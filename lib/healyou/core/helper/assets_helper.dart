@@ -9,7 +9,8 @@ class AssetHelper {
 
   //Assets in images
   static const String imgAssets = 'assets/healyou/';
-
+  static const String step = 'assets/images/step.png';
+  static const String glass = 'assets/images/glass.png';
   //splash
   static const String splashImage = imgAssets + 'splashImage.png';
   static const String registerLogo = imgAssets + "register.png";
