@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/main.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
@@ -51,7 +52,7 @@ void main() async {
             channelDescription: 'haha')
       ],
       debug: true);
-
+  await TargetRequest.autoAddRunTarget();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
