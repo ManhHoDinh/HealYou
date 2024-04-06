@@ -17,9 +17,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  var passErrorText = '';
-  var emailErrorText = '';
-  var signInError = '';
+  String? passErrorText;
+  String? emailErrorText;
+  String? signInError;
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController passController;
@@ -90,74 +90,32 @@ class _SignupScreenState extends State<SignupScreen> {
                     TextField(
                       controller: nameController,
                       decoration: const InputDecoration(
-                        hintText: 'Your name',
-                      ),
+                          hintText: 'Your name',
+                          prefixIcon: Icon(Icons.person)),
                     ),
                     TextField(
                       controller: emailController,
                       onChanged: (text) {
                         handleChangeEmail(text);
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Email',
+                        prefixIcon: const Icon(Icons.mail),
+                        errorText: emailErrorText,
                       ),
                     ),
-                    ShakeError(
-                      controller: shakeTextField,
-                      child: TextField(
-                        controller: passController,
-                        onChanged: (text) {
-                          handleChangePass(text);
-                        },
-                        decoration: const InputDecoration(
+                    TextField(
+                      controller: passController,
+                      onChanged: (text) {
+                        handleChangePass(text);
+                      },
+                      decoration: InputDecoration(
                           hintText: 'Password',
-                        ),
-                      ),
+                          prefixIcon: const Icon(Icons.key),
+                          errorText: passErrorText),
                     ),
                     const SizedBox(
                       height: 10,
-                    ),
-                    Row(
-                      children: [
-                        (passErrorText.isEmpty && passController.text.isNotEmpty
-                            ? const Text(
-                                "Your password is valid",
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 10),
-                              )
-                            : Text(
-                                passErrorText,
-                                style: const TextStyle(
-                                    color: Colors.red, fontSize: 10),
-                              )),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        (emailErrorText.isEmpty &&
-                                emailController.text.isNotEmpty
-                            ? const Text(
-                                "Your email is valid",
-                                style: TextStyle(
-                                    color: Colors.green, fontSize: 10),
-                              )
-                            : Text(
-                                emailErrorText,
-                                style: const TextStyle(
-                                    color: Colors.red, fontSize: 10),
-                              )),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        (signInError.isNotEmpty
-                            ? Text(
-                                signInError,
-                                style: const TextStyle(
-                                    color: Colors.green, fontSize: 10),
-                              )
-                            : const SizedBox.shrink()),
-                      ],
                     ),
                     const SizedBox(
                       height: 10,
@@ -209,7 +167,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<UserCredential?> _handleSignup() async {
     final db = FirebaseFirestore.instance;
-    if (emailErrorText.isNotEmpty || passErrorText.isNotEmpty) return null;
+    if ((emailErrorText?.isNotEmpty ?? false) ||
+        (passErrorText?.isNotEmpty ?? false)) return null;
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -240,6 +199,7 @@ class _SignupScreenState extends State<SignupScreen> {
           signInError = 'The account already exists for that email.';
         });
       }
+      return null;
     } catch (e) {
       print(e);
     }
@@ -252,7 +212,7 @@ class _SignupScreenState extends State<SignupScreen> {
       });
     } else {
       setState(() {
-        passErrorText = '';
+        passErrorText = null;
       });
     }
   }
@@ -266,7 +226,7 @@ class _SignupScreenState extends State<SignupScreen> {
       });
     } else {
       setState(() {
-        emailErrorText = '';
+        emailErrorText = null;
       });
     }
   }
