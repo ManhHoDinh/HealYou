@@ -7,6 +7,8 @@ import 'package:healyou/healyou/core/helper/assets_helper.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/widgets/set_item_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../widgets/AppBar.dart';
+
 class SetTargetScreen extends StatefulWidget {
   const SetTargetScreen({super.key});
 
@@ -25,6 +27,9 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: AppBarWidget(title: 'Set Target'),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(

@@ -1,5 +1,7 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
 import 'package:intl/intl.dart';
@@ -15,11 +17,10 @@ class WaterReminderItem extends StatefulWidget {
 }
 
 class _WaterReminderItemState extends State<WaterReminderItem> {
-  bool switchValue = true;
-
   @override
   Widget build(BuildContext context) {
-    DateTime time = widget.item.time;
+    DateTime time = widget.item.time!;
+    bool switchValue = widget.item.isNotify;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16),
@@ -40,6 +41,11 @@ class _WaterReminderItemState extends State<WaterReminderItem> {
                   setState(() {
                     switchValue = value;
                   });
+                  WaterItemRequest.updateNotify(widget.item.id, value);
+                  if (!value) {
+                    int id = time.millisecondsSinceEpoch ~/ 1000;
+                    AwesomeNotifications().cancel(id);
+                  }
                 }),
           ),
           Expanded(
@@ -59,9 +65,11 @@ class _WaterReminderItemState extends State<WaterReminderItem> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              WaterItemRequest.deleteWaterReminder(widget.item.id);
+            },
             icon: Icon(
-              Icons.more_horiz,
+              Icons.delete,
               color: Color(0xff30CCF5),
               size: 24,
             ),

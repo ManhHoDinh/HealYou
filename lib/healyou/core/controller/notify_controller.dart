@@ -7,9 +7,10 @@ class NotifyController {
   static Future<bool> scheduleNotification(
       DateTime time, String title, String body) async {
     AwesomeNotifications awesomeNotifications = AwesomeNotifications();
+    int millisecondsSinceEpoch = time.millisecondsSinceEpoch ~/ 1000;
     return await awesomeNotifications.createNotification(
         content: NotificationContent(
-            id: Random().nextInt(100),
+            id: millisecondsSinceEpoch,
             channelKey: 'heal_you',
             title: title,
             body: body),

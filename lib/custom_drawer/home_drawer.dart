@@ -41,6 +41,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
+        index: DrawerIndex.RunTarget,
+        labelName: 'Run target',
+        isAssetsImage: true,
+        imageName: 'assets/images/supportIcon.png',
+      ),
+      DrawerList(
         index: DrawerIndex.Help,
         labelName: 'Help',
         isAssetsImage: true,
@@ -314,7 +320,7 @@ enum DrawerIndex {
   About,
   Invite,
   SetTarget,
-
+  RunTarget,
 }
 
 class DrawerList {

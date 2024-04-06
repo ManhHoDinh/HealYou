@@ -7,13 +7,13 @@ part of 'target.dart';
 // **************************************************************************
 
 _$TargetImpl _$$TargetImplFromJson(Map<String, dynamic> json) => _$TargetImpl(
-      id: json['id'] as String,
-      type: $enumDecode(_$TargetTypeEnumMap, json['type']),
-      target: json['target'] as int,
-      reached: json['reached'] as int,
-      user: json['user'] == null
-          ? null
-          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      id: json['id'] as String? ?? "",
+      type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
+          TargetType.step,
+      target: json['target'] as int? ?? 0,
+      reached: json['reached'] as int? ?? 0,
+      userId: json['userId'] as String? ?? "",
+      time: _sendAtFromJson(json['time'] as Timestamp),
     );
 
 Map<String, dynamic> _$$TargetImplToJson(_$TargetImpl instance) =>
@@ -22,7 +22,8 @@ Map<String, dynamic> _$$TargetImplToJson(_$TargetImpl instance) =>
       'type': _$TargetTypeEnumMap[instance.type]!,
       'target': instance.target,
       'reached': instance.reached,
-      'user': instance.user,
+      'userId': instance.userId,
+      'time': instance.time?.toIso8601String(),
     };
 
 const _$TargetTypeEnumMap = {

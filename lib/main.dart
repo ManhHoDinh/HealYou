@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
@@ -34,7 +35,16 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  
+  AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'heal_you',
+            channelName: "Heal You",
+            channelDescription: 'haha')
+      ],
+      debug: true);
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -57,16 +67,15 @@ class MyApp extends StatelessWidget {
     ));
 
     return MaterialApp(
-      title: 'Flutter UI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: AppTheme.textTheme,
-        platform: TargetPlatform.iOS,
-      ),
-      routes: routes,
-      home: healyouApp()
-    );
+        title: 'Flutter UI',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: AppTheme.textTheme,
+          platform: TargetPlatform.iOS,
+        ),
+        routes: routes,
+        home: healyouApp());
   }
 }
 
