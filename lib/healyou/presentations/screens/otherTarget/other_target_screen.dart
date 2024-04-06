@@ -3,30 +3,36 @@ import 'package:flutter/widgets.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/tabs/water_target.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/tabs/month_target.dart';
+import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:intl/intl.dart';
 
 import '../setTarget/set_target_screen.dart';
 
 class OtherTargetScreen extends StatefulWidget {
-  const OtherTargetScreen({super.key});
+  AnimationController? animationController;
+  OtherTargetScreen({super.key, this.animationController});
 
   @override
   State<OtherTargetScreen> createState() => _OtherTargetScreenState();
 }
 
-class _OtherTargetScreenState extends State<OtherTargetScreen> {
+class _OtherTargetScreenState extends State<OtherTargetScreen> with TickerProviderStateMixin {
+  AnimationController? animationController;
+  @override
+  void initState() { 
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
+    
+    super.initState();
+    
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            title: Column(
-              children: [
-                Text('Today'),
-                Text(DateFormat("dd/MM/yyyy").format(DateTime.now()))
-              ],
-            ),
+            title: AppBarWidget(title: DateFormat("dd/MM/yyyy").format(DateTime.now()),),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,

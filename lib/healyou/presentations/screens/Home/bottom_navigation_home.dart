@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/presentations/bottom_navigation_view/tabIconData.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
 
 import '../../../core/constants/color_palatte.dart';
 import '../../bottom_navigation_view/bottom_bar_view.dart';
@@ -89,7 +90,20 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
                       HomeScreen(animationController: animationController);
                 });
               });
-            } else if (index == 1 || index == 3) {
+            } 
+            else if (index == 3) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      OtherTargetScreen(animationController: animationController);
+                });
+              });
+            } 
+            
+            else if (index == 1 || index == 3) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
