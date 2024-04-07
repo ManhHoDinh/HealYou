@@ -23,7 +23,7 @@ Map<String, dynamic> _$$TargetImplToJson(_$TargetImpl instance) =>
       'target': instance.target,
       'reached': instance.reached,
       'userId': instance.userId,
-      'time': instance.time?.toIso8601String(),
+      'time': _sendAtToJson(instance.time),
     };
 
 const _$TargetTypeEnumMap = {

@@ -25,7 +25,7 @@ mixin _$Target {
   int get target => throw _privateConstructorUsedError;
   int get reached => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
   DateTime? get time => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,8 @@ abstract class $TargetCopyWith<$Res> {
       int target,
       int reached,
       String userId,
-      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time});
+      @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
+      DateTime? time});
 }
 
 /// @nodoc
@@ -109,7 +110,8 @@ abstract class _$$TargetImplCopyWith<$Res> implements $TargetCopyWith<$Res> {
       int target,
       int reached,
       String userId,
-      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time});
+      @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
+      DateTime? time});
 }
 
 /// @nodoc
@@ -168,7 +170,8 @@ class _$TargetImpl implements _Target {
       this.target = 0,
       this.reached = 0,
       this.userId = "",
-      @JsonKey(name: "time", fromJson: _sendAtFromJson) this.time});
+      @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
+      this.time});
 
   factory _$TargetImpl.fromJson(Map<String, dynamic> json) =>
       _$$TargetImplFromJson(json);
@@ -189,7 +192,7 @@ class _$TargetImpl implements _Target {
   @JsonKey()
   final String userId;
   @override
-  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
   final DateTime? time;
 
   @override
@@ -236,7 +239,7 @@ abstract class _Target implements Target {
       final int target,
       final int reached,
       final String userId,
-      @JsonKey(name: "time", fromJson: _sendAtFromJson)
+      @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
       final DateTime? time}) = _$TargetImpl;
 
   factory _Target.fromJson(Map<String, dynamic> json) = _$TargetImpl.fromJson;
@@ -252,7 +255,7 @@ abstract class _Target implements Target {
   @override
   String get userId;
   @override
-  @JsonKey(name: "time", fromJson: _sendAtFromJson)
+  @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
   DateTime? get time;
   @override
   @JsonKey(ignore: true)

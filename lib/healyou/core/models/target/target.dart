@@ -7,6 +7,8 @@ part 'target.freezed.dart';
 DateTime _sendAtFromJson(Timestamp timestamp) =>
     DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
 
+Timestamp _sendAtToJson(DateTime? time) => Timestamp.fromDate(time!);
+
 @Freezed()
 class Target with _$Target {
   const factory Target({
@@ -15,7 +17,8 @@ class Target with _$Target {
     @Default(0) int target,
     @Default(0) int reached,
     @Default("") String userId,
-    @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
+    @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
+    DateTime? time,
   }) = _Target;
   factory Target.fromJson(Map<String, dynamic> json) => _$TargetFromJson(json);
 }

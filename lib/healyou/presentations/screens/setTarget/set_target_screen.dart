@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
+import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/widgets/set_item_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,10 +20,6 @@ class SetTargetScreen extends StatefulWidget {
 }
 
 class _SetTargetScreenState extends State<SetTargetScreen> {
-  int step = 7000;
-  int kcal = 300;
-  int distance = 3;
-  int time = 30;
   double fontSize = 32;
   bool switchValue = false;
 
@@ -45,22 +44,31 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                     ),
                   ),
                 ),
-                SetItemWidget(
-                    title: Row(
-                      children: [
-                        Image.asset(AssetHelper.step),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            'Step',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        )
-                      ],
-                    ),
-                    value: step,
-                    addHandler: () => addHandler("step", 500),
-                    removeHandler: () => removeHandler("step", 500)),
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(TargetType.step),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SetItemWidget(
+                            title: Row(
+                              children: [
+                                Image.asset(AssetHelper.step),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Step',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                )
+                              ],
+                            ),
+                            value: snapshot.data!.target,
+                            addHandler: () async => addHandler(
+                                snapshot.data!.target, 500, snapshot.data!.id),
+                            removeHandler: () async => removeHandler(
+                                snapshot.data!.target, 500, snapshot.data!.id));
+                      }
+                      return Container();
+                    }),
                 SizedBox(
                   height: 20,
                 ),
@@ -132,64 +140,106 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                 switchValue
                     ? Column(
                         children: [
-                          SetItemWidget(
-                              title: Row(
-                                children: [
-                                  Icon(Icons.local_fire_department,
-                                      color: ColorPalette.mainRunColor),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'kcal',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              value: kcal,
-                              addHandler: () => addHandler("kcal", 100),
-                              removeHandler: () => removeHandler("kcal", 100)),
+                          StreamBuilder<Target?>(
+                              stream: TargetRequest.getTarget(TargetType.kcal),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return SetItemWidget(
+                                      title: Row(
+                                        children: [
+                                          Icon(Icons.local_fire_department,
+                                              color: ColorPalette.mainRunColor),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              'kcal',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      value: snapshot.data!.target,
+                                      addHandler: () => addHandler(
+                                          snapshot.data!.target,
+                                          100,
+                                          snapshot.data!.id),
+                                      removeHandler: () => removeHandler(
+                                          snapshot.data!.target,
+                                          100,
+                                          snapshot.data!.id));
+                                }
+                                return Container();
+                              }),
                           SizedBox(
                             height: 20,
                           ),
-                          SetItemWidget(
-                              title: Row(
-                                children: [
-                                  Icon(Icons.arrow_forward,
-                                      color: ColorPalette.mainRunColor),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'km',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              value: distance,
-                              addHandler: () => addHandler("distance", 100),
-                              removeHandler: () =>
-                                  removeHandler("distance", 1)),
+                          StreamBuilder<Target?>(
+                              stream:
+                                  TargetRequest.getTarget(TargetType.distance),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return SetItemWidget(
+                                      title: Row(
+                                        children: [
+                                          Icon(Icons.arrow_forward,
+                                              color: ColorPalette.mainRunColor),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              'km',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      value: snapshot.data!.target,
+                                      addHandler: () => addHandler(
+                                          snapshot.data!.target,
+                                          1,
+                                          snapshot.data!.id),
+                                      removeHandler: () => removeHandler(
+                                          snapshot.data!.target,
+                                          1,
+                                          snapshot.data!.id));
+                                }
+                                return Container();
+                              }),
                           SizedBox(
                             height: 20,
                           ),
-                          SetItemWidget(
-                              title: Row(
-                                children: [
-                                  Icon(Icons.schedule,
-                                      color: ColorPalette.mainRunColor),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'minutes',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              value: time,
-                              addHandler: () => addHandler("time", 100),
-                              removeHandler: () => removeHandler("time", 10)),
+                          StreamBuilder<Target?>(
+                              stream: TargetRequest.getTarget(TargetType.time),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return SetItemWidget(
+                                      title: Row(
+                                        children: [
+                                          Icon(Icons.schedule,
+                                              color: ColorPalette.mainRunColor),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              'minutes',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      value: snapshot.data!.target,
+                                      addHandler: () => addHandler(
+                                          snapshot.data!.target,
+                                          10,
+                                          snapshot.data!.id),
+                                      removeHandler: () => removeHandler(
+                                          snapshot.data!.target,
+                                          10,
+                                          snapshot.data!.id));
+                                }
+                                return Container();
+                              }),
                         ],
                       )
                     : Container()
@@ -201,69 +251,15 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
     );
   }
 
-  void addHandler(String type, int stepValue) {
-    switch (type) {
-      case "step":
-        setState(
-          () {
-            step += stepValue;
-          },
-        );
-        break;
-      case "kcal":
-        setState(
-          () {
-            kcal += stepValue;
-          },
-        );
-        break;
-      case "time":
-        setState(
-          () {
-            time += stepValue;
-          },
-        );
-        break;
-      case "distance":
-        setState(
-          () {
-            distance += stepValue;
-          },
-        );
-        break;
-    }
+  void addHandler(int currentValue, int stepValue, String id) async {
+    currentValue += stepValue;
+    await TargetRequest.updateTarget(id, currentValue);
   }
 
-  void removeHandler(String type, int stepValue) {
-    switch (type) {
-      case "step":
-        setState(
-          () {
-            step -= stepValue;
-          },
-        );
-        break;
-      case "kcal":
-        setState(
-          () {
-            kcal -= stepValue;
-          },
-        );
-        break;
-      case "time":
-        setState(
-          () {
-            time -= stepValue;
-          },
-        );
-        break;
-      case "distance":
-        setState(
-          () {
-            distance -= stepValue;
-          },
-        );
-        break;
+  void removeHandler(int currentValue, int stepValue, String id) async {
+    if (currentValue >= stepValue) {
+      currentValue -= stepValue;
     }
+    await TargetRequest.updateTarget(id, currentValue);
   }
 }

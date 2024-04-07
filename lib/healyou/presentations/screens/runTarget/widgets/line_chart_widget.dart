@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 
 class LineChartWidget extends StatefulWidget {
-  final double target;
+  final int target;
   const LineChartWidget({super.key, required this.target});
 
   @override
@@ -201,7 +201,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       minX: 0,
       maxX: 6,
       minY: 0,
-      maxY: widget.target,
+      maxY: widget.target.toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: const [

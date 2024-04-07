@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
+import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/widgets/progress_widget.dart';
 
 import '../widgets/line_chart_widget.dart';
@@ -16,10 +18,7 @@ class _DateTargetState extends State<DateTarget> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double calo = 100;
-    double distance = 1000;
-    double time = 19;
-    double stepTarget = 8000;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(children: [
@@ -41,7 +40,15 @@ class _DateTargetState extends State<DateTarget> {
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 50)),
                 Text('Today', style: TextStyle(fontSize: 18)),
-                Text('Target: ${stepTarget}', style: TextStyle(fontSize: 18))
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(TargetType.step),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('Target: ${snapshot.data!.target}',
+                            style: TextStyle(fontSize: 18));
+                      }
+                      return Container();
+                    })
               ],
             )),
         SizedBox(
@@ -59,13 +66,20 @@ class _DateTargetState extends State<DateTarget> {
                     value: 0.2,
                     child: Icon(Icons.local_fire_department,
                         color: ColorPalette.mainRunColor)),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    '${calo} Kcal',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(TargetType.kcal),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            '${snapshot.data!.target} Kcal',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        );
+                      }
+                      return Container();
+                    })
               ],
             ),
             Column(
@@ -78,13 +92,20 @@ class _DateTargetState extends State<DateTarget> {
                       Icons.arrow_forward,
                       color: ColorPalette.mainRunColor,
                     )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    '${distance} km',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(TargetType.distance),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            '${snapshot.data!.target} km',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        );
+                      }
+                      return Container();
+                    })
               ],
             ),
             Column(
@@ -97,20 +118,34 @@ class _DateTargetState extends State<DateTarget> {
                       Icons.schedule,
                       color: ColorPalette.mainRunColor,
                     )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    '${time} minutes',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(TargetType.time),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            '${snapshot.data!.target} minutes',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        );
+                      }
+                      return Container();
+                    })
               ],
             )
           ],
         ),
-        LineChartWidget(
-          target: stepTarget,
-        )
+        StreamBuilder<Target?>(
+            stream: TargetRequest.getTarget(TargetType.step),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return LineChartWidget(
+                  target: snapshot.data!.target,
+                );
+              }
+              return Container();
+            })
       ]),
     );
   }

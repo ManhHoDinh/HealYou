@@ -30,8 +30,8 @@ class _SetItemWidgetState extends State<SetItemWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () {
-              setState(widget.removeHandler);
+            onPressed: () async {
+              widget.removeHandler();
             },
             icon: Icon(
               Icons.remove,
@@ -55,8 +55,9 @@ class _SetItemWidgetState extends State<SetItemWidget> {
             ],
           ),
           IconButton(
-            onPressed: () {
-              setState(widget.addHandler);
+            onPressed: () async {
+        
+              widget.addHandler();
             },
             icon: Icon(
               Icons.add,
