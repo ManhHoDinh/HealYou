@@ -5,6 +5,8 @@ import 'package:healyou/healyou/presentations/screens/account/login_screen.dart'
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_success_screen.dart';
+import 'package:healyou/healyou/presentations/screens/detect/choose_image_screen.dart';
+import 'package:healyou/healyou/presentations/screens/detect/detect_screen.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
 import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
@@ -27,11 +29,12 @@ final Map<String, WidgetBuilder> routes = {
   WeightSelectorScreen.routeName: (context) => WeightSelectorScreen(),
   ReviewInformationScreen.routeName: (context) => ReviewInformationScreen(),
   RunMap.routeName: (context) => RunMap(),
+  ChooseImageScreen.routeName: (context) => ChooseImageScreen(),
 };
 
 class Routes {
   static String runTarget = '/runTarget';
   static String setTarget = '/setTarget';
   static String otherTarget = '/otherTarget';
-  static String map= '/map';
+  static String map = '/map';
 }

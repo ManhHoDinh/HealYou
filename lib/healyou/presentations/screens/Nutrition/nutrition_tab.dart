@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
+import 'package:healyou/healyou/core/helper/image_helper.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/food_item.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/food_item.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/progress_widget.dart';
+import 'package:healyou/healyou/presentations/screens/detect/choose_image_screen.dart';
 
 class Nutrition extends StatefulWidget {
   const Nutrition({super.key});
@@ -98,8 +101,41 @@ class _NutritionState extends State<Nutrition> {
           SizedBox(
             height: 20,
           ),
+          _buildDetectBox(),
+
+          SizedBox(
+            height: 20,
+          ),
           _buildAddBox(),
         ]),
+      ),
+    );
+  }
+
+  Widget _buildDetectBox() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Color(0xffEFF0FF),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        onTap: () {
+          // Handle detect action
+          Navigator.of(context).pushNamed(ChooseImageScreen.routeName);
+        },
+        child: Row(
+          children: [
+            IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
+            Text(
+              'Detect food',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
