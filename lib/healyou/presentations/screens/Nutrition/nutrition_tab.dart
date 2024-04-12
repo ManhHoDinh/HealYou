@@ -140,8 +140,17 @@ class _DateTargetState extends State<Nutrition> {
       ),
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.add),
+          ElevatedButton(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(Icons.add),
+                Text('Add Meal',
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+              ],
+            ),
             onPressed: () {
               _selectedFoodItem = null;
               showDialog(
@@ -331,12 +340,6 @@ class _DateTargetState extends State<Nutrition> {
                 },
               );
             },
-          ),
-          Text(
-            'Add meal',
-            style: TextStyle(
-              fontSize: 20,
-            ),
           ),
         ],
       ),
