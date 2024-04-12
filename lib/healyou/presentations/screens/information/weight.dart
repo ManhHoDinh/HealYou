@@ -1,52 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weight Selector',
-      home: Scaffold(
-        body: WeightSelector(),
-      ),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-class WeightSelector extends StatefulWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: const SafeArea(
+//           top: false, // Không thêm padding ở phía trên
+//           child: WeightSelector(),
+//         ),
+//         floatingActionButton: Padding(
+//           padding: const EdgeInsets.all(75.0),
+//           child: FloatingActionButton(
+//             child: const Icon(Icons.arrow_forward),
+//             onPressed: () {},
+//           ),
+//         ),
+//         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+//       ),
+//     );
+//   }
+// }
+
+class WeightSelectorScreen extends StatefulWidget {
+  const WeightSelectorScreen({super.key});
+  static const String routeName = 'weight_screen';
+
   @override
   _WeightSelectorState createState() => _WeightSelectorState();
 }
 
-class _WeightSelectorState extends State<WeightSelector> {
+class _WeightSelectorState extends State<WeightSelectorScreen> {
   late ScrollController _scrollController;
-  int _currentWeight = 58;
-  final int _minWeight = 30;
+  int _currentWeight = 20;
+  final int _minWeight = 20;
   final int _maxWeight = 100;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController(
-      initialScrollOffset: (28 *
-          60.0), // Set the initial offset to show the current weight in the center
+      initialScrollOffset: (_currentWeight - _minWeight) * 60.0,
     );
     _scrollController.addListener(_selectWeight);
   }
 
   void _selectWeight() {
-    double center = _scrollController.position.pixels +
-        _scrollController.position.viewportDimension / 2;
-    int weightIndex = (center / 60).round();
-    int newWeight = _minWeight + weightIndex;
-
-    if (_currentWeight != newWeight &&
-        newWeight >= _minWeight &&
-        newWeight <= _maxWeight) {
-      setState(() {
-        _currentWeight = newWeight;
-      });
+    if (_scrollController.hasClients) {
+      double center = _scrollController.offset +
+          _scrollController.position.viewportDimension / 2;
+      int weightIndex = (center / 60).round();
+      int newWeight = _minWeight + weightIndex;
+      if (_currentWeight != newWeight &&
+          newWeight >= _minWeight &&
+          newWeight <= _maxWeight) {
+        setState(() {
+          _currentWeight = newWeight;
+        });
+      }
     }
   }
 
@@ -59,39 +75,26 @@ class _WeightSelectorState extends State<WeightSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.only(
-              top: 100.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
-          child: Text(
-            'HealYou',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.blue,
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Text(
+              'HealYou',
+              style: TextStyle(fontSize: 20, color: Colors.blue),
             ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(
-              top: 50.0), // Thêm padding 8.0 điểm ảnh vào tất cả các cạnh
-          child: Text(
-            'Tell us your weight',
-            style: TextStyle(
-              fontSize: 40,
-              color: Colors.black,
+          const Padding(
+            padding: EdgeInsets.all(70.0),
+            child: Text(
+              'Tell us your weight',
+              style: TextStyle(fontSize: 40, color: Colors.black),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-        Expanded(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (scrollNotification) {
-              if (scrollNotification is ScrollEndNotification) {
-                _selectWeight();
-              }
-              return true;
-            },
+          SizedBox(
+            height: 250, // Đặt một chiều cao cố định cho ListView
             child: ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
@@ -115,13 +118,13 @@ class _WeightSelectorState extends State<WeightSelector> {
                                 : 16,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           width: 2,
                           height:
-                              (_minWeight + index) == _currentWeight ? 100 : 50,
+                              (_minWeight + index) == _currentWeight ? 120 : 70,
                           color: (_minWeight + index) == _currentWeight
-                              ? Colors.black
+                              ? Colors.blue
                               : Colors.grey,
                         ),
                       ],
@@ -131,8 +134,18 @@ class _WeightSelectorState extends State<WeightSelector> {
               },
             ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 60.0), // Adjust the padding as needed
+            child: FloatingActionButton(
+              child: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.pushNamed(context, ReviewInformationScreen.routeName);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

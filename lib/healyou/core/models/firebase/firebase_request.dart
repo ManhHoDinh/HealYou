@@ -16,12 +16,12 @@ class FireBaseDataBase {
   //       options: DefaultFirebaseOptions.currentPlatform);
   //   referenceRooms = await FirebaseFirestore.instance.collection('Rooms');
   // }
-   static initializeDB() async {
+  static initializeDB() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
   }
 
-   static Stream<List<UserModel>> readUsers() =>
-      FirebaseFirestore.instance.collection('Users').snapshots().map((event) =>
+  static Stream<List<UserModel>> readUsers() =>
+      FirebaseFirestore.instance.collection('user').snapshots().map((event) =>
           event.docs.map((e) => UserModel.fromJson(e.data())).toList());
 }

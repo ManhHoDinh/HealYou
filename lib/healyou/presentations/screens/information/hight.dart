@@ -1,51 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/information/weight.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: HightSelector(),
-      ),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-class HightSelector extends StatefulWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: const SafeArea(
+//           top: false, // Không thêm padding ở phía trên
+//           child: HightSelector(),
+//         ),
+//         floatingActionButton: Padding(
+//           padding: const EdgeInsets.all(75.0),
+//           child: FloatingActionButton(
+//             child: const Icon(Icons.arrow_forward),
+//             onPressed: () {},
+//           ),
+//         ),
+//         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+//       ),
+//     );
+//   }
+// }
+
+class HightSelectorScreen extends StatefulWidget {
+  const HightSelectorScreen({super.key});
+  static const String routeName = 'hight_screen';
+
   @override
   _HightSelectorState createState() => _HightSelectorState();
 }
 
-class _HightSelectorState extends State<HightSelector> {
+class _HightSelectorState extends State<HightSelectorScreen> {
   late ScrollController _scrollController;
-  int _currentHight = 58;
-  final int _minHight = 30;
+  int _currentHight = 20;
+  final int _minHight = 20;
   final int _maxHight = 100;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController(
-      initialScrollOffset: (28 *
-          60.0), // Set the initial offset to show the current hight in the center
+      initialScrollOffset: (_currentHight - _minHight) * 60.0,
     );
     _scrollController.addListener(_selectHight);
   }
 
   void _selectHight() {
-    double center = _scrollController.position.pixels +
-        _scrollController.position.viewportDimension / 2;
-    int hightIndex = (center / 60).round();
-    int newHight = _minHight + hightIndex;
-
-    if (_currentHight != newHight &&
-        newHight >= _minHight &&
-        newHight <= _maxHight) {
-      setState(() {
-        _currentHight = newHight;
-      });
+    if (_scrollController.hasClients) {
+      double center = _scrollController.offset +
+          _scrollController.position.viewportDimension / 2;
+      int hightIndex = (center / 60).round();
+      int newHight = _minHight + hightIndex;
+      if (_currentHight != newHight &&
+          newHight >= _minHight &&
+          newHight <= _maxHight) {
+        setState(() {
+          _currentHight = newHight;
+        });
+      }
     }
   }
 
@@ -58,37 +75,26 @@ class _HightSelectorState extends State<HightSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.only(top: 100.0),
-          child: Text(
-            'HealYou',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.blue,
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Text(
+              'HealYou',
+              style: TextStyle(fontSize: 20, color: Colors.blue),
             ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 50.0),
-          child: Text(
-            'Tell us your hight',
-            style: TextStyle(
-              fontSize: 40,
-              color: Colors.black,
+          const Padding(
+            padding: EdgeInsets.all(70.0),
+            child: Text(
+              'Tell us your hight',
+              style: TextStyle(fontSize: 40, color: Colors.black),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-        Expanded(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (scrollNotification) {
-              if (scrollNotification is ScrollEndNotification) {
-                _selectHight();
-              }
-              return true;
-            },
+          SizedBox(
+            height: 250, // Đặt một chiều cao cố định cho ListView
             child: ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
@@ -115,9 +121,9 @@ class _HightSelectorState extends State<HightSelector> {
                         Container(
                           width: 2,
                           height:
-                              (_minHight + index) == _currentHight ? 100 : 50,
+                              (_minHight + index) == _currentHight ? 120 : 70,
                           color: (_minHight + index) == _currentHight
-                              ? Colors.black
+                              ? Colors.blue
                               : Colors.grey,
                         ),
                       ],
@@ -127,18 +133,18 @@ class _HightSelectorState extends State<HightSelector> {
               },
             ),
           ),
-        ),
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 60.0),
-        //   child: Text(
-        //     'Selected hight: $_currentHight kg',
-        //     style: TextStyle(
-        //       fontSize: 22,
-        //       fontHight: FontHight.bold,
-        //     ),
-        //   ),
-        // ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 60.0), // Adjust the padding as needed
+            child: FloatingActionButton(
+              child: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.pushNamed(context, WeightSelectorScreen.routeName);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

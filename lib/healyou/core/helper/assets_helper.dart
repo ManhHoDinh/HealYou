@@ -9,7 +9,8 @@ class AssetHelper {
 
   //Assets in images
   static const String imgAssets = 'assets/healyou/';
-
+  static const String step = 'assets/images/step.png';
+  static const String glass = 'assets/images/glass.png';
   //splash
   static const String splashImage = imgAssets + 'splashImage.png';
   static const String registerLogo = imgAssets + "register.png";
@@ -31,4 +32,8 @@ class AssetHelper {
   static const String icoTab3s = imgAssets + 'tab3s.png';
   static const String icoTab4 = imgAssets + 'tab4.png';
   static const String icoTab4s = imgAssets + 'tab4s.png';
+
+  //detect
+  static const String camera = imgAssets + 'camera.png';
+  static const String gallery = imgAssets + 'gallery.png';
 }

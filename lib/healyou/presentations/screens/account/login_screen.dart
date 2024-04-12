@@ -4,6 +4,8 @@ import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../information/gender.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,7 +15,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var error = '';
+  String? passError;
+  String? emailError;
+  var error = "";
   late TextEditingController emailController;
   late TextEditingController passController;
   @override
@@ -72,15 +76,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     TextField(
                       controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                      ),
+                      onChanged: _handleInputEmail,
+                      decoration: InputDecoration(
+                          hintText: 'Email',
+                          prefixIcon: const Icon(Icons.mail_outline),
+                          errorText: emailError),
                     ),
                     TextField(
                       controller: passController,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                      ),
+                      onChanged: handleChangePass,
+                      decoration: InputDecoration(
+                          hintText: 'Password',
+                          prefixIcon: const Icon(Icons.key),
+                          errorText: passError),
                     ),
                     const SizedBox(
                       height: 10,
@@ -114,8 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // Perform your asynchronous operation here
                                   final credential = await _handleSignin();
                                   if (credential != null) {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('home_screen');
+                                    Navigator.pushNamed(context,
+                                        GenderSelectorScreen.routeName);
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
@@ -166,6 +174,33 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
       return null;
+    }
+  }
+
+  void _handleInputEmail(String value) {
+    debugPrint(emailController.text.toString());
+    if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value)) {
+      setState(() {
+        emailError = 'The email is not valid';
+      });
+    } else {
+      setState(() {
+        emailError = null;
+      });
+    }
+  }
+
+  void handleChangePass(String value) {
+    if (value.length < 5) {
+      setState(() {
+        passError = 'The password must have at least 5 characters';
+      });
+    } else {
+      setState(() {
+        passError = null;
+      });
     }
   }
 }

@@ -1,49 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/information/hight.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: AgeSelector(),
-      ),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-class AgeSelector extends StatefulWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: const SafeArea(
+//           top: false, // Không thêm padding ở phía trên
+//           child: AgeSelector(),
+//         ),
+//         floatingActionButton: Padding(
+//           padding: const EdgeInsets.all(75.0),
+//           child: FloatingActionButton(
+//             child: const Icon(Icons.arrow_forward),
+//             onPressed: () {},
+//           ),
+//         ),
+//         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+//       ),
+//     );
+//   }
+// }
+
+class AgeSelectorScreen extends StatefulWidget {
+  const AgeSelectorScreen({super.key});
+  static const String routeName = 'age_screen';
   @override
   _AgeSelectorState createState() => _AgeSelectorState();
 }
 
-class _AgeSelectorState extends State<AgeSelector> {
+class _AgeSelectorState extends State<AgeSelectorScreen> {
   late ScrollController _scrollController;
-  int _currentAge = 58;
-  final int _minAge = 30;
+  int _currentAge = 20;
+  final int _minAge = 20;
   final int _maxAge = 100;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController(
-      initialScrollOffset: (28 *
-          60.0), // Set the initial offset to show the current age in the center
+      initialScrollOffset: (_currentAge - _minAge) * 60.0,
     );
     _scrollController.addListener(_selectAge);
   }
 
   void _selectAge() {
-    double center = _scrollController.position.pixels +
-        _scrollController.position.viewportDimension / 2;
-    int ageIndex = (center / 60).round();
-    int newAge = _minAge + ageIndex;
-
-    if (_currentAge != newAge && newAge >= _minAge && newAge <= _maxAge) {
-      setState(() {
-        _currentAge = newAge;
-      });
+    if (_scrollController.hasClients) {
+      double center = _scrollController.offset +
+          _scrollController.position.viewportDimension / 2;
+      int ageIndex = (center / 60).round();
+      int newAge = _minAge + ageIndex;
+      if (_currentAge != newAge && newAge >= _minAge && newAge <= _maxAge) {
+        setState(() {
+          _currentAge = newAge;
+        });
+      }
     }
   }
 
@@ -56,37 +72,26 @@ class _AgeSelectorState extends State<AgeSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.only(top: 100.0),
-          child: Text(
-            'HealYou',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.blue,
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Text(
+              'HealYou',
+              style: TextStyle(fontSize: 20, color: Colors.blue),
             ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 50.0),
-          child: Text(
-            'Tell us your age',
-            style: TextStyle(
-              fontSize: 40,
-              color: Colors.black,
+          const Padding(
+            padding: EdgeInsets.all(70.0),
+            child: Text(
+              'Tell us your age',
+              style: TextStyle(fontSize: 40, color: Colors.black),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-        Expanded(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (scrollNotification) {
-              if (scrollNotification is ScrollEndNotification) {
-                _selectAge();
-              }
-              return true;
-            },
+          SizedBox(
+            height: 250, // Đặt một chiều cao cố định cho ListView
             child: ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
@@ -109,12 +114,12 @@ class _AgeSelectorState extends State<AgeSelector> {
                                 (_minAge + index) == _currentAge ? 24 : 16,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           width: 2,
-                          height: (_minAge + index) == _currentAge ? 100 : 50,
+                          height: (_minAge + index) == _currentAge ? 120 : 70,
                           color: (_minAge + index) == _currentAge
-                              ? Colors.black
+                              ? Colors.blue
                               : Colors.grey,
                         ),
                       ],
@@ -124,18 +129,18 @@ class _AgeSelectorState extends State<AgeSelector> {
               },
             ),
           ),
-        ),
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 60.0),
-        //   child: Text(
-        //     'Selected age: $_currentAge kg',
-        //     style: TextStyle(
-        //       fontSize: 22,
-        //       fontAge: FontAge.bold,
-        //     ),
-        //   ),
-        // ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 60.0), // Adjust the padding as needed
+            child: FloatingActionButton(
+              child: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.pushNamed(context, HightSelectorScreen.routeName);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

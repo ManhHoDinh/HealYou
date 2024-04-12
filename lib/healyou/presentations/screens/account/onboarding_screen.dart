@@ -37,6 +37,7 @@ void signInWithGoogle(BuildContext context) async {
     //await UpdateCurrentUser();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(NavigationHome.routeName, (route) => false);
+      
   }
 }
 

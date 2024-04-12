@@ -6,6 +6,8 @@ import 'package:healyou/app_theme.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
+import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
+import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
 import 'package:intl/intl.dart';
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: SafeArea(
         child: Column(
           children: [
-            appBar(),
+            AppBarWidget(title: "Home Screen"),
             Expanded(
                 child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -179,30 +181,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: ColorPalette.primaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Workout\nof the week",
-                                  style: TextStyles.h6.whiteTextColor.bold,
-                                  textAlign: TextAlign.center,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, RunMap.routeName);
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "Workout\nof the week",
+                                    style: TextStyles.h6.whiteTextColor.bold,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: ImageHelper.loadFromAsset(
-                                    AssetHelper.running,
-                                    fit: BoxFit.fill),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  "jogging",
-                                  style: TextStyles.h6.whiteTextColor.bold
-                                      .copyWith(fontStyle: FontStyle.italic),
-                                  textAlign: TextAlign.center,
+                                Expanded(
+                                  child: ImageHelper.loadFromAsset(
+                                      AssetHelper.running,
+                                      fit: BoxFit.fill),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  child: Text(
+                                    "jogging",
+                                    style: TextStyles.h6.whiteTextColor.bold
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         )),
                         SizedBox(
@@ -289,66 +296,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
-
-  Widget appBar() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isLightMode = brightness == Brightness.light;
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8),
-                child: Container(
-                  width: AppBar().preferredSize.height - 8,
-                  height: AppBar().preferredSize.height - 8,
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      'Home Screen',
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, right: 8),
-                child: Container(
-                  width: AppBar().preferredSize.height - 8,
-                  height: AppBar().preferredSize.height - 8,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius:
-                          BorderRadius.circular(AppBar().preferredSize.height),
-                      child: Icon(
-                        multiple ? Icons.dashboard : Icons.view_agenda,
-                        color: Colors.black,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          multiple = !multiple;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }
-

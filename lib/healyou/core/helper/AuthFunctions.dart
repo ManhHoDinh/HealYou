@@ -10,23 +10,18 @@ import '../../presentations/widgets/dialog.dart';
 
 class AuthServices {
   static UserModel? CurrentUser;
-  static signUpUser(
-      String password,
-      String name,
-      String email,
-      String phoneNo,
-      
+  static signUpUser(String password, String name, String email, String phoneNo,
       BuildContext buildContext) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       String uid = userCredential.user!.uid;
       UserModel user = UserModel(
-          Id: uid,
-          Name: name,
-          PhoneNumber: phoneNo,
-          Email: email,
-          );
+        id: uid,
+        name: name,
+        phoneNumber: phoneNo,
+        email: email,
+      );
       DocumentReference doc =
           FirebaseFirestore.instance.collection("Users").doc(uid);
       await doc
@@ -103,11 +98,10 @@ class AuthServices {
         .get()
         .then((value) {
       AuthServices.CurrentUser = UserModel(
-        Id: value['Id'],
-        Name: value['Name'],
-        PhoneNumber: value['PhoneNumber'],
-        Email: value['Email'],
-        
+        id: value['Id'],
+        name: value['Name'],
+        phoneNumber: value['PhoneNumber'],
+        email: value['Email'],
       );
     });
   }

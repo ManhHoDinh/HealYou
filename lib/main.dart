@@ -1,12 +1,10 @@
 import 'dart:io';
-import 'package:get/get.dart';
-import 'package:healyou/healyou/presentations/routes/app_router.dart';
-import 'package:healyou/healyou/presentations/screens/Nutrition/nutrition_screen.dart';
-import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
-import 'package:healyou/healyou/main.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
+import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
@@ -41,7 +39,16 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-
+  AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'heal_you',
+            channelName: "Heal You",
+            channelDescription: 'haha')
+      ],
+      debug: true);
+  await TargetRequest.autoAddRunTarget();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -63,22 +70,16 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return GetMaterialApp(
-      title: 'Flutter UI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+    return MaterialApp(
+        title: 'Flutter UI',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
-          fontFamily: 'Sen'),
-      routes: routes,
-      // home: healyouApp()
-      initialRoute: Routes.map,
-
-      getPages: [
-        GetPage(name: Routes.map, page: () => Nutrition()),
-      ],
-    );
+        ),
+        routes: routes,
+        home: healyouApp());
   }
 }
 
