@@ -16,8 +16,10 @@ class _SignupSuccessScreenState extends State<SignupSuccessScreen> {
       appBar: AppBar(
         title: const Text('Title'),
       ),
-      body: Center(
-        child: Text("Đăng kí thành công"),
+      body: Semantics(
+        child: Center(
+          child: Text("Đăng kí thành công"),
+        ),
       ),
     );
   }

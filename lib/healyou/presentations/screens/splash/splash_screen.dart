@@ -11,13 +11,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Text(
-          'Heal You',
-          style:
-              TextStyle(fontSize: 24, color: Color.fromARGB(255, 63, 129, 162)),
+      body: Semantics(
+        child: Center(
+          child: Text(
+            'Heal You',
+            style:
+                TextStyle(fontSize: 24, color: Color.fromARGB(255, 63, 129, 162)),
+          ),
         ),
       ),
     );
