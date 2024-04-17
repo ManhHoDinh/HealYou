@@ -358,8 +358,9 @@ class RunTrackScreenState extends State<RunTrackScreen>
           Text("Please wait a moment for us to summarize your run.\n"),
           TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(TrackResult.routeName);
+                Navigator.of(context).pushReplacementNamed(
+                    TrackResult.routeName,
+                    arguments: {"latLng": _latlng});
               },
               child: Text(
                 "Process",

@@ -40,9 +40,6 @@ class _TrackResultState extends State<TrackResult>
       });
     kilometerController.forward();
     caloriesController.forward();
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    latlng = arguments["latLng"];
     super.initState();
     initLocation();
   }
@@ -56,6 +53,9 @@ class _TrackResultState extends State<TrackResult>
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    latlng = arguments["latLng"];
     return Scaffold(
         appBar: AppBar(
           title: const Text('Summarize'),
