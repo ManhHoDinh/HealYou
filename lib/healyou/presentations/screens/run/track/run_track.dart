@@ -43,6 +43,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
         _locationData = currentLocation;
         _latlng
             .add(LatLng(currentLocation.latitude!, currentLocation.longitude!));
+        debugPrint(_latlng.toString());
         if (_isInForeground) _setMarkerToCurrentLocation();
       });
     });
@@ -128,6 +129,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
     _isRunning = false;
     _timer.cancel();
     showCustomDialog();
+    location.enableBackgroundMode(enable: false);
   }
 
   @override

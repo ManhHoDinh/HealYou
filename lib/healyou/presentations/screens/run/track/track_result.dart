@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,6 +15,7 @@ class TrackResult extends StatefulWidget {
 
 class _TrackResultState extends State<TrackResult>
     with TickerProviderStateMixin {
+  late List<LatLng> latlng;
   late GoogleMapController googleMapController;
   CameraPosition? initialCameraPosition;
   Set<Marker> markers = {};
@@ -38,6 +40,9 @@ class _TrackResultState extends State<TrackResult>
       });
     kilometerController.forward();
     caloriesController.forward();
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    latlng = arguments["latLng"];
     super.initState();
     initLocation();
   }
@@ -76,6 +81,15 @@ class _TrackResultState extends State<TrackResult>
                       child: initialCameraPosition != null
                           ? GoogleMap(
                               initialCameraPosition: initialCameraPosition!,
+                              polylines: {
+                                Polyline(
+                                  polylineId: PolylineId(latlng.toString()),
+                                  visible: true,
+                                  //latlng is List<LatLng>
+                                  points: latlng,
+                                  color: Colors.blue,
+                                )
+                              },
                               markers: markers,
                               zoomControlsEnabled: false,
                               mapType: MapType.normal,
