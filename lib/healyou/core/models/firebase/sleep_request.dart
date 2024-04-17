@@ -14,11 +14,11 @@ class SleepRequest {
   }
 
   static Future<void> addSleep(Sleep data) async {
-    String id = FirebaseHelper.sleepCollection.doc().id;
-    await FirebaseHelper.sleepCollection.doc(id).set({
-      "id": id,
+    var doc = FirebaseHelper.sleepCollection.doc();
+    await FirebaseHelper.sleepCollection.doc(doc.id).set({
+      ...data.toJson(),
+      "id": doc.id,
       "user": FirebaseAuth.instance.currentUser!.uid,
-      ...data.toJson()
     });
   }
 
