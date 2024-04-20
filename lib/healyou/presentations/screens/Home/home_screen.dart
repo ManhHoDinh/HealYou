@@ -7,6 +7,7 @@ import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
+import 'package:healyou/healyou/presentations/screens/recommendfood/recommendfood.dart';
 import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ImageLink:
             "https://imgs.search.brave.com/-oEY4kz9VBEw_PILXluVs-AHCfsKfo_LZSIZpn62gAE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zc2wu/Yy5waG90b3NoZWx0/ZXIuY29tL2ltZy1n/ZXQvSTAwMDAudXZz/d29ab0hsdy9zLzUw/MC9JMDAwMC51dnN3/b1pvSGx3LmpwZw",
         Description:
-            "Need the best thing for cheat day. Biryani is the thing for you.....");
+            "Need the best thing for cheat day. Biryani is the thing for you.....", url: '');
     recommendFood.add(food);
     recommendFood.add(food);
 
@@ -145,7 +146,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: ColorPalette.primaryColor,
                             borderRadius: BorderRadius.circular(10)),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RecommendFoodSrceen.routeName);
+                          },
                           child: Text(
                             "View all",
                             style: TextStyles.h6
@@ -166,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       childAspectRatio: 1,
                       children: [
                         ...recommendFood.map((e) =>
-                            Expanded(child: RecommendFoodWidget(food: e)))
+                            Expanded(child: RecommendFoodWidget(food: e, onTap: () {  },)))
                       ],
                     ),
                   ),

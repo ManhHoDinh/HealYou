@@ -21,6 +21,7 @@ FoodModel _$FoodModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$FoodModel {
   String get Id => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
   String get Name => throw _privateConstructorUsedError;
   String get Weight => throw _privateConstructorUsedError;
   String get ImageLink => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $FoodModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String Id,
+      String url,
       String Name,
       String Weight,
       String ImageLink,
@@ -59,6 +61,7 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
   @override
   $Res call({
     Object? Id = null,
+    Object? url = null,
     Object? Name = null,
     Object? Weight = null,
     Object? ImageLink = null,
@@ -68,6 +71,10 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
       Id: null == Id
           ? _value.Id
           : Id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
       Name: null == Name
           ? _value.Name
@@ -99,6 +106,7 @@ abstract class _$$FoodModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String Id,
+      String url,
       String Name,
       String Weight,
       String ImageLink,
@@ -117,6 +125,7 @@ class __$$FoodModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? Id = null,
+    Object? url = null,
     Object? Name = null,
     Object? Weight = null,
     Object? ImageLink = null,
@@ -126,6 +135,10 @@ class __$$FoodModelImplCopyWithImpl<$Res>
       Id: null == Id
           ? _value.Id
           : Id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
       Name: null == Name
           ? _value.Name
@@ -153,6 +166,7 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
   const _$FoodModelImpl(
       {required this.Id,
       required this.Name,
+      required this.url,
       required this.Weight,
       required this.ImageLink,
       required this.Description});
@@ -170,10 +184,11 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
   final String ImageLink;
   @override
   final String Description;
-
+  @override
+  final String url;
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FoodModel(Id: $Id, Name: $Name, Weight: $Weight, ImageLink: $ImageLink, Description: $Description)';
+    return 'FoodModel(Id: $Id, Name: $Name, Weight: $Weight,url: $url, ImageLink: $ImageLink, Description: $Description)';
   }
 
   @override
@@ -182,6 +197,7 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
     properties
       ..add(DiagnosticsProperty('type', 'FoodModel'))
       ..add(DiagnosticsProperty('Id', Id))
+      ..add(DiagnosticsProperty(url, url))
       ..add(DiagnosticsProperty('Name', Name))
       ..add(DiagnosticsProperty('Weight', Weight))
       ..add(DiagnosticsProperty('ImageLink', ImageLink))
@@ -194,6 +210,7 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
         (other.runtimeType == runtimeType &&
             other is _$FoodModelImpl &&
             (identical(other.Id, Id) || other.Id == Id) &&
+               (identical(other.url, url) || other.url == url) &&
             (identical(other.Name, Name) || other.Name == Name) &&
             (identical(other.Weight, Weight) || other.Weight == Weight) &&
             (identical(other.ImageLink, ImageLink) ||
@@ -205,7 +222,7 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, Id, Name, Weight, ImageLink, Description);
+      Object.hash(runtimeType, Id, Name,url, Weight, ImageLink, Description);
 
   @JsonKey(ignore: true)
   @override
@@ -224,6 +241,7 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
 abstract class _FoodModel implements FoodModel {
   const factory _FoodModel(
       {required final String Id,
+      required final String url,
       required final String Name,
       required final String Weight,
       required final String ImageLink,
@@ -234,6 +252,8 @@ abstract class _FoodModel implements FoodModel {
 
   @override
   String get Id;
+  @override
+  String get url;
   @override
   String get Name;
   @override

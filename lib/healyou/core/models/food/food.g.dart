@@ -9,6 +9,7 @@ part of 'food.dart';
 _$FoodModelImpl _$$FoodModelImplFromJson(Map<String, dynamic> json) =>
     _$FoodModelImpl(
       Id: json['Id'] as String,
+      url: json['url'] as String,
       Name: json['Name'] as String,
       Weight: json['Weight'] as String,
       ImageLink: json['ImageLink'] as String,
@@ -18,6 +19,7 @@ _$FoodModelImpl _$$FoodModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$FoodModelImplToJson(_$FoodModelImpl instance) =>
     <String, dynamic>{
       'Id': instance.Id,
+      'url': instance.url,
       'Name': instance.Name,
       'Weight': instance.Weight,
       'ImageLink': instance.ImageLink,

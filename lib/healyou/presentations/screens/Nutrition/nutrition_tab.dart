@@ -53,7 +53,7 @@ class _DateTargetState extends State<Nutrition> {
   //   _infoBoxes.add(_buildInfoBox("Protein", 100, 1, "g"));
   //   _infoBoxes.add(_buildInfoBox("Fat", 19, 2, "cal"));
   // }
-
+  Map<int, bool> _expandedMap = {};
   bool _isLoading = false;
   List<dynamic> _apiResponseData = [];
 
@@ -130,6 +130,7 @@ class _DateTargetState extends State<Nutrition> {
   }
 
   Widget _buildAddBox() {
+    final List<FoodItem> _tempFoodItems = [];
     final TextEditingController _controller = TextEditingController();
     return Container(
       width: double.infinity,
@@ -229,9 +230,29 @@ class _DateTargetState extends State<Nutrition> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 IconButton(
-                                                  icon: Icon(Icons.edit),
+                                                  icon: Icon(Icons.add),
                                                   onPressed: () {
-                                                    // Handle edit action
+                                                    final newFoodItem =
+                                                        FoodItem(
+                                                      imageUrl:
+                                                          "assets/images/rice.png",
+                                                      name:
+                                                          data[0]['name'] ?? '',
+                                                      calories: data[0]
+                                                                  ['calories']
+                                                              .toString() ??
+                                                          '0',
+                                                      protein: data[0]
+                                                                  ['protein_g']
+                                                              .toString() ??
+                                                          '0',
+                                                      fat:
+                                                          data[0]['fat_total_g']
+                                                                  .toString() ??
+                                                              '0',
+                                                    );
+                                                    _tempFoodItems
+                                                        .add(newFoodItem);
                                                   },
                                                 ),
                                                 IconButton(
@@ -311,7 +332,12 @@ class _DateTargetState extends State<Nutrition> {
                                           .toString(),
                                     );
                                     setState(() {
-                                      _foodItems.add(newFoodItem);
+                                      _foodItems.addAll(
+                                          _tempFoodItems); // Add all the food items in the temporary list
+                                      _handleAddFoodItems(
+                                          _tempFoodItems); // Handle all food items
+                                      _tempFoodItems
+                                          .clear(); // Clear the temporary list
                                       _isLoading = false;
                                     });
 
@@ -326,7 +352,7 @@ class _DateTargetState extends State<Nutrition> {
                                     //       "cal"));
                                     //   _boxIndex++;
                                     // });
-                                    _handleAddFoodItem(newFoodItem);
+
                                     Navigator.of(context).pop();
                                   }
                                 });
@@ -346,12 +372,13 @@ class _DateTargetState extends State<Nutrition> {
     );
   }
 
-  void _handleAddFoodItem(FoodItem foodItem) {
+  void _handleAddFoodItems(List<FoodItem> foodItems) {
     setState(() {
-      _addedFoodItems.add(foodItem);
-      _expandedFoodItemsMap[_boxIndex] = [foodItem];
-      _infoBoxes.add(_buildInfoBox(
-          _title, double.parse(foodItem.calories), _boxIndex, "cal"));
+      _addedFoodItems.addAll(foodItems);
+      _expandedFoodItemsMap[_boxIndex] = foodItems;
+      double totalCalories =
+          foodItems.fold(0, (sum, item) => sum + double.parse(item.calories));
+      _infoBoxes.add(_buildInfoBox(_title, totalCalories, _boxIndex, "cal"));
       _boxIndex++;
     });
   }

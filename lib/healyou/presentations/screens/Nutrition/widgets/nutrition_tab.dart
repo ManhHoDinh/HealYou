@@ -131,6 +131,7 @@ class _DateTargetState extends State<DateTarget> {
 
   Widget _buildAddBox() {
     final TextEditingController _controller = TextEditingController();
+    final List<FoodItem> _addedDuringSearch = [];
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(10),
@@ -210,6 +211,23 @@ class _DateTargetState extends State<DateTarget> {
                                             jsonDecode(snapshot.data!);
                                         final data = jsonDecode(snapshot.data!);
                                         if (data.isNotEmpty) {
+                                          final newFoodItem = FoodItem(
+                                            imageUrl: "assets/images/rice.png",
+                                            name: _apiResponseData[0]['name'] ??
+                                                'Unknown',
+                                            calories: (_apiResponseData[0]
+                                                        ['calories'] ??
+                                                    0)
+                                                .toString(),
+                                            protein: (_apiResponseData[0]
+                                                        ['protein_g'] ??
+                                                    0)
+                                                .toString(),
+                                            fat: (_apiResponseData[0]
+                                                        ['fat_total_g'] ??
+                                                    0)
+                                                .toString(),
+                                          );
                                           return ListTile(
                                             leading: Image.asset(
                                                 'assets/images/rice.png'),
@@ -220,9 +238,34 @@ class _DateTargetState extends State<DateTarget> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 IconButton(
-                                                  icon: Icon(Icons.edit),
+                                                  icon: Icon(Icons.add),
                                                   onPressed: () {
-                                                    // Handle edit action
+                                                    final newFoodItem =
+                                                        FoodItem(
+                                                      imageUrl:
+                                                          "assets/images/rice.png",
+                                                      name: _apiResponseData[0]
+                                                              ['name'] ??
+                                                          'Unknown',
+                                                      calories: (_apiResponseData[
+                                                                      0][
+                                                                  'calories'] ??
+                                                              0)
+                                                          .toString(),
+                                                      protein: (_apiResponseData[
+                                                                      0][
+                                                                  'protein_g'] ??
+                                                              0)
+                                                          .toString(),
+                                                      fat: (_apiResponseData[0][
+                                                                  'fat_total_g'] ??
+                                                              0)
+                                                          .toString(),
+                                                    );
+                                                    setState(() {
+                                                      _addedDuringSearch
+                                                          .add(newFoodItem);
+                                                    });
                                                   },
                                                 ),
                                                 IconButton(
@@ -317,7 +360,8 @@ class _DateTargetState extends State<DateTarget> {
                                     //       "cal"));
                                     //   _boxIndex++;
                                     // });
-                                    _handleAddFoodItem(newFoodItem);
+                                    _handleAddFoodItems(
+                                        _addedDuringSearch); // Add all the FoodItems in the list
                                     Navigator.of(context).pop();
                                   }
                                 });
@@ -343,13 +387,15 @@ class _DateTargetState extends State<DateTarget> {
     );
   }
 
-  void _handleAddFoodItem(FoodItem foodItem) {
+  void _handleAddFoodItems(List<FoodItem> foodItems) {
     setState(() {
-      _addedFoodItems.add(foodItem);
-      _expandedFoodItemsMap[_boxIndex] = [foodItem];
-      _infoBoxes.add(_buildInfoBox(
-          _title, double.parse(foodItem.calories), _boxIndex, "cal"));
-      _boxIndex++;
+      _addedFoodItems.addAll(foodItems);
+      for (var foodItem in foodItems) {
+        _expandedFoodItemsMap[_boxIndex] = [foodItem];
+        _infoBoxes.add(_buildInfoBox(
+            _title, double.parse(foodItem.calories), _boxIndex, "cal"));
+        _boxIndex++;
+      }
     });
   }
 
@@ -525,7 +571,7 @@ class _DateTargetState extends State<DateTarget> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: Icon(Icons.edit),
+                                        icon: Icon(Icons.add),
                                         onPressed: () {
                                           // Handle edit action
                                         },
@@ -603,7 +649,7 @@ class _DateTargetState extends State<DateTarget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.edit),
+                    icon: Icon(Icons.add),
                     onPressed: () {
                       _handleEditFoodItem(index, foodItem);
                     },
