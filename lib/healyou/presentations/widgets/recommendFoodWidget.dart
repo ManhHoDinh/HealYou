@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:healyou/healyou/core/constants/color_palatte.dart';
-import 'package:healyou/healyou/core/helper/image_helper.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
 

@@ -5,4 +5,5 @@ class FirebaseHelper {
       FirebaseFirestore.instance.collection('waterTargetItems');
   static var targetCollection =
       FirebaseFirestore.instance.collection('targets');
+  static var sleepCollection = FirebaseFirestore.instance.collection('sleeps');
 }
