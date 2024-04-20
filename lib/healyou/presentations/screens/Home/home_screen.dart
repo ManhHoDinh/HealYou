@@ -1,18 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:healyou/app_theme.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
+import 'package:healyou/healyou/presentations/screens/run/track/run_track.dart';
 import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/constants/dimension_constants.dart';
 import '../../../core/helper/assets_helper.dart';
 import '../../../core/helper/image_helper.dart';
 
@@ -103,7 +99,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     label: "Start now",
                                     color: ColorPalette.white,
                                     textColor: ColorPalette.primaryColor,
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed(RunTrackScreen.routeName);
+                                    },
                                   ),
                                 )
                               ],

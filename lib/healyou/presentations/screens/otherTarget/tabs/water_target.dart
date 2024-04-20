@@ -1,13 +1,10 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/controller/notify_controller.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
-import 'package:healyou/healyou/core/models/firebase/firebase_request.dart';
 import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
-import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/widgets/water_reminder_item.dart';
 import 'package:intl/intl.dart';
@@ -93,7 +90,6 @@ class _WaterTargetState extends State<WaterTarget> {
                         bottleColor: Colors.lightBlue,
                         capColor: Colors.blueGrey),
                   ),
-
                   Align(
                     alignment: Alignment.center,
                     child: Column(
