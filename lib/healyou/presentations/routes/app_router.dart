@@ -37,4 +37,5 @@ class Routes {
   static String setTarget = '/setTarget';
   static String otherTarget = '/otherTarget';
   static String map = '/map';
+  static String genderSelector = '/gender';
 }

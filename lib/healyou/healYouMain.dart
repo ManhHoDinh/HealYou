@@ -38,7 +38,6 @@ class _healyouAppState extends State<healyouApp> {
       home: AuthenticationWrapper(),
       routes: routes,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.runTarget,
     );
   }
 }
@@ -81,6 +80,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         // Show a loading indicator if necessary
                         return SplashScreen();
                       } else {
+                        print(AuthServices.CurrentUser);
                         // If the update is complete, navigate to the MainScreen
                         return NavigationHome();
                       }

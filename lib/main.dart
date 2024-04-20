@@ -9,6 +9,10 @@ import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/age.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
+import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,6 +31,7 @@ import 'healyou/core/models/firebase/firebase_request.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:get/get.dart';
 
 // ...
 
@@ -70,7 +75,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return MaterialApp(
+    return GetMaterialApp(
         title: 'Flutter UI',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -79,6 +84,13 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
         ),
         routes: routes,
+        // initialRoute: Routes.setTarget,
+        getPages: [
+          GetPage(
+              name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+          GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+          GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+        ],
         home: healyouApp());
   }
 }

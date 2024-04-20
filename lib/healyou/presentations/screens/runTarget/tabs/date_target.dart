@@ -25,32 +25,33 @@ class _DateTargetState extends State<DateTarget> {
         SizedBox(
           height: 40,
         ),
-        ProgressWidget(
-            size: width * 7 / 10,
-            value: 0.2,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.directions_run,
-                  color: ColorPalette.mainRunColor,
-                  size: 70,
-                ),
-                Text('2000',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 50)),
-                Text('Today', style: TextStyle(fontSize: 18)),
-                StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.step),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text('Target: ${snapshot.data!.target}',
-                            style: TextStyle(fontSize: 18));
-                      }
-                      return Container();
-                    })
-              ],
-            )),
+        StreamBuilder<Target?>(
+            stream: TargetRequest.getTarget(TargetType.step, DateTime.now()),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ProgressWidget(
+                    size: width * 7 / 10,
+                    value: 0.2,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.directions_run,
+                          color: ColorPalette.mainRunColor,
+                          size: 70,
+                        ),
+                        Text(snapshot.data!.reached.toStringAsFixed(0),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 50)),
+                        Text('Today', style: TextStyle(fontSize: 18)),
+                        Text(
+                            'Target: ${snapshot.data!.target.toStringAsFixed(0)}',
+                            style: TextStyle(fontSize: 18))
+                      ],
+                    ));
+              }
+              return Container();
+            }),
         SizedBox(
           height: 40,
         ),
@@ -58,91 +59,95 @@ class _DateTargetState extends State<DateTarget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProgressWidget(
-                    size: width * 1 / 7,
-                    value: 0.2,
-                    child: Icon(Icons.local_fire_department,
-                        color: ColorPalette.mainRunColor)),
-                StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.kcal),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
+            StreamBuilder<Target?>(
+                stream: TargetRequest.getTarget(
+                    TargetType.distance, DateTime.now()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ProgressWidget(
+                            size: width * 1 / 7,
+                            value:
+                                snapshot.data!.reached / snapshot.data!.target,
+                            child: Icon(Icons.local_fire_department,
+                                color: ColorPalette.mainRunColor)),
+                        Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            '${snapshot.data!.target} Kcal',
+                            '${snapshot.data!.reached.toStringAsFixed(0)} Kcal',
                             style: TextStyle(fontSize: 16),
                           ),
-                        );
-                      }
-                      return Container();
-                    })
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProgressWidget(
-                    size: width * 1 / 7,
-                    value: 0.3,
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: ColorPalette.mainRunColor,
-                    )),
-                StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.distance),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
+                        )
+                      ],
+                    );
+                  }
+                  return Container();
+                }),
+            StreamBuilder<Target?>(
+                stream: TargetRequest.getTarget(
+                    TargetType.distance, DateTime.now()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ProgressWidget(
+                            size: width * 1 / 7,
+                            value:
+                                snapshot.data!.reached / snapshot.data!.target,
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: ColorPalette.mainRunColor,
+                            )),
+                        Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            '${snapshot.data!.target} km',
+                            '${snapshot.data!.reached.toStringAsFixed(1)} km',
                             style: TextStyle(fontSize: 16),
                           ),
-                        );
-                      }
-                      return Container();
-                    })
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProgressWidget(
-                    size: width * 1 / 7,
-                    value: 0.2,
-                    child: Icon(
-                      Icons.schedule,
-                      color: ColorPalette.mainRunColor,
-                    )),
-                StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.time),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
+                        )
+                      ],
+                    );
+                  }
+                  return Container();
+                }),
+            StreamBuilder<Target?>(
+                stream:
+                    TargetRequest.getTarget(TargetType.time, DateTime.now()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ProgressWidget(
+                            size: width * 1 / 7,
+                            value:
+                                snapshot.data!.reached / snapshot.data!.target,
+                            child: Icon(
+                              Icons.schedule,
+                              color: ColorPalette.mainRunColor,
+                            )),
+                        Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            '${snapshot.data!.target} minutes',
+                            '${(snapshot.data!.reached * 60).toStringAsFixed(0)} minutes',
                             style: TextStyle(fontSize: 16),
                           ),
-                        );
-                      }
-                      return Container();
-                    })
-              ],
-            )
+                        )
+                      ],
+                    );
+                  }
+                  return Container();
+                }),
           ],
         ),
         StreamBuilder<Target?>(
-            stream: TargetRequest.getTarget(TargetType.step),
+            stream: TargetRequest.getTarget(TargetType.step, DateTime.now()),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return LineChartWidget(
-                  target: snapshot.data!.target,
-                );
+                return LineChartWidget(target: snapshot.data!.target);
               }
               return Container();
             })

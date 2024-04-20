@@ -4,18 +4,18 @@ import 'package:healyou/healyou/core/models/user/user.dart';
 part 'target.g.dart';
 part 'target.freezed.dart';
 
-DateTime _sendAtFromJson(Timestamp timestamp) =>
-    DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+  DateTime _sendAtFromJson(Timestamp timestamp) =>
+      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
 
-Timestamp _sendAtToJson(DateTime? time) => Timestamp.fromDate(time!);
+  Timestamp _sendAtToJson(DateTime? time) => Timestamp.fromDate(time!);
 
 @Freezed()
 class Target with _$Target {
   const factory Target({
     @Default("") String id,
     @Default(TargetType.step) TargetType type,
-    @Default(0) int target,
-    @Default(0) int reached,
+    @Default(0) double target,
+    @Default(0) double reached,
     @Default("") String userId,
     @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
     DateTime? time,
