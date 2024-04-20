@@ -6,6 +6,7 @@ class FirebaseHelper {
       FirebaseFirestore.instance.collection('waterTargetItems');
   static var targetCollection =
       FirebaseFirestore.instance.collection('targets');
+  static var sleepCollection = FirebaseFirestore.instance.collection('sleeps');
   static var userCollection = FirebaseFirestore.instance.collection('user');
   static String userId = FirebaseAuth.instance.currentUser!.uid;
 }

@@ -1,8 +1,5 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
@@ -20,14 +17,8 @@ import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healyou/healyou/core/helper/local_storage_helper.dart';
-import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
-import 'navigation_home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import 'healyou/core/models/firebase/firebase_request.dart';
-
-import 'healyou/core/models/firebase/firebase_request.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
