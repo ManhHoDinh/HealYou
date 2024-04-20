@@ -96,6 +96,16 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
                       onChanged: (v) {
                         text = v;
                       },
+                      onSubmitted: (v) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchPage(
+                              search: text,
+                            ),
+                          ),
+                        );
+                      },
                       decoration: InputDecoration(
                         labelText: 'Search',
                         suffixIcon: IconButton(
@@ -248,7 +258,7 @@ class _SearchPageState extends State<SearchPage> {
                   Row(
                     children: [
                       Text(
-                        "Trending Food",
+                        "Recommended Food",
                         style: TextStyles.h3.bold,
                       ),
                       Spacer(),
