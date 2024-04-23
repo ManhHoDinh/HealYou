@@ -121,9 +121,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.png'),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(60.0)),
+                              child: FirebaseAuth
+                                          .instance.currentUser!.photoURL !=
+                                      null
+                                  ? Image.network(
+                                      FirebaseAuth
+                                          .instance.currentUser!.photoURL!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/userImage.png'),
                             ),
                           ),
                         ),
@@ -133,7 +142,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
+                      FirebaseAuth.instance.currentUser!.displayName ?? "User",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -198,11 +207,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-          FirebaseAuth.instance.signOut();
-                    GoogleSignIn().signOut();
-                    Navigator.of(context)
-                        .pushReplacementNamed('onboarding_screen');
-              
+    FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
+    Navigator.of(context).pushReplacementNamed('onboarding_screen');
   }
 
   Widget inkwell(DrawerList listData) {
