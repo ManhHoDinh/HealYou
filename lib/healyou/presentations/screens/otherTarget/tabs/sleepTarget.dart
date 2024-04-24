@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:analog_clock/analog_clock.dart';
@@ -8,6 +10,7 @@ import 'package:healyou/healyou/core/models/firebase/sleep_request.dart';
 import 'package:healyou/healyou/core/models/sleep/sleep.dart';
 import 'package:healyou/healyou/presentations/widgets/timeArc.dart';
 import 'package:intl/intl.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 
 class SleepTarget extends StatefulWidget {
   const SleepTarget({Key? key}) : super(key: key);
@@ -17,14 +20,25 @@ class SleepTarget extends StatefulWidget {
 
 class _SleepTargetState extends State<SleepTarget> {
   var seeMoreSelected = false;
+  late DateTime startSleepTime;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
   Color color = Colors.greenAccent;
   late Stream<List<Sleep>> sleepListStream;
+  late List<Sleep> sleepList;
+  var recording = false;
+  late RecorderController controller;
   @override
   void initState() {
     super.initState();
-    sleepListStream = SleepRequest.getAll();
+    var start = DateTime.now();
+    start = start.subtract(Duration(hours: 6));
+    var end = start.add(Duration(hours: 6));
+    sleepListStream = SleepRequest.getByDate(start, end);
+    sleepListStream.listen((event) {
+      sleepList = event;
+    });
+    controller = RecorderController(); // Initialise
   }
 
   @override
@@ -49,12 +63,11 @@ class _SleepTargetState extends State<SleepTarget> {
                                 (key, value) => MapEntry(
                                     key,
                                     TimeArc(
-                                        width: 200,
-                                        height: 200,
-                                        padding: 10 + key * 20.0,
-                                        startTime: value.startTime,
-                                        endTime: value.endTime,
-                                        color: value.color)),
+                                      width: 200,
+                                      height: 200,
+                                      padding: 10 + key * 20.0,
+                                      sleep: value,
+                                    )),
                               )
                               .values
                               .toList(),
@@ -132,7 +145,38 @@ class _SleepTargetState extends State<SleepTarget> {
                                     .toList()
                               ],
                             ),
-                    )
+                    ),
+                    DateTime.now().isAfter(sleepList[0].startTime) &&
+                            DateTime.now().isBefore(sleepList[0].endTime) &&
+                            !seeMoreSelected
+                        ? Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.orange),
+                            child: Center(
+                                child: IconButton(
+                              onPressed: () {
+                                _handleOnRecording();
+                              },
+                              icon: Icon(
+                                recording ? Icons.square : Icons.alarm_on,
+                                color: Colors.white,
+                              ),
+                            )))
+                        : SizedBox.shrink(),
+                    AudioWaveforms(
+                      size: Size(MediaQuery.of(context).size.width, 50.0),
+                      recorderController: controller,
+                      enableGesture: true,
+                      waveStyle: WaveStyle(
+                        waveColor: Colors.blueAccent.shade200,
+                        spacing: 8.0,
+                        showBottom: false,
+                        extendWaveform: true,
+                        showMiddleLine: false,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -221,7 +265,16 @@ class _SleepTargetState extends State<SleepTarget> {
                                   firstDate: DateTime(DateTime.now().year),
                                   lastDate: DateTime(DateTime.now().year + 1))
                               .then((value) {
-                            if (value != null) startTime = value;
+                            if (value != null) {
+                              startTime = DateTime(
+                                value.year,
+                                value.month,
+                                value.day,
+                                startTime.hour,
+                                startTime.minute,
+                              );
+                              setState(() {});
+                            }
                           });
                         },
                         child: Text(DateFormat.yMd().format(startTime))),
@@ -239,6 +292,7 @@ class _SleepTargetState extends State<SleepTarget> {
                                 value.hour,
                                 value.minute,
                               );
+                              setState(() {});
                             }
                           });
                         },
@@ -270,6 +324,7 @@ class _SleepTargetState extends State<SleepTarget> {
                                 endTime.hour,
                                 endTime.minute,
                               );
+                              setState(() {});
                             }
                           });
                         },
@@ -288,6 +343,7 @@ class _SleepTargetState extends State<SleepTarget> {
                                 value.hour,
                                 value.minute,
                               );
+                              setState(() {});
                             }
                           });
                         },
@@ -360,5 +416,29 @@ class _SleepTargetState extends State<SleepTarget> {
             sleepListStream = SleepRequest.getAll();
           }));
     }
+  }
+
+  void _handleOnRecording() async {
+    if (recording) {
+      await controller.stop();
+      controller.refresh();
+      for (var element in sleepList) {
+        if (element.startTime.isBefore(DateTime.now()) &&
+            startTime.isBefore(element.endTime)) {
+          SleepRequest.addSleepTime(
+              element.id!,
+              element.startTime.isAfter(startTime)
+                  ? element.startTime
+                  : startTime,
+              DateTime.now());
+        }
+      }
+    } else {
+      startSleepTime = DateTime.now();
+      await controller.record();
+    }
+    setState(() {
+      recording = !recording;
+    });
   }
 }
