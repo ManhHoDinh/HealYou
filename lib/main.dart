@@ -4,6 +4,7 @@ import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
@@ -19,7 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:healyou/healyou/core/helper/local_storage_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:healyou/healyou/core/controller/notify_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
@@ -35,15 +36,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  AwesomeNotifications().initialize(
-      null,
-      [
-        NotificationChannel(
-            channelKey: 'heal_you',
-            channelName: "Heal You",
-            channelDescription: 'haha')
-      ],
-      debug: true);
+  NotifyController.initializeNotification();
   await TargetRequest.autoAddRunTarget();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
@@ -53,7 +46,31 @@ void main() async {
       builder: (context, child) => MyApp())));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // Only after at least the action method is set, the notification events are delivered
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotifyController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotifyController.onNotificationCreatedMethod,
+        onNotificationDisplayedMethod:
+            NotifyController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotifyController.onDismissActionReceivedMethod);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -67,6 +84,7 @@ class MyApp extends StatelessWidget {
     ));
 
     return GetMaterialApp(
+        navigatorKey: MyApp.navigatorKey,
         title: 'Flutter UI',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -81,10 +99,46 @@ class MyApp extends StatelessWidget {
               name: Routes.genderSelector, page: () => GenderSelectorScreen()),
           GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
           GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+          GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
         ],
         home: healyouApp());
   }
 }
+// class MyApp extends StatelessWidget {
+//   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//       statusBarColor: Colors.transparent,
+//       statusBarIconBrightness: Brightness.dark,
+//       statusBarBrightness:
+//           !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+//       systemNavigationBarColor: Colors.white,
+//       systemNavigationBarDividerColor: Colors.transparent,
+//       systemNavigationBarIconBrightness: Brightness.dark,
+//     ));
+
+//     return GetMaterialApp(
+//         title: 'Flutter UI',
+//         debugShowCheckedModeBanner: false,
+//         theme: ThemeData(
+//           primarySwatch: Colors.blue,
+//           textTheme: AppTheme.textTheme,
+//           platform: TargetPlatform.iOS,
+//         ),
+//         routes: routes,
+//         // initialRoute: Routes.setTarget,
+//         getPages: [
+//           GetPage(
+//               name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+//           GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+//           GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+//           GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
+//         ],
+//         home: healyouApp());
+//   }
+// }
 
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));

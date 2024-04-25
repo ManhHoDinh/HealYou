@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/widgets/progress_widget.dart';
@@ -152,8 +153,8 @@ class _MonthTargetState extends State<MonthTarget> {
                         Icon(Icons.local_fire_department,
                             color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(
-                                TargetType.kcal, selectedDate),
+                            stream: TargetRequest.getTarget(TargetType.kcal,
+                                selectedDate, FirebaseHelper.userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
@@ -170,8 +171,8 @@ class _MonthTargetState extends State<MonthTarget> {
                         Icon(Icons.arrow_forward,
                             color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(
-                                TargetType.distance, selectedDate),
+                            stream: TargetRequest.getTarget(TargetType.distance,
+                                selectedDate, FirebaseHelper.userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 print(snapshot.data);
@@ -188,8 +189,8 @@ class _MonthTargetState extends State<MonthTarget> {
                       children: [
                         Icon(Icons.schedule, color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(
-                                TargetType.time, selectedDate),
+                            stream: TargetRequest.getTarget(TargetType.time,
+                                selectedDate, FirebaseHelper.userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(

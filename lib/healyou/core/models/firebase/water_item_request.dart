@@ -6,6 +6,7 @@ class WaterItemRequest {
   static Stream<List<WaterTargetItem>> getAll() =>
       FirebaseHelper.waterItemCollection.snapshots().map((event) =>
           event.docs.map((e) => WaterTargetItem.fromJson(e.data())).toList());
+
   static Future<void> updateNotify(String id, bool notifyValue) async {
     await FirebaseHelper.waterItemCollection
         .doc(id)
@@ -20,5 +21,17 @@ class WaterItemRequest {
 
   static Future<void> deleteWaterReminder(String id) async {
     await FirebaseHelper.waterItemCollection.doc(id).delete();
+  }
+
+  static Future<void> removeReminder() async {
+    var listDoc = await FirebaseHelper.waterItemCollection.get();
+    print(listDoc);
+    for (var doc in listDoc.docs) {
+      WaterTargetItem item = WaterTargetItem.fromJson(doc.data());
+      if (item.time!.isBefore(DateTime.now()) ||
+          item.time!.isAtSameMomentAs(DateTime.now())) {
+        FirebaseHelper.waterItemCollection.doc(item.id).delete();
+      }
+    }
   }
 }

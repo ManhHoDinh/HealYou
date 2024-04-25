@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/widgets/set_item_widget.dart';
@@ -46,7 +47,7 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                 ),
                 StreamBuilder<Target?>(
                     stream: TargetRequest.getTarget(
-                        TargetType.step, DateTime.now()),
+                        TargetType.step, DateTime.now(), FirebaseHelper.userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SetItemWidget(
@@ -74,8 +75,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                   height: 20,
                 ),
                 StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(
-                        TargetType.water, DateTime.now()),
+                    stream: TargetRequest.getTarget(TargetType.water,
+                        DateTime.now(), FirebaseHelper.userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SetItemWidget(
@@ -174,8 +175,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                     ? Column(
                         children: [
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(
-                                  TargetType.kcal, DateTime.now()),
+                              stream: TargetRequest.getTarget(TargetType.kcal,
+                                  DateTime.now(), FirebaseHelper.userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -211,7 +212,9 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                           ),
                           StreamBuilder<Target?>(
                               stream: TargetRequest.getTarget(
-                                  TargetType.distance, DateTime.now()),
+                                  TargetType.distance,
+                                  DateTime.now(),
+                                  FirebaseHelper.userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -246,8 +249,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                             height: 20,
                           ),
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(
-                                  TargetType.time, DateTime.now()),
+                              stream: TargetRequest.getTarget(TargetType.time,
+                                  DateTime.now(), FirebaseHelper.userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(

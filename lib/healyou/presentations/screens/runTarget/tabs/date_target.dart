@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/widgets/progress_widget.dart';
@@ -26,7 +27,8 @@ class _DateTargetState extends State<DateTarget> {
           height: 40,
         ),
         StreamBuilder<Target?>(
-            stream: TargetRequest.getTarget(TargetType.step, DateTime.now()),
+            stream: TargetRequest.getTarget(
+                TargetType.step, DateTime.now(), FirebaseHelper.userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ProgressWidget(
@@ -61,7 +63,7 @@ class _DateTargetState extends State<DateTarget> {
           children: [
             StreamBuilder<Target?>(
                 stream: TargetRequest.getTarget(
-                    TargetType.distance, DateTime.now()),
+                    TargetType.distance, DateTime.now(), FirebaseHelper.userId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -87,7 +89,7 @@ class _DateTargetState extends State<DateTarget> {
                 }),
             StreamBuilder<Target?>(
                 stream: TargetRequest.getTarget(
-                    TargetType.distance, DateTime.now()),
+                    TargetType.distance, DateTime.now(), FirebaseHelper.userId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -114,8 +116,8 @@ class _DateTargetState extends State<DateTarget> {
                   return Container();
                 }),
             StreamBuilder<Target?>(
-                stream:
-                    TargetRequest.getTarget(TargetType.time, DateTime.now()),
+                stream: TargetRequest.getTarget(
+                    TargetType.time, DateTime.now(), FirebaseHelper.userId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -144,7 +146,8 @@ class _DateTargetState extends State<DateTarget> {
           ],
         ),
         StreamBuilder<Target?>(
-            stream: TargetRequest.getTarget(TargetType.step, DateTime.now()),
+            stream: TargetRequest.getTarget(
+                TargetType.step, DateTime.now(), FirebaseHelper.userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return LineChartWidget(target: snapshot.data!.target);

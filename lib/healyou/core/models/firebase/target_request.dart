@@ -43,74 +43,81 @@ class TargetRequest {
   }
 
   static Future<void> autoAddRunTarget() async {
-    String runTargetId = await FirebaseHelper.targetCollection.doc().id;
-    String kcalTargetId = await FirebaseHelper.targetCollection.doc().id;
-    String kmTargetId = await FirebaseHelper.targetCollection.doc().id;
-    String timeTargetId = await FirebaseHelper.targetCollection.doc().id;
-    String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
     UserModel? user = await UserRequest.getById(FirebaseHelper.userId).first;
-    print(user);
-    double caloTarget =
-        calculateCalo(user!.weight, user.height, user.gender, user.age)
-            .round()
-            .toDouble();
-    double stepTarget = (caloTarget / 0.05).round().toDouble();
-    double distanceTarget = (stepTarget / 1000) * 1.5;
-    double time = 0;
-    double water = user!.weight * 35;
-    if (user.gender == 'male') {
-      time = (distanceTarget / 5);
-    } else
-      time = distanceTarget / 4.5;
-    bool isExist = await TargetRequest.checkTargetExist();
+    if (user!.age != 0 &&
+        user!.height != 0 &&
+        user.weight != 0 &&
+        user.gender != "") {
+      String runTargetId = await FirebaseHelper.targetCollection.doc().id;
+      String kcalTargetId = await FirebaseHelper.targetCollection.doc().id;
+      String kmTargetId = await FirebaseHelper.targetCollection.doc().id;
+      String timeTargetId = await FirebaseHelper.targetCollection.doc().id;
+      String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
+      double caloTarget =
+          calculateCalo(user!.weight, user.height, user.gender, user.age)
+              .round()
+              .toDouble();
+      double stepTarget = (caloTarget / 0.05).round().toDouble();
+      double distanceTarget = (stepTarget / 1000) * 1.5;
+      double time = 0;
+      double water = user!.weight * 35;
+      if (user.gender == 'male') {
+        time = (distanceTarget / 5);
+      } else
+        time = distanceTarget / 4.5;
+      bool isExist = await TargetRequest.checkTargetExist();
 
-    if (!isExist) {
-      Target runTarget = Target(
-          userId: FirebaseHelper.userId,
-          id: runTargetId,
-          time: DateTime.now(),
-          type: TargetType.step,
-          target: stepTarget);
-      FirebaseHelper.targetCollection.doc(runTargetId).set(runTarget.toJson());
-      Target kcalTarget = Target(
-          userId: FirebaseHelper.userId,
-          id: kcalTargetId,
-          time: DateTime.now(),
-          type: TargetType.kcal,
-          target: caloTarget);
-      FirebaseHelper.targetCollection
-          .doc(kcalTargetId)
-          .set(kcalTarget.toJson());
-      Target kmTarget = Target(
-          userId: FirebaseHelper.userId,
-          id: kmTargetId,
-          time: DateTime.now(),
-          type: TargetType.distance,
-          target: distanceTarget);
-      FirebaseHelper.targetCollection.doc(kmTargetId).set(kmTarget.toJson());
-      Target timeTarget = Target(
-          userId: FirebaseHelper.userId,
-          id: timeTargetId,
-          time: DateTime.now(),
-          type: TargetType.time,
-          target: time);
-      FirebaseHelper.targetCollection
-          .doc(timeTargetId)
-          .set(timeTarget.toJson());
+      if (!isExist) {
+        Target runTarget = Target(
+            userId: FirebaseHelper.userId,
+            id: runTargetId,
+            time: DateTime.now(),
+            type: TargetType.step,
+            target: stepTarget);
+        FirebaseHelper.targetCollection
+            .doc(runTargetId)
+            .set(runTarget.toJson());
+        Target kcalTarget = Target(
+            userId: FirebaseHelper.userId,
+            id: kcalTargetId,
+            time: DateTime.now(),
+            type: TargetType.kcal,
+            target: caloTarget);
+        FirebaseHelper.targetCollection
+            .doc(kcalTargetId)
+            .set(kcalTarget.toJson());
+        Target kmTarget = Target(
+            userId: FirebaseHelper.userId,
+            id: kmTargetId,
+            time: DateTime.now(),
+            type: TargetType.distance,
+            target: distanceTarget);
+        FirebaseHelper.targetCollection.doc(kmTargetId).set(kmTarget.toJson());
+        Target timeTarget = Target(
+            userId: FirebaseHelper.userId,
+            id: timeTargetId,
+            time: DateTime.now(),
+            type: TargetType.time,
+            target: time);
+        FirebaseHelper.targetCollection
+            .doc(timeTargetId)
+            .set(timeTarget.toJson());
 
-      Target waterTarget = Target(
-          userId: FirebaseHelper.userId,
-          id: waterTargetId,
-          time: DateTime.now(),
-          type: TargetType.water,
-          target: water);
-      FirebaseHelper.targetCollection
-          .doc(waterTargetId)
-          .set(waterTarget.toJson());
+        Target waterTarget = Target(
+            userId: FirebaseHelper.userId,
+            id: waterTargetId,
+            time: DateTime.now(),
+            type: TargetType.water,
+            target: water);
+        FirebaseHelper.targetCollection
+            .doc(waterTargetId)
+            .set(waterTarget.toJson());
+      }
     }
   }
 
-  static Stream<Target?> getTarget(TargetType targetType, DateTime dateTime) {
+  static Stream<Target?> getTarget(
+      TargetType targetType, DateTime dateTime, String userId) {
     // Create a StreamController to manage the stream of Target objects
     StreamController<Target?> streamController = StreamController<Target?>();
 
@@ -127,7 +134,8 @@ class TargetRequest {
         if (documentTime.year == dateTime.year &&
             documentTime.month == dateTime.month &&
             documentTime.day == dateTime.day &&
-            targetType == TargetType.values.byName(type)) {
+            targetType == TargetType.values.byName(type) &&
+            userId == documentSnapshot.get("userId")) {
           // Emit the Target object to the stream
           streamController.add(Target.fromJson(documentSnapshot.data()));
         }
@@ -142,6 +150,10 @@ class TargetRequest {
 
   static Future<void> updateTarget(String id, double target) async {
     await FirebaseHelper.targetCollection.doc(id).update({"target": target});
+  }
+
+  static Future<void> updateReached(String id, double reached) async {
+    await FirebaseHelper.targetCollection.doc(id).update({"reached": reached});
   }
 
   static double calculateCalo(int weight, int height, String gender, int age) {

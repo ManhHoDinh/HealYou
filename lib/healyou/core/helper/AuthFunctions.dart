@@ -93,16 +93,11 @@ class AuthServices {
 
   static Future UpdateCurrentUser() async {
     await FirebaseFirestore.instance
-        .collection('Users')
+        .collection('user')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
-      AuthServices.CurrentUser = UserModel(
-        id: value['Id'],
-        name: value['Name'],
-        phoneNumber: value['PhoneNumber'],
-        email: value['Email'],
-      );
+      AuthServices.CurrentUser = UserModel.fromJson(value.data()!);
     });
   }
 }

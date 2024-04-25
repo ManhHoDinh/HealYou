@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -93,7 +96,10 @@ class ReviewInformationScreen extends StatelessWidget {
                         SizedBox(height: 20),
                         Center(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await TargetRequest.autoAddRunTarget();
+                              Get.to(() => NavigationHome());
+                            },
                             child: const Text('Confirm'),
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 50),
