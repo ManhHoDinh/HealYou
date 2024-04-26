@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:healyou/healyou/presentations/screens/run/track/track_result.dart';
 import 'package:location/location.dart';
 
 class RunTrackScreen extends StatefulWidget {
   const RunTrackScreen({super.key});
-
+  static const routeName = "run_track_screen";
   @override
   State<RunTrackScreen> createState() => RunTrackScreenState();
 }
 
 class RunTrackScreenState extends State<RunTrackScreen>
     with WidgetsBindingObserver {
-  String? _error;
   late GoogleMapController googleMapController;
   CameraPosition? initialCameraPosition;
   Set<Marker> markers = {};
@@ -32,9 +32,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
     _locationSubscription =
         location.onLocationChanged.handleError((dynamic err) {
       if (err is PlatformException) {
-        setState(() {
-          _error = err.code;
-        });
+        setState(() {});
       }
       _locationSubscription?.cancel();
       setState(() {
@@ -42,10 +40,10 @@ class RunTrackScreenState extends State<RunTrackScreen>
       });
     }).listen((currentLocation) {
       setState(() {
-        _error = null;
         _locationData = currentLocation;
         _latlng
             .add(LatLng(currentLocation.latitude!, currentLocation.longitude!));
+        debugPrint(_latlng.toString());
         if (_isInForeground) _setMarkerToCurrentLocation();
       });
     });
@@ -130,6 +128,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
   void pauseTimer() {
     _isRunning = false;
     _timer.cancel();
+    showCustomDialog();
+    location.enableBackgroundMode(enable: false);
   }
 
   @override
@@ -344,5 +344,30 @@ class RunTrackScreenState extends State<RunTrackScreen>
       _listenLocation();
       startTimer();
     }
+  }
+
+  Future<void> showCustomDialog() {
+    return showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Align(
+            alignment: Alignment.center,
+            child: const Text('Congratulation!!!')),
+        content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          Image(image: AssetImage("assets/healyou/giphy.gif")),
+          Text("Please wait a moment for us to summarize your run.\n"),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed(
+                    TrackResult.routeName,
+                    arguments: {"latLng": _latlng});
+              },
+              child: Text(
+                "Process",
+                style: TextStyle(fontSize: 20),
+              ))
+        ]),
+      ),
+    );
   }
 }
