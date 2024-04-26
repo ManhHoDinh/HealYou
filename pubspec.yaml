@@ -71,6 +71,8 @@ dependencies:
   image_picker: ^1.0.8
   analog_clock: ^0.1.1
   flex_color_picker: ^3.4.1
+  audio_waveforms: ^1.0.5
+  alarm: ^3.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
