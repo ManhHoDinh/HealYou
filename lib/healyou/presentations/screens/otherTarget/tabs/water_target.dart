@@ -75,14 +75,14 @@ class _WaterTargetState extends State<WaterTarget> {
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              // Container(
-                              //   height: height * 3 / 10,
-                              //   child: SphericalBottle(
-                              //       key: sphericalBottleRef,
-                              //       waterColor: Colors.blue,
-                              //       bottleColor: Colors.lightBlue,
-                              //       capColor: Colors.blueGrey),
-                              // ),
+                              Container(
+                                height: height * 3 / 10,
+                                child: SphericalBottle(
+                                    key: sphericalBottleRef,
+                                    waterColor: Colors.blue,
+                                    bottleColor: Colors.lightBlue,
+                                    capColor: Colors.blueGrey),
+                              ),
                               Align(
                                 alignment: Alignment.center,
                                 child: Column(
