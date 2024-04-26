@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/core/helper/image_helper.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -111,20 +112,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           child: Container(
                             height: 120,
                             width: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.6),
-                                    offset: const Offset(2.0, 4.0),
-                                    blurRadius: 8),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.png'),
-                            ),
+                            
+                            child: FirebaseAuth.instance.currentUser!=null? Image.network(FirebaseAuth.instance.currentUser!.photoURL??'', width: 120,height: 120,):Image.asset('assets/images/userImage.png'),
+                         
                           ),
                         ),
                       );
@@ -133,7 +123,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
+                      FirebaseAuth.instance.currentUser!.displayName??"",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
