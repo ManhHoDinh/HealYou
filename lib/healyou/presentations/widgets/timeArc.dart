@@ -33,7 +33,7 @@ class _TimeArcState extends State<TimeArc> with SingleTickerProviderStateMixin {
     var sweepHour =
         ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
     sweepRad = sweepHour / 12 * 2 * pi;
-    if (widget.sleep.startTime.isBefore(widget.sleep.endTime)) {
+    if (widget.sleep.startTime.day < widget.sleep.endTime.day) {
       sweepRad = 2 * 3.1415 - sweepRad;
     }
 
