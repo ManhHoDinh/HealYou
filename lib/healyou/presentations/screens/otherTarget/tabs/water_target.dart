@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/controller/notify_controller.dart';
+import 'package:healyou/healyou/core/controller/water_item_controller.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
@@ -27,6 +28,7 @@ class _WaterTargetState extends State<WaterTarget> {
   var minute = 0;
   var timeFormat = "AM";
   int targetItem = 200;
+  WaterItemController waterItemController = Get.find();
 
   @override
   void initState() {
@@ -37,14 +39,14 @@ class _WaterTargetState extends State<WaterTarget> {
   Widget build(BuildContext context) {
     //  sphericalBottleRef.currentState?.waterLevel = 0.3;
     double height = MediaQuery.of(context).size.height;
-
+    waterItemController.updateItems();
     return StreamBuilder<Target?>(
         stream: TargetRequest.getTarget(
             TargetType.water, DateTime.now(), FirebaseHelper.userId),
         builder: (context, snapshot) {
-          Target target = snapshot.data!;
-          double waterLevel = target.reached / target.target;
           if (snapshot.hasData) {
+            Target target = snapshot.data!;
+            double waterLevel = target.reached / target.target;
             return Stack(children: [
               SingleChildScrollView(
                   child: Container(
@@ -106,8 +108,24 @@ class _WaterTargetState extends State<WaterTarget> {
                                 child: IconButton(
                                     onPressed: () async {
                                       double newReached = target.reached + 200;
+                                      DateTime now = DateTime.now();
+                                      DateTime time = DateTime.utc(
+                                          now.year,
+                                          now.month,
+                                          now.day,
+                                          now.hour,
+                                          now.minute);
+                                      Timestamp timeStamp =
+                                          Timestamp.fromDate(time);
+                                      Map<String, dynamic> data = {
+                                        "time": timeStamp,
+                                        "target": targetItem,
+                                        "isNotify": true
+                                      };
+                                      WaterItemRequest.addWaterReminder(data);
                                       await TargetRequest.updateReached(
                                           target.id, newReached);
+                                      waterItemController.updateItems();
                                     },
                                     icon: Image.asset(AssetHelper.glass)),
                               ),
@@ -142,29 +160,86 @@ class _WaterTargetState extends State<WaterTarget> {
                                         fontSize: 18, color: Color(0xff4F8795)),
                                   ),
                                 ),
-                                StreamBuilder<List<WaterTargetItem>>(
-                                    stream: WaterItemRequest.getAll(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        print(snapshot.data!);
-                                        return ListView.separated(
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemBuilder: ((context, index) {
-                                              return WaterReminderItem(
-                                                  item: snapshot.data![index]);
-                                            }),
-                                            separatorBuilder:
-                                                ((context, index) {
-                                              return SizedBox(
-                                                height: 16,
-                                              );
-                                            }),
-                                            itemCount: snapshot.data!.length);
-                                      }
-                                      return Container();
-                                    }),
+                                Obx(() {
+                                  List<WaterTargetItem> data =
+                                      waterItemController.listItems
+                                          .where((element) {
+                                    DateTime date = DateTime.now();
+                                    DateTime dateTime = (DateTime.utc(
+                                        date.year,
+                                        date.month,
+                                        date.day,
+                                        date.hour,
+                                        date.minute,
+                                        date.second));
+                                    return element.time!.isAfter(dateTime);
+                                  }).toList();
+
+                                  return ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder: ((context, index) {
+                                        return WaterReminderItem(
+                                            item: data[index]);
+                                      }),
+                                      separatorBuilder: ((context, index) {
+                                        return SizedBox(
+                                          height: 16,
+                                        );
+                                      }),
+                                      itemCount: data.length);
+                                }),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                color: Color(0xffECF9FF),
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    'History',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Color(0xff4F8795)),
+                                  ),
+                                ),
+                                Obx(() {
+                                  List<WaterTargetItem> data =
+                                      waterItemController.listItems
+                                          .where((element) {
+                                    DateTime date = DateTime.now();
+                                    DateTime dateTime = (DateTime.utc(
+                                        date.year,
+                                        date.month,
+                                        date.day,
+                                        date.hour,
+                                        date.minute,
+                                        date.second));
+                                    return element.time!.isBefore(dateTime) ||
+                                        element.time!
+                                            .isAtSameMomentAs(dateTime);
+                                  }).toList();
+                                  return ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder: ((context, index) {
+                                        return WaterReminderItem(
+                                            isHistory: true, item: data[index]);
+                                      }),
+                                      separatorBuilder: ((context, index) {
+                                        return SizedBox(
+                                          height: 16,
+                                        );
+                                      }),
+                                      itemCount: data.length);
+                                }),
                               ],
                             ),
                           ),
@@ -423,6 +498,7 @@ class _WaterTargetState extends State<WaterTarget> {
       "isNotify": true
     };
     WaterItemRequest.addWaterReminder(data);
+    waterItemController.updateItems();
 
     setState(() {
       hour = 0;
@@ -441,7 +517,8 @@ class _WaterTargetState extends State<WaterTarget> {
         time,
         "Water reminder",
         "You have scheduled to drink at ${DateFormat("hh:mm aa").format(time)}",
-        target);
+        target,
+        targetItem);
     Get.back();
   }
 }

@@ -3,8 +3,11 @@ import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
 
 class WaterItemRequest {
-  static Stream<List<WaterTargetItem>> getAll() =>
-      FirebaseHelper.waterItemCollection.snapshots().map((event) =>
+  static Stream<List<WaterTargetItem>> getAll() => FirebaseHelper
+      .waterItemCollection
+      .orderBy("time", descending: true)
+      .snapshots()
+      .map((event) =>
           event.docs.map((e) => WaterTargetItem.fromJson(e.data())).toList());
 
   static Future<void> updateNotify(String id, bool notifyValue) async {

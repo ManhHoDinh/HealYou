@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healyou/dio.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
@@ -21,6 +23,7 @@ import 'package:healyou/healyou/core/helper/local_storage_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:healyou/healyou/core/controller/notify_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
@@ -37,7 +40,11 @@ void main() async {
   );
   await LocalStorageHelper.initLocalStorageHelper();
   NotifyController.initializeNotification();
-  await TargetRequest.autoAddRunTarget();
+
+  if (FirebaseAuth.instance.currentUser != null) {
+    await TargetRequest.autoAddRunTarget();
+  }
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -93,6 +100,7 @@ class _MyAppState extends State<MyApp> {
           platform: TargetPlatform.iOS,
         ),
         routes: routes,
+        initialBinding: MyBindings(),
         // initialRoute: Routes.setTarget,
         getPages: [
           GetPage(

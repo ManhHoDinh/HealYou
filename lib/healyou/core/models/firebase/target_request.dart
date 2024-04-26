@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
@@ -44,10 +45,12 @@ class TargetRequest {
 
   static Future<void> autoAddRunTarget() async {
     UserModel? user = await UserRequest.getById(FirebaseHelper.userId).first;
+    print(user);
     if (user!.age != 0 &&
         user!.height != 0 &&
         user.weight != 0 &&
         user.gender != "") {
+      print('đúng');
       String runTargetId = await FirebaseHelper.targetCollection.doc().id;
       String kcalTargetId = await FirebaseHelper.targetCollection.doc().id;
       String kmTargetId = await FirebaseHelper.targetCollection.doc().id;
@@ -127,7 +130,6 @@ class TargetRequest {
           in querySnapshot.docs) {
         Timestamp timestamp = documentSnapshot.get('time');
         String type = documentSnapshot.get("type");
-
         DateTime documentTime = DateTime.fromMillisecondsSinceEpoch(
             timestamp.millisecondsSinceEpoch);
 
@@ -135,7 +137,7 @@ class TargetRequest {
             documentTime.month == dateTime.month &&
             documentTime.day == dateTime.day &&
             targetType == TargetType.values.byName(type) &&
-            userId == documentSnapshot.get("userId")) {
+            userId == documentSnapshot.get("userId").toString()) {
           // Emit the Target object to the stream
           streamController.add(Target.fromJson(documentSnapshot.data()));
         }
