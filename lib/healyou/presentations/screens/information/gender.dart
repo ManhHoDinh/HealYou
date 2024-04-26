@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
 
 // void main() {
@@ -102,6 +103,9 @@ class _GenderSelectorState extends State<GenderSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                FirebaseHelper.userCollection
+                    .doc(FirebaseHelper.userId)
+                    .update({"gender": isMaleSelected ? "male" : "female"});
                 Navigator.pushNamed(context, AgeSelectorScreen.routeName);
               },
             ),

@@ -22,8 +22,8 @@ Target _$TargetFromJson(Map<String, dynamic> json) {
 mixin _$Target {
   String get id => throw _privateConstructorUsedError;
   TargetType get type => throw _privateConstructorUsedError;
-  int get target => throw _privateConstructorUsedError;
-  int get reached => throw _privateConstructorUsedError;
+  double get target => throw _privateConstructorUsedError;
+  double get reached => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
   DateTime? get time => throw _privateConstructorUsedError;
@@ -41,8 +41,8 @@ abstract class $TargetCopyWith<$Res> {
   $Res call(
       {String id,
       TargetType type,
-      int target,
-      int reached,
+      double target,
+      double reached,
       String userId,
       @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
       DateTime? time});
@@ -80,11 +80,11 @@ class _$TargetCopyWithImpl<$Res, $Val extends Target>
       target: null == target
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       reached: null == reached
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -107,8 +107,8 @@ abstract class _$$TargetImplCopyWith<$Res> implements $TargetCopyWith<$Res> {
   $Res call(
       {String id,
       TargetType type,
-      int target,
-      int reached,
+      double target,
+      double reached,
       String userId,
       @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
       DateTime? time});
@@ -144,11 +144,11 @@ class __$$TargetImplCopyWithImpl<$Res>
       target: null == target
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       reached: null == reached
           ? _value.reached
           : reached // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -184,10 +184,10 @@ class _$TargetImpl implements _Target {
   final TargetType type;
   @override
   @JsonKey()
-  final int target;
+  final double target;
   @override
   @JsonKey()
-  final int reached;
+  final double reached;
   @override
   @JsonKey()
   final String userId;
@@ -236,8 +236,8 @@ abstract class _Target implements Target {
   const factory _Target(
       {final String id,
       final TargetType type,
-      final int target,
-      final int reached,
+      final double target,
+      final double reached,
       final String userId,
       @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
       final DateTime? time}) = _$TargetImpl;
@@ -249,9 +249,9 @@ abstract class _Target implements Target {
   @override
   TargetType get type;
   @override
-  int get target;
+  double get target;
   @override
-  int get reached;
+  double get reached;
   @override
   String get userId;
   @override

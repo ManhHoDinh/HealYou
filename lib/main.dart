@@ -1,8 +1,19 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healyou/dio.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
+import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
+import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
+import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/age.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
+import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
+import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:healyou/app_theme.dart';
@@ -11,9 +22,11 @@ import 'package:flutter/services.dart';
 import 'package:healyou/healyou/core/helper/local_storage_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:healyou/healyou/core/controller/notify_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:get/get.dart';
 
 // ...
 
@@ -26,16 +39,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalStorageHelper.initLocalStorageHelper();
-  AwesomeNotifications().initialize(
-      null,
-      [
-        NotificationChannel(
-            channelKey: 'heal_you',
-            channelName: "Heal You",
-            channelDescription: 'haha')
-      ],
-      debug: true);
-  await TargetRequest.autoAddRunTarget();
+  NotifyController.initializeNotification();
+
+  if (FirebaseAuth.instance.currentUser != null) {
+    await TargetRequest.autoAddRunTarget();
+  }
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -44,7 +53,31 @@ void main() async {
       builder: (context, child) => MyApp())));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // Only after at least the action method is set, the notification events are delivered
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotifyController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotifyController.onNotificationCreatedMethod,
+        onNotificationDisplayedMethod:
+            NotifyController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotifyController.onDismissActionReceivedMethod);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -57,7 +90,8 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return MaterialApp(
+    return GetMaterialApp(
+        navigatorKey: MyApp.navigatorKey,
         title: 'Flutter UI',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -66,9 +100,53 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
         ),
         routes: routes,
+        initialBinding: MyBindings(),
+        // initialRoute: Routes.setTarget,
+        getPages: [
+          GetPage(
+              name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+          GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+          GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+          GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
+        ],
         home: healyouApp());
   }
 }
+// class MyApp extends StatelessWidget {
+//   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//       statusBarColor: Colors.transparent,
+//       statusBarIconBrightness: Brightness.dark,
+//       statusBarBrightness:
+//           !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+//       systemNavigationBarColor: Colors.white,
+//       systemNavigationBarDividerColor: Colors.transparent,
+//       systemNavigationBarIconBrightness: Brightness.dark,
+//     ));
+
+//     return GetMaterialApp(
+//         title: 'Flutter UI',
+//         debugShowCheckedModeBanner: false,
+//         theme: ThemeData(
+//           primarySwatch: Colors.blue,
+//           textTheme: AppTheme.textTheme,
+//           platform: TargetPlatform.iOS,
+//         ),
+//         routes: routes,
+//         // initialRoute: Routes.setTarget,
+//         getPages: [
+//           GetPage(
+//               name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+//           GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+//           GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+//           GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
+//         ],
+//         home: healyouApp());
+//   }
+// }
 
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
