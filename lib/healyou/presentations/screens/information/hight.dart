@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/weight.dart';
 
@@ -76,6 +78,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -140,9 +143,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
-                FirebaseHelper.userCollection
-                    .doc(FirebaseHelper.userId)
-                    .update({"height": _currentHight});
+                informationController.updateHeight(_currentHight);
                 Navigator.pushNamed(context, WeightSelectorScreen.routeName);
               },
             ),

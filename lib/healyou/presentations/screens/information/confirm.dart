@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
@@ -25,93 +26,91 @@ import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart'
 class ReviewInformationScreen extends StatelessWidget {
   const ReviewInformationScreen({Key? key}) : super(key: key);
   static const String routeName = 'review_screen';
+
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
     String userId = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: StreamBuilder<UserModel?>(
-              stream: UserRequest.getById(userId),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  int weight = snapshot.data!.weight;
-                  int height = snapshot.data!.height;
-                  int age = snapshot.data!.age;
-                  String gender = snapshot.data!.gender;
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 100.0),
-                          child: Text(
-                            'HealYou',
-                            style: TextStyle(fontSize: 20, color: Colors.blue),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(70.0),
-                          child: Text(
-                            'Review Your Information',
-                            style: TextStyle(fontSize: 40, color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        InfoCard(
-                          title: 'WEIGHT',
-                          value: weight.toString(),
-                          onTap: () {
-                            navigateToEditScreen(context, 'WEIGHT');
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        InfoCard(
-                          title: 'HEIGHT',
-                          value: height.toString(),
-                          onTap: () {
-                            navigateToEditScreen(context, 'HEIGHT');
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        InfoCard(
-                          title: 'AGE',
-                          value: age.toString(),
-                          onTap: () {
-                            navigateToEditScreen(context, 'AGE');
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        InfoCard(
-                          title: 'GENDER',
-                          value: gender,
-                          onTap: () {
-                            navigateToEditScreen(context, 'GENDER');
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await TargetRequest.autoAddRunTarget();
-                              Get.to(() => NavigationHome());
-                            },
-                            child: const Text('Confirm'),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                            ),
-                          ),
-                        ),
-                      ],
+          child: Obx(() {
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(top: 100.0),
+                    child: Text(
+                      'HealYou',
+                      style: TextStyle(fontSize: 20, color: Colors.blue),
                     ),
-                  );
-                }
-                return Container();
-              }),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(70.0),
+                    child: Text(
+                      'Review Your Information',
+                      style: TextStyle(fontSize: 40, color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'WEIGHT',
+                    value: informationController.weight.value.toString(),
+                    onTap: () {
+                      navigateToEditScreen(context, 'WEIGHT');
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'HEIGHT',
+                    value: informationController.height.value.toString(),
+                    onTap: () {
+                      navigateToEditScreen(context, 'HEIGHT');
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'AGE',
+                    value: informationController.age.value.toString(),
+                    onTap: () {
+                      navigateToEditScreen(context, 'AGE');
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'GENDER',
+                    value: informationController.gender.value,
+                    onTap: () {
+                      navigateToEditScreen(context, 'GENDER');
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        FirebaseHelper.userCollection.doc(userId).update({
+                          "age": informationController.age.value,
+                          "height": informationController.height.value,
+                          "weight": informationController.weight.value,
+                          "gender": informationController.gender.value,
+                        });
+                        await TargetRequest.autoAddRunTarget();
+                        Get.to(() => NavigationHome());
+                      },
+                      child: const Text('Confirm'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -158,6 +157,7 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
     return InkWell(
       onTap: onTap,
       child: Container(

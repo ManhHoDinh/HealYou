@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
@@ -26,13 +27,15 @@ class TargetRequest {
       for (QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot
           in querySnapshot.docs) {
         Timestamp timestamp = documentSnapshot.get('time');
+        String userId = FirebaseAuth.instance.currentUser!.uid;
 
         DateTime documentTime = DateTime.fromMillisecondsSinceEpoch(
             timestamp.millisecondsSinceEpoch);
         DateTime currentTime = DateTime.now();
         if (documentTime.year == currentTime.year &&
             documentTime.month == currentTime.month &&
-            documentTime.day == currentTime.day) {
+            documentTime.day == currentTime.day &&
+            userId == documentSnapshot.get('userId').toString()) {
           return true;
         }
       }
@@ -44,7 +47,8 @@ class TargetRequest {
   }
 
   static Future<void> autoAddRunTarget() async {
-    UserModel? user = await UserRequest.getById(FirebaseHelper.userId).first;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    UserModel? user = await UserRequest.getById(userId).first;
     print(user);
     if (user!.age != 0 &&
         user!.height != 0 &&
@@ -72,7 +76,7 @@ class TargetRequest {
 
       if (!isExist) {
         Target runTarget = Target(
-            userId: FirebaseHelper.userId,
+            userId: userId,
             id: runTargetId,
             time: DateTime.now(),
             type: TargetType.step,
@@ -81,7 +85,7 @@ class TargetRequest {
             .doc(runTargetId)
             .set(runTarget.toJson());
         Target kcalTarget = Target(
-            userId: FirebaseHelper.userId,
+            userId: userId,
             id: kcalTargetId,
             time: DateTime.now(),
             type: TargetType.kcal,
@@ -90,14 +94,14 @@ class TargetRequest {
             .doc(kcalTargetId)
             .set(kcalTarget.toJson());
         Target kmTarget = Target(
-            userId: FirebaseHelper.userId,
+            userId: userId,
             id: kmTargetId,
             time: DateTime.now(),
             type: TargetType.distance,
             target: distanceTarget);
         FirebaseHelper.targetCollection.doc(kmTargetId).set(kmTarget.toJson());
         Target timeTarget = Target(
-            userId: FirebaseHelper.userId,
+            userId: userId,
             id: timeTargetId,
             time: DateTime.now(),
             type: TargetType.time,
@@ -107,7 +111,7 @@ class TargetRequest {
             .set(timeTarget.toJson());
 
         Target waterTarget = Target(
-            userId: FirebaseHelper.userId,
+            userId: userId,
             id: waterTargetId,
             time: DateTime.now(),
             type: TargetType.water,
