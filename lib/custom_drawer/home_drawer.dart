@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:healyou/healyou/core/helper/image_helper.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -112,9 +111,20 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           child: Container(
                             height: 120,
                             width: 120,
-                            
-                            child: FirebaseAuth.instance.currentUser!=null? Image.network(FirebaseAuth.instance.currentUser!.photoURL??'', width: 120,height: 120,):Image.asset('assets/images/userImage.png'),
-                         
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(120.0)),
+                              child: FirebaseAuth.instance.currentUser != null
+                                  ? Image.network(
+                                      FirebaseAuth
+                                              .instance.currentUser!.photoURL ??
+                                          '',
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset('assets/images/userImage.png'),
+                            ),
                           ),
                         ),
                       );
@@ -123,7 +133,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      FirebaseAuth.instance.currentUser!.displayName??"",
+                      FirebaseAuth.instance.currentUser!.photoURL != null
+                          ? FirebaseAuth.instance.currentUser!.displayName!
+                          : 'Guest',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -188,11 +200,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-          FirebaseAuth.instance.signOut();
-                    GoogleSignIn().signOut();
-                    Navigator.of(context)
-                        .pushReplacementNamed('onboarding_screen');
-              
+    FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
+    Navigator.of(context).pushReplacementNamed('onboarding_screen');
   }
 
   Widget inkwell(DrawerList listData) {

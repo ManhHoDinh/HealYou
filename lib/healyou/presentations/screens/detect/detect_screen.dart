@@ -4,13 +4,14 @@ import 'dart:typed_data';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/core/models/food_detect/food_detect.dart';
 import 'dart:ui' as ui;
 
 import '../../../core/constants/color_palatte.dart';
 import '../../../core/constants/dimension_constants.dart';
 import '../../../core/helper/text_styles.dart';
-import '../../../core/models/firebase/firebase_request.dart';
 import '../../widgets/button_widget.dart';
+import 'package:http_parser/http_parser.dart';
 
 class DetectScreen extends StatefulWidget {
   const DetectScreen({super.key, this.path = ""});
@@ -26,31 +27,42 @@ class _DetectScreenState extends State<DetectScreen> {
   @override
   void initState() {
     super.initState();
-    postImageToAPI(widget.path); // Call API to fetch bounding boxes on load
+    importImageToAPI(widget.path); // Call API to fetch bounding boxes on load
   }
 
-  Future<void> postImageToAPI(String imagePath) async {
-    final Dio dio = Dio();
-    final imageBytes = await File(imagePath).readAsBytes();
-
-    // Prepare multipart request body
-    final formData = FormData.fromMap({
-      'image': MultipartFile.fromBytes(imageBytes, filename: 'image.jpg'),
-    });
-
+  Future<void> importImageToAPI(String imagePath) async {
     try {
-      /*
+      final Dio dio = Dio();
+
+      // Prepare multipart request body
+      FormData formData = FormData();
+      formData.files.add(MapEntry(
+        'image',
+        await MultipartFile.fromFile(
+          imagePath,
+          filename: imagePath.split(Platform.pathSeparator).last,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      ));
+
       final response = await dio.post(
-        'https://your-api.com/upload-image',
+        'https://vision.foodvisor.io/api/1.0/en/analysis/',
         data: formData,
+        options: Options(
+          headers: {
+            "Authorization": "Api-Key KNefxQtB.nXMvfNugyLD3yvEtgrvJiNdNyMiYY1ZS"
+          },
+        ),
       );
 
       // Handle successful response
       if (response.statusCode == 200) {
-        print(response.data); // Example: print the response data
+        FoodDetect foodDetect = FoodDetect.fromJson(response.data);
+        print("hello");
+        print(foodDetect.toJson()); // Example: print the response data
       } else {
         print('Error: ${response.statusCode}');
-      }*/
+      }
     } on DioError catch (e) {
       print('Error posting image: ${e.message}');
     }

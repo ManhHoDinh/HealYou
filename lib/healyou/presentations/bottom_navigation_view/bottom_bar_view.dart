@@ -49,7 +49,7 @@ class _BottomBarViewState extends State<WindouBottomBarView>
                     height: 62,
                     child: Container(
                       padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
-                      color: ColorPalette.primaryColor.withOpacity(0.2),
+                      color: Color.fromARGB(255, 129, 208, 232),
                       child: Row(
                         children: <Widget>[
                           Expanded(
