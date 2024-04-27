@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -12,6 +13,7 @@ import '../../../core/constants/dimension_constants.dart';
 import '../../../core/helper/text_styles.dart';
 import '../../widgets/button_widget.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image/image.dart' as img;
 
 class DetectScreen extends StatefulWidget {
   const DetectScreen({super.key, this.path = ""});
@@ -22,12 +24,31 @@ class DetectScreen extends StatefulWidget {
 }
 
 class _DetectScreenState extends State<DetectScreen> {
-  List<Rect> _boundingBoxes = []; // List to store bounding box data
+  FoodDetect? foodDetect;
   //late GarbageModel garbageModel;
+  late ui.Image
+      uiImage; // Use the ui package Image to hold the data for CustomPainter.
+  Size? imageSize; // To hold the actual size of the image.
+
   @override
   void initState() {
     super.initState();
-    importImageToAPI(widget.path); // Call API to fetch bounding boxes on load
+    loadImage(); // Function defined below.
+  }
+
+  Future<void> loadImage() async {
+    uiImage = await loadImageFromPath(widget.path);
+    imageSize = Size(uiImage.width.toDouble(), uiImage.height.toDouble());
+    importImageToAPI(widget.path);
+  }
+
+  Future<ui.Image> loadImageFromPath(String imagePath) async {
+    Uint8List imageBytes = await File(imagePath).readAsBytes();
+    Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(imageBytes, (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
   }
 
   Future<void> importImageToAPI(String imagePath) async {
@@ -57,9 +78,9 @@ class _DetectScreenState extends State<DetectScreen> {
 
       // Handle successful response
       if (response.statusCode == 200) {
-        FoodDetect foodDetect = FoodDetect.fromJson(response.data);
-        print("hello");
-        print(foodDetect.toJson()); // Example: print the response data
+        setState(() {
+          foodDetect = FoodDetect.fromJson(response.data);
+        });
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -81,44 +102,64 @@ class _DetectScreenState extends State<DetectScreen> {
         toolbarHeight: 100,
         backgroundColor: ColorPalette.primaryColor,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /* SizedBox(
+      body: foodDetect != null
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                /* SizedBox(
             height: 30,
           ),
           Text(
             'Food Detected Result',
             style: TextStyles.h3.bold.copyWith(color: ColorPalette.blackText),
           ),*/
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: Stack(
-                // Use Stack to overlay bounding boxes on image
-                children: [
-                  Center(child: Image.file(File(widget.path))),
-                  Center(
-                    child: CustomPaint(
-                      // Use CustomPaint to draw bounding boxes
-                      size: MediaQuery.of(context).size,
-                      painter: BoundingBoxPainter(_boundingBoxes),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Container(
+                            // Replace this with your image or background widget
+                            alignment: Alignment.center,
+                            width: 350,
+                            height: 200,
+                            child: Image.file(
+                              File(widget.path),
+                            width: 350,
+                            height: 200,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: CustomPaint(
+                            size: Size(
+                                350, 200),
+                            painter: BoundingBoxPainter(
+                              positions: foodDetect!.items.isEmpty
+                                  ? []
+                                  : foodDetect!.items
+                                      .map((e) => e.position!)
+                                      .toList(),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: 50,
-            /*  child: StreamBuilder<List<GarbageModel>>(
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 50,
+                  /*  child: StreamBuilder<List<GarbageModel>>(
                 stream: FireBaseDataBase.readGarbages(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -160,48 +201,57 @@ class _DetectScreenState extends State<DetectScreen> {
                     return Container();
                 }),
           */
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              margin: EdgeInsets.only(bottom: 20),
-              child: ButtonWidget(
-                  label: "Xác nhận",
-                  color: ColorPalette.primaryColor,
-                  textColor: Colors.white,
-                  onTap: () {
-                    /* Navigator.push(context, MaterialPageRoute(builder: (context) {
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: ButtonWidget(
+                        label: "Xác nhận",
+                        color: ColorPalette.primaryColor,
+                        textColor: Colors.white,
+                        onTap: () {
+                          /* Navigator.push(context, MaterialPageRoute(builder: (context) {
                      return TransactionScreen(
                         garbageItem: garbageModel,
                       );
                     }));*/
-                  }))
-        ],
-      ),
+                        }))
+              ],
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }
 
 class BoundingBoxPainter extends CustomPainter {
-  final List<Rect> boundingBoxes; // List to store bounding box data
-
-  const BoundingBoxPainter(this.boundingBoxes); // Pass in boundingBoxes
+  final List<Position> positions;
+  BoundingBoxPainter({required this.positions});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    var paint = Paint()
       ..color = Colors.red
-      ..strokeWidth = 2.0
+      ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 
-    for (final box in boundingBoxes) {
-      canvas.drawRect(box, paint);
+    for (var position in positions) {
+      // Assuming each position value (x, y, width, height) is a percentage of the image size
+      double left = position.x * size.width;
+      double top = position.y * size.height;
+      double right = (position.x + position.width) * size.width;
+      double bottom = (position.y + position.height) * size.height;
+      print(size);
+      canvas.drawRect(Rect.fromLTRB(left, top, right, bottom), paint);
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => ListEquality()
-      .equals((oldDelegate as BoundingBoxPainter).boundingBoxes, boundingBoxes);
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
 }

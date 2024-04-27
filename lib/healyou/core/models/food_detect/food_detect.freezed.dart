@@ -265,8 +265,8 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  List<Food> get food => throw _privateConstructorUsedError;
-  Position get position => throw _privateConstructorUsedError;
+  List<Food>? get food => throw _privateConstructorUsedError;
+  Position? get position => throw _privateConstructorUsedError;
   String? get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -279,9 +279,9 @@ abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
-  $Res call({List<Food> food, Position position, String? color});
+  $Res call({List<Food>? food, Position? position, String? color});
 
-  $PositionCopyWith<$Res> get position;
+  $PositionCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -297,19 +297,19 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? food = null,
-    Object? position = null,
+    Object? food = freezed,
+    Object? position = freezed,
     Object? color = freezed,
   }) {
     return _then(_value.copyWith(
-      food: null == food
+      food: freezed == food
           ? _value.food
           : food // ignore: cast_nullable_to_non_nullable
-              as List<Food>,
-      position: null == position
+              as List<Food>?,
+      position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
-              as Position,
+              as Position?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -319,8 +319,12 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
 
   @override
   @pragma('vm:prefer-inline')
-  $PositionCopyWith<$Res> get position {
-    return $PositionCopyWith<$Res>(_value.position, (value) {
+  $PositionCopyWith<$Res>? get position {
+    if (_value.position == null) {
+      return null;
+    }
+
+    return $PositionCopyWith<$Res>(_value.position!, (value) {
       return _then(_value.copyWith(position: value) as $Val);
     });
   }
@@ -333,10 +337,10 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       __$$ItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Food> food, Position position, String? color});
+  $Res call({List<Food>? food, Position? position, String? color});
 
   @override
-  $PositionCopyWith<$Res> get position;
+  $PositionCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -349,19 +353,19 @@ class __$$ItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? food = null,
-    Object? position = null,
+    Object? food = freezed,
+    Object? position = freezed,
     Object? color = freezed,
   }) {
     return _then(_$ItemImpl(
-      food: null == food
+      food: freezed == food
           ? _value._food
           : food // ignore: cast_nullable_to_non_nullable
-              as List<Food>,
-      position: null == position
+              as List<Food>?,
+      position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
-              as Position,
+              as Position?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -373,23 +377,24 @@ class __$$ItemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ItemImpl implements _Item {
-  _$ItemImpl(
-      {required final List<Food> food, required this.position, this.color})
+  _$ItemImpl({final List<Food>? food, this.position, this.color})
       : _food = food;
 
   factory _$ItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemImplFromJson(json);
 
-  final List<Food> _food;
+  final List<Food>? _food;
   @override
-  List<Food> get food {
+  List<Food>? get food {
+    final value = _food;
+    if (value == null) return null;
     if (_food is EqualUnmodifiableListView) return _food;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_food);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final Position position;
+  final Position? position;
   @override
   final String? color;
 
@@ -430,16 +435,16 @@ class _$ItemImpl implements _Item {
 
 abstract class _Item implements Item {
   factory _Item(
-      {required final List<Food> food,
-      required final Position position,
+      {final List<Food>? food,
+      final Position? position,
       final String? color}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
   @override
-  List<Food> get food;
+  List<Food>? get food;
   @override
-  Position get position;
+  Position? get position;
   @override
   String? get color;
   @override
@@ -454,11 +459,10 @@ Food _$FoodFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Food {
-  double get confidence => throw _privateConstructorUsedError;
-  double get quantity => throw _privateConstructorUsedError;
+  double? get confidence => throw _privateConstructorUsedError;
+  double? get quantity => throw _privateConstructorUsedError;
   @JsonKey(name: 'food_info')
   FoodInfo get foodInfo => throw _privateConstructorUsedError;
-  List<String> get ingredients => throw _privateConstructorUsedError;
   @JsonKey(name: 'nutritionalFacts')
   NutritionalFacts? get nutritionalFacts => throw _privateConstructorUsedError;
 
@@ -473,10 +477,9 @@ abstract class $FoodCopyWith<$Res> {
       _$FoodCopyWithImpl<$Res, Food>;
   @useResult
   $Res call(
-      {double confidence,
-      double quantity,
+      {double? confidence,
+      double? quantity,
       @JsonKey(name: 'food_info') FoodInfo foodInfo,
-      List<String> ingredients,
       @JsonKey(name: 'nutritionalFacts') NutritionalFacts? nutritionalFacts});
 
   $FoodInfoCopyWith<$Res> get foodInfo;
@@ -496,29 +499,24 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? confidence = null,
-    Object? quantity = null,
+    Object? confidence = freezed,
+    Object? quantity = freezed,
     Object? foodInfo = null,
-    Object? ingredients = null,
     Object? nutritionalFacts = freezed,
   }) {
     return _then(_value.copyWith(
-      confidence: null == confidence
+      confidence: freezed == confidence
           ? _value.confidence
           : confidence // ignore: cast_nullable_to_non_nullable
-              as double,
-      quantity: null == quantity
+              as double?,
+      quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       foodInfo: null == foodInfo
           ? _value.foodInfo
           : foodInfo // ignore: cast_nullable_to_non_nullable
               as FoodInfo,
-      ingredients: null == ingredients
-          ? _value.ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       nutritionalFacts: freezed == nutritionalFacts
           ? _value.nutritionalFacts
           : nutritionalFacts // ignore: cast_nullable_to_non_nullable
@@ -555,10 +553,9 @@ abstract class _$$FoodImplCopyWith<$Res> implements $FoodCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {double confidence,
-      double quantity,
+      {double? confidence,
+      double? quantity,
       @JsonKey(name: 'food_info') FoodInfo foodInfo,
-      List<String> ingredients,
       @JsonKey(name: 'nutritionalFacts') NutritionalFacts? nutritionalFacts});
 
   @override
@@ -577,29 +574,24 @@ class __$$FoodImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? confidence = null,
-    Object? quantity = null,
+    Object? confidence = freezed,
+    Object? quantity = freezed,
     Object? foodInfo = null,
-    Object? ingredients = null,
     Object? nutritionalFacts = freezed,
   }) {
     return _then(_$FoodImpl(
-      confidence: null == confidence
+      confidence: freezed == confidence
           ? _value.confidence
           : confidence // ignore: cast_nullable_to_non_nullable
-              as double,
-      quantity: null == quantity
+              as double?,
+      quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       foodInfo: null == foodInfo
           ? _value.foodInfo
           : foodInfo // ignore: cast_nullable_to_non_nullable
               as FoodInfo,
-      ingredients: null == ingredients
-          ? _value._ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       nutritionalFacts: freezed == nutritionalFacts
           ? _value.nutritionalFacts
           : nutritionalFacts // ignore: cast_nullable_to_non_nullable
@@ -612,38 +604,28 @@ class __$$FoodImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FoodImpl implements _Food {
   _$FoodImpl(
-      {required this.confidence,
-      required this.quantity,
+      {this.confidence,
+      this.quantity,
       @JsonKey(name: 'food_info') required this.foodInfo,
-      required final List<String> ingredients,
-      @JsonKey(name: 'nutritionalFacts') this.nutritionalFacts})
-      : _ingredients = ingredients;
+      @JsonKey(name: 'nutritionalFacts') this.nutritionalFacts});
 
   factory _$FoodImpl.fromJson(Map<String, dynamic> json) =>
       _$$FoodImplFromJson(json);
 
   @override
-  final double confidence;
+  final double? confidence;
   @override
-  final double quantity;
+  final double? quantity;
   @override
   @JsonKey(name: 'food_info')
   final FoodInfo foodInfo;
-  final List<String> _ingredients;
-  @override
-  List<String> get ingredients {
-    if (_ingredients is EqualUnmodifiableListView) return _ingredients;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ingredients);
-  }
-
   @override
   @JsonKey(name: 'nutritionalFacts')
   final NutritionalFacts? nutritionalFacts;
 
   @override
   String toString() {
-    return 'Food(confidence: $confidence, quantity: $quantity, foodInfo: $foodInfo, ingredients: $ingredients, nutritionalFacts: $nutritionalFacts)';
+    return 'Food(confidence: $confidence, quantity: $quantity, foodInfo: $foodInfo, nutritionalFacts: $nutritionalFacts)';
   }
 
   @override
@@ -657,16 +639,14 @@ class _$FoodImpl implements _Food {
                 other.quantity == quantity) &&
             (identical(other.foodInfo, foodInfo) ||
                 other.foodInfo == foodInfo) &&
-            const DeepCollectionEquality()
-                .equals(other._ingredients, _ingredients) &&
             (identical(other.nutritionalFacts, nutritionalFacts) ||
                 other.nutritionalFacts == nutritionalFacts));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, confidence, quantity, foodInfo,
-      const DeepCollectionEquality().hash(_ingredients), nutritionalFacts);
+  int get hashCode => Object.hash(
+      runtimeType, confidence, quantity, foodInfo, nutritionalFacts);
 
   @JsonKey(ignore: true)
   @override
@@ -684,24 +664,21 @@ class _$FoodImpl implements _Food {
 
 abstract class _Food implements Food {
   factory _Food(
-      {required final double confidence,
-      required final double quantity,
+      {final double? confidence,
+      final double? quantity,
       @JsonKey(name: 'food_info') required final FoodInfo foodInfo,
-      required final List<String> ingredients,
       @JsonKey(name: 'nutritionalFacts')
       final NutritionalFacts? nutritionalFacts}) = _$FoodImpl;
 
   factory _Food.fromJson(Map<String, dynamic> json) = _$FoodImpl.fromJson;
 
   @override
-  double get confidence;
+  double? get confidence;
   @override
-  double get quantity;
+  double? get quantity;
   @override
   @JsonKey(name: 'food_info')
   FoodInfo get foodInfo;
-  @override
-  List<String> get ingredients;
   @override
   @JsonKey(name: 'nutritionalFacts')
   NutritionalFacts? get nutritionalFacts;

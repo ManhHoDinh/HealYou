@@ -11,7 +11,7 @@ _$WaterTargetItemImpl _$$WaterTargetItemImplFromJson(
     _$WaterTargetItemImpl(
       id: json['id'] as String? ?? "",
       time: _sendAtFromJson(json['time'] as Timestamp),
-      target: json['target'] as int? ?? 0,
+      target: (json['target'] as num?)?.toInt() ?? 0,
       isNotify: json['isNotify'] as bool? ?? false,
       waterTargetId: json['waterTargetId'] as String? ?? "",
     );

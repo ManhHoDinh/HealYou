@@ -19,8 +19,8 @@ class FoodDetect with _$FoodDetect {
 @freezed
 class Item with _$Item {
   factory Item({
-    required List<Food> food,
-    required Position position,
+    List<Food>? food,
+    Position? position,
     String? color,
   }) = _Item;
 
@@ -30,10 +30,9 @@ class Item with _$Item {
 @freezed
 class Food with _$Food {
   factory Food({
-    required double confidence,
-    required double quantity,
+    double? confidence,
+    double? quantity,
     @JsonKey(name: 'food_info') required FoodInfo foodInfo,
-    required List<String> ingredients,
     @JsonKey(name: 'nutritionalFacts') NutritionalFacts? nutritionalFacts,
   }) = _Food;
 

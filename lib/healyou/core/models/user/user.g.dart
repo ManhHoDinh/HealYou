@@ -12,9 +12,9 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String? ?? "",
       phoneNumber: json['phoneNumber'] as String? ?? "",
       email: json['email'] as String? ?? "",
-      age: json['age'] as int? ?? 0,
-      weight: json['weight'] as int? ?? 0,
-      height: json['height'] as int? ?? 0,
+      age: (json['age'] as num?)?.toInt() ?? 0,
+      weight: (json['weight'] as num?)?.toInt() ?? 0,
+      height: (json['height'] as num?)?.toInt() ?? 0,
       gender: json['gender'] as String? ?? "",
     );
 

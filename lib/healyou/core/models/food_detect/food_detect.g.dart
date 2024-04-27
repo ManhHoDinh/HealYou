@@ -29,10 +29,12 @@ Map<String, dynamic> _$$FoodDetectImplToJson(_$FoodDetectImpl instance) =>
     };
 
 _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
-      food: (json['food'] as List<dynamic>)
-          .map((e) => Food.fromJson(e as Map<String, dynamic>))
+      food: (json['food'] as List<dynamic>?)
+          ?.map((e) => Food.fromJson(e as Map<String, dynamic>))
           .toList(),
-      position: Position.fromJson(json['position'] as Map<String, dynamic>),
+      position: json['position'] == null
+          ? null
+          : Position.fromJson(json['position'] as Map<String, dynamic>),
       color: json['color'] as String?,
     );
 
@@ -44,12 +46,9 @@ Map<String, dynamic> _$$ItemImplToJson(_$ItemImpl instance) =>
     };
 
 _$FoodImpl _$$FoodImplFromJson(Map<String, dynamic> json) => _$FoodImpl(
-      confidence: (json['confidence'] as num).toDouble(),
-      quantity: (json['quantity'] as num).toDouble(),
+      confidence: (json['confidence'] as num?)?.toDouble(),
+      quantity: (json['quantity'] as num?)?.toDouble(),
       foodInfo: FoodInfo.fromJson(json['food_info'] as Map<String, dynamic>),
-      ingredients: (json['ingredients'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
       nutritionalFacts: json['nutritionalFacts'] == null
           ? null
           : NutritionalFacts.fromJson(
@@ -61,7 +60,6 @@ Map<String, dynamic> _$$FoodImplToJson(_$FoodImpl instance) =>
       'confidence': instance.confidence,
       'quantity': instance.quantity,
       'food_info': instance.foodInfo,
-      'ingredients': instance.ingredients,
       'nutritionalFacts': instance.nutritionalFacts,
     };
 

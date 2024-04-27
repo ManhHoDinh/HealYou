@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/detect/choose_image_screen.dart';
 
 class AppBarWidget extends StatefulWidget {
   AppBarWidget({super.key,required this.title});
@@ -8,7 +9,6 @@ class AppBarWidget extends StatefulWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
-  bool multiple = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,13 +50,11 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                       borderRadius:
                           BorderRadius.circular(AppBar().preferredSize.height),
                       child: Icon(
-                        multiple ? Icons.dashboard : Icons.view_agenda,
+                        Icons.photo_camera,
                         color: Colors.black,
                       ),
                       onTap: () {
-                        setState(() {
-                          multiple = !multiple;
-                        });
+                        Navigator.of(context).pushNamed(ChooseImageScreen.routeName);
                       },
                     ),
                   ),
