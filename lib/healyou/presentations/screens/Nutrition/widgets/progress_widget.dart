@@ -4,12 +4,23 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../core/constants/color_palatte.dart';
 
 class ProgressWidget extends StatefulWidget {
+  final double percent;
   final double? size;
-  final double value;
   final Widget child;
-  const ProgressWidget(
-      {super.key, this.size, required this.value, required this.child});
+  final double calories;
+  final double protein;
+  final double fat;
 
+  const ProgressWidget({
+    Key? key,
+    this.size,
+    required this.calories,
+    required this.protein,
+    required this.fat,
+    required this.child,
+    required double percent,
+  })  : percent = calories + protein + fat,
+        super(key: key);
   @override
   State<ProgressWidget> createState() => _ProgressWidgetState();
 }
@@ -44,21 +55,21 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                 backgroundColor: Color(0xffEBECFF),
                 center: new Text("100%"),
                 progressColor: Color.fromARGB(255, 241, 77, 7),
-                percent: widget.value,
+                percent: widget.protein / widget.percent,
               ),
               CircularPercentIndicator(
                 radius: 60.0,
                 lineWidth: 5.0,
                 backgroundColor: Color(0xffEBECFF),
                 progressColor: Color.fromARGB(255, 54, 105, 137),
-                percent: widget.value * 0.75,
+                percent: widget.calories / widget.percent,
               ),
               CircularPercentIndicator(
                 radius: 50.0,
                 lineWidth: 5.0,
                 backgroundColor: Color(0xffEBECFF),
                 progressColor: Color.fromARGB(255, 91, 8, 112),
-                percent: widget.value * 0.5,
+                percent: widget.fat / widget.percent,
               ),
               Align(
                 alignment: Alignment.center,
@@ -81,7 +92,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                     ),
                   ),
                   SizedBox(width: 5),
-                  Text("Protein: ${widget.value}"),
+                  Text("Protein: ${widget.protein}"),
                 ],
               ),
               Row(
@@ -95,7 +106,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                     ),
                   ),
                   SizedBox(width: 5),
-                  Text("Carb: ${widget.value * 0.75}"),
+                  Text("Calories: ${widget.calories}"),
                 ],
               ),
               Row(
@@ -109,7 +120,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                     ),
                   ),
                   SizedBox(width: 5),
-                  Text("Fat: ${widget.value * 0.5}"),
+                  Text("Fat: ${widget.fat}"),
                 ],
               ),
             ],

@@ -13,6 +13,7 @@ _$FoodModelImpl _$$FoodModelImplFromJson(Map<String, dynamic> json) =>
       Weight: json['Weight'] as String,
       ImageLink: json['ImageLink'] as String,
       Description: json['Description'] as String,
+      url: json['url'] as String,
     );
 
 Map<String, dynamic> _$$FoodModelImplToJson(_$FoodModelImpl instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$FoodModelImplToJson(_$FoodModelImpl instance) =>
       'Weight': instance.Weight,
       'ImageLink': instance.ImageLink,
       'Description': instance.Description,
+      'url': instance.url,
     };
