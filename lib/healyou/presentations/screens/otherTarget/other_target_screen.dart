@@ -59,7 +59,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
           body: TabBarView(
             children: [
               WaterTarget(),
-              Nutrition(),
+              NutritionSreen(),
               SleepTarget(),
             ],
           ),

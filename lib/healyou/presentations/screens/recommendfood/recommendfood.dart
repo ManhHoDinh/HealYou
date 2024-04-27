@@ -31,7 +31,7 @@ class RecommendFoodSrceen extends StatefulWidget {
 class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
     with TickerProviderStateMixin {
   final url =
-      'https://api.edamam.com/search?q=chicken&app_id=ff91fcd3&app_key=7bda438b43ce3c13d7ce49ef25aee31f&from=0&to=10&calories=591-722&health=alcohol-free';
+      'https://api.edamam.com/search?q=rice&app_id=ff91fcd3&app_key=7bda438b43ce3c13d7ce49ef25aee31f&from=0&to=10&calories=591-722&health=alcohol-free';
   getApiData() async {
     var response = await http.get(Uri.parse(url));
     Map<String, dynamic> json = jsonDecode(response.body);
@@ -95,6 +95,16 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
                     child: TextField(
                       onChanged: (v) {
                         text = v;
+                      },
+                      onSubmitted: (v) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchPage(
+                              search: text,
+                            ),
+                          ),
+                        );
                       },
                       decoration: InputDecoration(
                         labelText: 'Search',
@@ -248,7 +258,7 @@ class _SearchPageState extends State<SearchPage> {
                   Row(
                     children: [
                       Text(
-                        "Trending Food",
+                        "Recommended Food",
                         style: TextStyles.h3.bold,
                       ),
                       Spacer(),

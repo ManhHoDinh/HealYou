@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseHelper {
+  static var nutritionCollection =
+      FirebaseFirestore.instance.collection('nutrition');
   static var waterItemCollection =
       FirebaseFirestore.instance.collection('waterTargetItems');
   static var targetCollection =
