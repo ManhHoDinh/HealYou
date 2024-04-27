@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/controller/notify_controller.dart';
 import 'package:healyou/healyou/core/controller/water_item_controller.dart';
@@ -39,10 +40,11 @@ class _WaterTargetState extends State<WaterTarget> {
   Widget build(BuildContext context) {
     //  sphericalBottleRef.currentState?.waterLevel = 0.3;
     double height = MediaQuery.of(context).size.height;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     waterItemController.updateItems();
     return StreamBuilder<Target?>(
-        stream: TargetRequest.getTarget(
-            TargetType.water, DateTime.now(), FirebaseHelper.userId),
+        stream:
+            TargetRequest.getTarget(TargetType.water, DateTime.now(), userId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Target target = snapshot.data!;

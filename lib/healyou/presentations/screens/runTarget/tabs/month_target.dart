@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class _MonthTargetState extends State<MonthTarget> {
 
   @override
   Widget build(BuildContext context) {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<List<Target>>(
         stream: TargetRequest.getAll(),
         builder: (context, snapshot) {
@@ -153,8 +155,8 @@ class _MonthTargetState extends State<MonthTarget> {
                         Icon(Icons.local_fire_department,
                             color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(TargetType.kcal,
-                                selectedDate, FirebaseHelper.userId),
+                            stream: TargetRequest.getTarget(
+                                TargetType.kcal, selectedDate, userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
@@ -171,8 +173,8 @@ class _MonthTargetState extends State<MonthTarget> {
                         Icon(Icons.arrow_forward,
                             color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(TargetType.distance,
-                                selectedDate, FirebaseHelper.userId),
+                            stream: TargetRequest.getTarget(
+                                TargetType.distance, selectedDate, userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 print(snapshot.data);
@@ -189,8 +191,8 @@ class _MonthTargetState extends State<MonthTarget> {
                       children: [
                         Icon(Icons.schedule, color: ColorPalette.mainRunColor),
                         StreamBuilder<Target?>(
-                            stream: TargetRequest.getTarget(TargetType.time,
-                                selectedDate, FirebaseHelper.userId),
+                            stream: TargetRequest.getTarget(
+                                TargetType.time, selectedDate, userId),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
