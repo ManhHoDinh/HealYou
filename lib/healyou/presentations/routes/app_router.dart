@@ -42,6 +42,8 @@ class Routes {
   static String setTarget = '/setTarget';
   static String otherTarget = '/otherTarget';
   static String map = '/map';
+  static String navigationHome = '/navigationHome';
+  static String genderSelector = '/gender';
   static String recommend = '/recommend';
 
 }

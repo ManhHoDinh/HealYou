@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
+import 'package:healyou/healyou/core/models/target/target.dart';
 
 import '../../../../core/constants/color_palatte.dart';
 
@@ -25,62 +27,56 @@ class _WeekTargetState extends State<WeekTarget> {
     double time = 120;
     int dayOfWeek = now.weekday;
     List<String> days = [
-      'Sun',
       'Mon',
       'Tue',
       'Wed',
       'Thu',
       'Fri',
       'Sat',
+      'Sun',
     ];
-    List<List<double>> targets = [
-      [1000, 2000],
-      [3000, 2000],
-      [1000, 2000],
-      [1000, 1500],
-      [1000, 2000],
-      [1000, 2000],
-      [1000, 2000]
-    ];
-    double maxTarget = getMaxTarget(targets);
-    List<Stack> listProgress = targets
-        .map((e) => Stack(children: [
-              Positioned(
-                child: SizedBox(
-                  width: width * 1 / 13,
-                  height: e[0] > e[1]
-                      ? e[0] * height / maxTarget
-                      : e[1] * height / maxTarget,
-                  child: FAProgressBar(
-                    currentValue: e[0],
-                    maxValue: e[1],
-                    borderRadius: BorderRadius.circular(20),
-                    backgroundColor: Color(0xffe7e7e7),
-                    progressColor: ColorPalette.mainRunColor,
-                    direction: Axis.vertical,
-                    verticalDirection: VerticalDirection.up,
-                    size: 30,
-                    displayText: "",
-                    displayTextStyle: TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600),
+
+    List<Stack> getListProgress(List<List<double>> targets) {
+      double maxTarget = getMaxTarget(targets);
+      return targets
+          .map((e) => Stack(children: [
+                Positioned(
+                  child: SizedBox(
+                    width: width * 1 / 13,
+                    height: e[0] > e[1]
+                        ? e[0] * height / maxTarget
+                        : e[1] * height / maxTarget,
+                    child: FAProgressBar(
+                      currentValue: e[0],
+                      maxValue: e[1],
+                      borderRadius: BorderRadius.circular(20),
+                      backgroundColor: Color(0xffe7e7e7),
+                      progressColor: ColorPalette.mainRunColor,
+                      direction: Axis.vertical,
+                      verticalDirection: VerticalDirection.up,
+                      size: 30,
+                      displayText: "",
+                      displayTextStyle: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
-              ),
-              e[0] > e[1]
-                  ? Positioned(
-                      bottom: e[1] * height / maxTarget,
-                      child: DottedLine(
-                          direction: Axis.horizontal,
-                          dashLength: 3,
-                          dashColor: Colors.white,
-                          lineLength: width * 1 / 13,
-                          lineThickness: 2),
-                    )
-                  : Container()
-            ]))
-        .toList();
+                e[0] > e[1]
+                    ? Positioned(
+                        bottom: e[1] * height / maxTarget,
+                        child: DottedLine(
+                            direction: Axis.horizontal,
+                            dashLength: 3,
+                            dashColor: Colors.white,
+                            lineLength: width * 1 / 13,
+                            lineThickness: 2),
+                      )
+                    : Container()
+              ]))
+          .toList();
+    }
 
     List<Container> dayTexts = days
         .map((day) => Container(
@@ -94,111 +90,157 @@ class _WeekTargetState extends State<WeekTarget> {
                           : Color(0xff87858E))),
             ))
         .toList();
-    return Column(
-      children: [
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    '9034',
-                    style: TextStyle(
-                        height: 1, fontWeight: FontWeight.w600, fontSize: 32),
-                  ),
-                  Text('This week')
-                ],
-              ),
-              GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 1, color: Color(0xffe7e7e9))),
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('3200'),
-                        Container(
-                          margin: EdgeInsets.only(left: 8),
-                          padding: EdgeInsets.all(4),
-                          child: Center(
-                            child: Icon(
-                              Icons.north_east,
-                              size: 16,
-                              color: Colors.white,
-                            ),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+        stream: TargetRequest.getWeekTargets(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            double weekReached = 0;
+            List<List<double>> targets = snapshot.data!.map((item) {
+              List<double> listValue = [
+                item["reached"].toDouble(),
+                item["target"].toDouble()
+              ];
+              weekReached += item["reached"].toDouble();
+              return listValue;
+            }).toList();
+            return Column(
+              children: [
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            weekReached.toStringAsFixed(0),
+                            style: TextStyle(
+                                height: 1,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 32),
                           ),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xff00d800)),
-                        )
+                          Text('This week')
+                        ],
+                      ),
+                      GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    width: 1, color: Color(0xffe7e7e9))),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('3200'),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8),
+                                  padding: EdgeInsets.all(4),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.north_east,
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xff00d800)),
+                                )
+                              ],
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  color: Color(0xffE6E6E8),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: dayTexts,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: getListProgress(targets)),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Icon(Icons.local_fire_department,
+                            color: ColorPalette.mainRunColor),
+                        StreamBuilder<double>(
+                            stream: TargetRequest.getWeekTotalReached(
+                                TargetType.kcal),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  '${snapshot.data!.toStringAsFixed(0)} kcal',
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              }
+                              return Container();
+                            })
                       ],
                     ),
-                  ))
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          color: Color(0xffE6E6E8),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: dayTexts,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 40),
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: listProgress),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Icon(Icons.local_fire_department,
-                    color: ColorPalette.mainRunColor),
-                Text(
-                  '${kcal.toStringAsFixed(0)} kcal',
-                  style: TextStyle(fontSize: 16),
+                    Column(
+                      children: [
+                        Icon(Icons.arrow_forward,
+                            color: ColorPalette.mainRunColor),
+                        StreamBuilder<double>(
+                            stream: TargetRequest.getWeekTotalReached(
+                                TargetType.distance),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  '${snapshot.data!.toStringAsFixed(1)} km',
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              }
+                              return Container();
+                            })
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.schedule, color: ColorPalette.mainRunColor),
+                        StreamBuilder<double>(
+                            stream: TargetRequest.getWeekTotalReached(
+                                TargetType.time),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  '${(snapshot.data! * 60).toStringAsFixed(0)} minutes',
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              }
+                              return Container();
+                            })
+                      ],
+                    ),
+                  ],
                 )
               ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.arrow_forward, color: ColorPalette.mainRunColor),
-                Text(
-                  '${distance} km',
-                  style: TextStyle(fontSize: 16),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.schedule, color: ColorPalette.mainRunColor),
-                Text(
-                  '${time}',
-                  style: TextStyle(fontSize: 16),
-                )
-              ],
-            ),
-          ],
-        )
-      ],
-    );
+            );
+          }
+          return Container();
+        });
   }
 
   double getMaxTarget(List<List<double>> list) {

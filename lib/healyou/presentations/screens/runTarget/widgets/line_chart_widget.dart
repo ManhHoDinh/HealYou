@@ -1,9 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
+import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 
 class LineChartWidget extends StatefulWidget {
-  final int target;
+  final double target;
   const LineChartWidget({super.key, required this.target});
 
   @override
@@ -27,9 +28,17 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               top: 24,
               bottom: 12,
             ),
-            child: LineChart(
-              mainData(),
-            ),
+            child: StreamBuilder<List<Map<String, dynamic>>>(
+                stream: TargetRequest.getWeekTargets(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print(snapshot.data);
+                    return LineChart(
+                      mainData(snapshot.data!),
+                    );
+                  }
+                  return Container();
+                }),
           ),
         ),
         SizedBox(
@@ -137,12 +146,21 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     }
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(List<Map<String, dynamic>> data) {
+    double maxValue = 0;
+    data.forEach((element) {
+      if (element["reached"].toDouble() >= maxValue) {
+        maxValue = element["reached"].toDouble();
+      }
+    });
+    if (maxValue <= widget.target) {
+      maxValue = widget.target;
+    }
     return LineChartData(
       extraLinesData: ExtraLinesData(
         horizontalLines: [
           HorizontalLine(
-            y: 5000,
+            y: widget.target,
             color: Color(0xffcccccc), // Color of the horizontal line
             strokeWidth: 1, // Width of the horizontal line
             dashArray: [5, 5], // Optional: dash pattern for the line
@@ -201,18 +219,13 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       minX: 0,
       maxX: 6,
       minY: 0,
-      maxY: widget.target.toDouble(),
+      maxY: maxValue,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3000),
-            FlSpot(1, 2000),
-            FlSpot(2, 5000),
-            FlSpot(3, 5000),
-            FlSpot(4, 2000),
-            FlSpot(5, 7000),
-            FlSpot(6, 3000),
-          ],
+          spots: data
+              .map((item) =>
+                  FlSpot(item["index"].toDouble(), item["reached"].toDouble()))
+              .toList(),
           isCurved: true,
           color: ColorPalette.mainRunColor,
           barWidth: 5,

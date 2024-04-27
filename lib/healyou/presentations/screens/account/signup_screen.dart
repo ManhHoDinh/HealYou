@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_success_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:healyou/healyou/presentations/widgets/shake.dart';
@@ -138,10 +141,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   final credential =
                                       await _handleSignup(); // var credential = await _handleSignup();
                                   if (credential != null) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            NavigationHome.routeName,
-                                            (route) => false);
+                                    Get.to(() => GenderSelectorScreen());
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
@@ -175,14 +175,23 @@ class _SignupScreenState extends State<SignupScreen> {
         email: emailController.text,
         password: passController.text,
       );
+      String uid = credential.user!.uid;
+      UserModel user = UserModel(
+          id: uid,
+          name: nameController.text,
+          email: emailController.text,
+          age: 0,
+          height: 0,
+          weight: 0,
+          gender: "");
       // Create a new user with a first and last name
-      final user = <String, dynamic>{"name": nameController.text};
+      // final user = <String, dynamic>{"name": nameController.text};
 
 // Add a new document with a user's ID
       final result = await db
           .collection("user")
           .doc(credential.user?.uid)
-          .set(user)
+          .set(user.toJson())
           .then((value) => credential)
           .catchError((error) {
         debugPrint(error.toString());

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:provider/provider.dart';
@@ -122,8 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // Perform your asynchronous operation here
                                   final credential = await _handleSignin();
                                   if (credential != null) {
-                                    Navigator.pushNamed(context,
-                                        GenderSelectorScreen.routeName);
+                                    Navigator.pushNamed(
+                                        context, NavigationHome.routeName);
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
@@ -155,6 +156,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _handleSignin() async {
     try {
+      FirebaseAuth.instance.userChanges().listen((User? user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+        }
+      });
+
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passController.text);
       return credential;
