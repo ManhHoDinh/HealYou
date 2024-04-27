@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class SetTargetScreen extends StatefulWidget {
 class _SetTargetScreenState extends State<SetTargetScreen> {
   double fontSize = 32;
   bool switchValue = false;
-
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +48,7 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                 ),
                 StreamBuilder<Target?>(
                     stream: TargetRequest.getTarget(
-                        TargetType.step, DateTime.now(), FirebaseHelper.userId),
+                        TargetType.step, DateTime.now(), userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SetItemWidget(
@@ -75,8 +76,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                   height: 20,
                 ),
                 StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.water,
-                        DateTime.now(), FirebaseHelper.userId),
+                    stream: TargetRequest.getTarget(
+                        TargetType.water, DateTime.now(), userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SetItemWidget(
@@ -175,8 +176,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                     ? Column(
                         children: [
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(TargetType.kcal,
-                                  DateTime.now(), FirebaseHelper.userId),
+                              stream: TargetRequest.getTarget(
+                                  TargetType.kcal, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -212,9 +213,7 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                           ),
                           StreamBuilder<Target?>(
                               stream: TargetRequest.getTarget(
-                                  TargetType.distance,
-                                  DateTime.now(),
-                                  FirebaseHelper.userId),
+                                  TargetType.distance, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -249,8 +248,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                             height: 20,
                           ),
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(TargetType.time,
-                                  DateTime.now(), FirebaseHelper.userId),
+                              stream: TargetRequest.getTarget(
+                                  TargetType.time, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(

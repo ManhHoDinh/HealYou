@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 class FoodItem extends StatelessWidget {
   final String imageUrl;
   final String name;
- 
-  final int calories;
-
-  FoodItem({required this.imageUrl, required this.name, required this.calories});
+  final String calories;
+  final String protein;
+  final String fat;
+  FoodItem(
+      {required this.imageUrl,
+      required this.name,
+      required this.calories,
+      required this.protein,
+      required this.fat});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,22 +20,9 @@ class FoodItem extends StatelessWidget {
         children: <Widget>[
           Image.network(imageUrl, width: 50, height: 50),
           SizedBox(width: 10),
-        
           Spacer(),
           Text('$calories cal', style: TextStyle(fontSize: 16)),
           SizedBox(width: 10),
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              // Handle edit action
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // Handle delete action
-            },
-          ),
         ],
       ),
     );

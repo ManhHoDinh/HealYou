@@ -136,6 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 Provider.of<LoadingProvider>(context,
                                         listen: false)
                                     .showLoading();
+
                                 try {
                                   // Perform your asynchronous operation here
                                   final credential =
@@ -184,6 +185,7 @@ class _SignupScreenState extends State<SignupScreen> {
           height: 0,
           weight: 0,
           gender: "");
+      await FirebaseAuth.instance.currentUser?.reload();
       // Create a new user with a first and last name
       // final user = <String, dynamic>{"name": nameController.text};
 
