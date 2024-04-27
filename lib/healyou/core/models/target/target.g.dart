@@ -10,8 +10,8 @@ _$TargetImpl _$$TargetImplFromJson(Map<String, dynamic> json) => _$TargetImpl(
       id: json['id'] as String? ?? "",
       type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
           TargetType.step,
-      target: json['target'] as int? ?? 0,
-      reached: json['reached'] as int? ?? 0,
+      target: (json['target'] as num?)?.toDouble() ?? 0,
+      reached: (json['reached'] as num?)?.toDouble() ?? 0,
       userId: json['userId'] as String? ?? "",
       time: _sendAtFromJson(json['time'] as Timestamp),
     );

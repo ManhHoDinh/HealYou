@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
 
 // void main() => runApp(const MyApp());
@@ -140,6 +141,9 @@ class _WeightSelectorState extends State<WeightSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                FirebaseHelper.userCollection
+                    .doc(FirebaseHelper.userId)
+                    .update({"weight": _currentWeight});
                 Navigator.pushNamed(context, ReviewInformationScreen.routeName);
               },
             ),

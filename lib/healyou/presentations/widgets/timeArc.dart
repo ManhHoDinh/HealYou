@@ -1,20 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:healyou/healyou/core/models/sleep/sleep.dart';
 
 class TimeArc extends StatefulWidget {
   const TimeArc(
-      {Key? key,
-      required this.startTime,
-      required this.endTime,
-      this.color,
-      this.width,
-      this.height,
-      this.padding})
+      {Key? key, this.width, this.height, this.padding, required this.sleep})
       : super(key: key);
-  final DateTime startTime;
-  final DateTime endTime;
-  final Color? color;
+  final Sleep sleep;
   final double? width;
   final double? height;
   final double? padding;
@@ -32,15 +25,18 @@ class _TimeArcState extends State<TimeArc> with SingleTickerProviderStateMixin {
     super.initState();
     controller =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
-    var startTime = widget.startTime.hour + widget.startTime.minute / 60;
-    var endTime = widget.endTime.hour + widget.endTime.minute / 60;
+    var startTime =
+        widget.sleep.startTime.hour + widget.sleep.startTime.minute / 60;
+    var endTime = widget.sleep.endTime.hour + widget.sleep.endTime.minute / 60;
 
     startRad = acos(-1) * (startTime / 6 - 0.5);
     var sweepHour =
         ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
     sweepRad = sweepHour / 12 * 2 * pi;
-    debugPrint(startRad.toString());
-    debugPrint(sweepRad.toString());
+    if (widget.sleep.startTime.day < widget.sleep.endTime.day) {
+      sweepRad = 2 * 3.1415 - sweepRad;
+    }
+
     animation = Tween(begin: 0.0, end: sweepRad)
         .animate(CurvedAnimation(parent: controller, curve: Curves.linear))
       ..addListener(() {
@@ -54,10 +50,64 @@ class _TimeArcState extends State<TimeArc> with SingleTickerProviderStateMixin {
       width: widget.height,
       height: widget.height,
       padding: EdgeInsets.all(widget.padding ?? 20.0),
+      child: Stack(
+        children: [
+          Center(
+            child: CustomPaint(
+                size: Size(100, 100),
+                painter: ArcPainter(Colors.grey, startRad, sweepRad)),
+          ),
+          buildTimeOutArc(),
+          ...buildTimeArc()
+        ],
+      ),
+    );
+  }
+
+  List<Widget> buildTimeArc() {
+    final result = <Widget>[];
+    for (var i = 0; i < widget.sleep.sleepTime.length; i += 2) {
+      var startTime = widget.sleep.sleepTime[i].hour +
+          widget.sleep.sleepTime[i].minute / 60;
+      var endTime = widget.sleep.sleepTime[i + 1].hour +
+          widget.sleep.sleepTime[i + 1].minute / 60;
+
+      var startRad_temp = acos(-1) * (startTime / 6 - 0.5);
+      var sweepHour =
+          ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
+      var sweepRad_temp = sweepHour / 12 * 2 * pi;
+      if (widget.sleep.sleepTime[i].day < widget.sleep.sleepTime[i + 1].day) {
+        sweepRad_temp = 2 * 3.1415 - sweepRad_temp;
+      }
+      result.add(
+        Center(
+          child: CustomPaint(
+              size: Size(100, 100),
+              painter: ArcPainter(widget.sleep.color ?? Colors.green.shade300,
+                  startRad_temp, sweepRad_temp)),
+        ),
+      );
+    }
+    return result;
+  }
+
+  buildTimeOutArc() {
+    var startTime =
+        widget.sleep.startTime.hour + widget.sleep.startTime.minute / 60;
+    var endTime = DateTime.now().hour + DateTime.now().minute / 60;
+
+    var startRad_temp = acos(-1) * (startTime / 6 - 0.5);
+    var sweepHour =
+        ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
+    var sweepRad_temp = sweepHour / 12 * 2 * pi;
+    if (widget.sleep.startTime.day < DateTime.now().day) {
+      sweepRad_temp = 2 * 3.1415 - sweepRad_temp;
+    }
+    return Center(
       child: CustomPaint(
           size: Size(100, 100),
-          painter: ArcPainter(
-              widget.color ?? Color(0xff8624DD), startRad, sweepRad)),
+          painter:
+              ArcPainter(Colors.red.shade200, startRad_temp, sweepRad_temp)),
     );
   }
 }

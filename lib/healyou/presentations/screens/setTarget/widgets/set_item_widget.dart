@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/color_palatte.dart';
 
 class SetItemWidget extends StatefulWidget {
-  final int value;
+  final String value;
   final VoidCallback addHandler;
   final VoidCallback removeHandler;
   final Widget title;
@@ -56,7 +56,6 @@ class _SetItemWidgetState extends State<SetItemWidget> {
           ),
           IconButton(
             onPressed: () async {
-        
               widget.addHandler();
             },
             icon: Icon(
