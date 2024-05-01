@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/weight.dart';
 
 // void main() => runApp(const MyApp());
@@ -38,8 +41,8 @@ class HightSelectorScreen extends StatefulWidget {
 class _HightSelectorState extends State<HightSelectorScreen> {
   late ScrollController _scrollController;
   int _currentHight = 20;
-  final int _minHight = 20;
-  final int _maxHight = 100;
+  final int _minHight = 120;
+  final int _maxHight = 240;
 
   @override
   void initState() {
@@ -75,6 +78,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -88,7 +92,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
           const Padding(
             padding: EdgeInsets.all(70.0),
             child: Text(
-              'Tell us your hight',
+              'Tell us your height',
               style: TextStyle(fontSize: 40, color: Colors.black),
               textAlign: TextAlign.center,
             ),
@@ -139,6 +143,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                informationController.updateHeight(_currentHight);
                 Navigator.pushNamed(context, WeightSelectorScreen.routeName);
               },
             ),

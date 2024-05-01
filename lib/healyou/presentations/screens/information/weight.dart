@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
 
 // void main() => runApp(const MyApp());
@@ -75,6 +78,7 @@ class _WeightSelectorState extends State<WeightSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -140,6 +144,7 @@ class _WeightSelectorState extends State<WeightSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                informationController.updateWeight(_currentWeight);
                 Navigator.pushNamed(context, ReviewInformationScreen.routeName);
               },
             ),

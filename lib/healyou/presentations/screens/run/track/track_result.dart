@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'dart:math' show cos, sqrt, asin;
@@ -24,7 +26,7 @@ class _TrackResultState extends State<TrackResult>
   late AnimationController kilometerController;
   late AnimationController caloriesController;
   List<dynamic>? _runTrack;
-
+  late double trackLength;
   @override
   void initState() {
     kilometerController = AnimationController(
@@ -39,11 +41,18 @@ class _TrackResultState extends State<TrackResult>
     )..addListener(() {
         setState(() {});
       });
-    kilometerController.forward();
-    caloriesController.forward();
     super.initState();
     _runTrack = widget.runTrack;
     latLng = _runTrack!.map((e) => e["endLocation"] as LatLng).toList();
+    Isolate.run(() => calculateFullLength(latLng)).then((value) {
+      setState(() {
+        trackLength = value;
+        kilometerController.value = value / 10;
+        caloriesController.value = (value * 60) / 200;
+        kilometerController.forward();
+        caloriesController.forward();
+      });
+    });
     initLocation();
   }
 
@@ -102,12 +111,12 @@ class _TrackResultState extends State<TrackResult>
                   ),
                 ),
                 Row(
-                  children: const [
+                  children: [
                     Icon(
                       Icons.nordic_walking,
                       size: 13,
                     ),
-                    Text("Kilometers")
+                    Text("Kilometers: $trackLength")
                   ],
                 ),
                 Padding(
@@ -121,7 +130,7 @@ class _TrackResultState extends State<TrackResult>
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [Text("Calories")],
+                  children: [Text("Calories: ${trackLength * 60}")],
                 ),
                 LinearProgressIndicator(
                   value: caloriesController.value,
@@ -180,12 +189,13 @@ class _TrackResultState extends State<TrackResult>
                             Row(
                               children: [
                                 Text(
-                                    '${value['startTime'].toString()} - ${value['endTime'].toString()} ${value['velocity'].toString()}km/h'),
+                                    '${DateFormat.Hms().format(value['startTime'])} - ${DateFormat.Hms().format(value['endTime'])} ${value['velocity'].toString()}km/h'),
                               ],
                             ),
                             Row(
-                              children: const [
-                                Text("Burning: 120kcal"),
+                              children: [
+                                Text(
+                                    "Burning: ${calculateDistance(value['startLocation'] as LatLng, value["endLocation"] as LatLng) * 60}"),
                               ],
                             )
                           ],

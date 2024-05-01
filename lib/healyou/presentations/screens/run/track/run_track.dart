@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healyou/healyou/presentations/screens/run/track/track_result.dart';
 import 'package:location/location.dart';
-import 'dart:math' show cos, sqrt, asin;
 
 class RunTrackScreen extends StatefulWidget {
   const RunTrackScreen({super.key});
@@ -375,24 +373,4 @@ class RunTrackScreenState extends State<RunTrackScreen>
       ),
     );
   }
-
-  double calculateFullLength(List<LatLng> lnglng) {
-    var result = 0.0;
-    for (int i = 0; i < lnglng.length - 1; i++) {
-      result += calculateDistance(lnglng[i], lnglng[i + 1]);
-    }
-    return result;
-  }
-}
-
-double calculateDistance(LatLng latLng1, LatLng latLng2) {
-  var p = 0.017453292519943295;
-  var c = cos;
-  var a = 0.5 -
-      c((latLng2.latitude - latLng1.latitude) * p) / 2 +
-      c(latLng1.latitude * p) *
-          c(latLng2.latitude * p) *
-          (1 - c((latLng2.longitude - latLng2.longitude) * p)) /
-          2;
-  return 12742 * asin(sqrt(a));
 }

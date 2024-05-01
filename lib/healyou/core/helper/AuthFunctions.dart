@@ -17,13 +17,17 @@ class AuthServices {
           .createUserWithEmailAndPassword(email: email, password: password);
       String uid = userCredential.user!.uid;
       UserModel user = UserModel(
-        id: uid,
-        name: name,
-        phoneNumber: phoneNo,
-        email: email,
-      );
+          id: uid,
+          name: name,
+          phoneNumber: phoneNo,
+          email: email,
+          age: 0,
+          height: 0,
+          weight: 0,
+          gender: "");
       DocumentReference doc =
-          FirebaseFirestore.instance.collection("Users").doc(uid);
+          FirebaseFirestore.instance.collection("user").doc(uid);
+      print(user);
       await doc
           .set(user.toJson())
           .whenComplete(() => showDialog(
@@ -93,16 +97,11 @@ class AuthServices {
 
   static Future UpdateCurrentUser() async {
     await FirebaseFirestore.instance
-        .collection('Users')
+        .collection('user')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
-      AuthServices.CurrentUser = UserModel(
-        id: value['Id'],
-        name: value['Name'],
-        phoneNumber: value['PhoneNumber'],
-        email: value['Email'],
-      );
+      AuthServices.CurrentUser = UserModel.fromJson(value.data()!);
     });
   }
 }

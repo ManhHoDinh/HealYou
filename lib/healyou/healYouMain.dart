@@ -2,6 +2,8 @@ import 'package:alarm/alarm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healyou/healyou/core/models/user/user.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
@@ -30,7 +32,7 @@ class _healyouAppState extends State<healyouApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'HealYou',
       theme: ThemeData(
           primaryColor: ColorPalette.primaryColor,
@@ -39,7 +41,6 @@ class _healyouAppState extends State<healyouApp> {
       home: AuthenticationWrapper(),
       routes: routes,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.runTarget,
     );
   }
 }
@@ -84,8 +85,17 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         // Show a loading indicator if necessary
                         return SplashScreen();
                       } else {
+                        print(AuthServices.CurrentUser);
+                        UserModel currentUser = AuthServices.CurrentUser!;
+                        if (currentUser.height == 0 &&
+                            currentUser.weight == 0 &&
+                            currentUser.gender == "" &&
+                            currentUser.age == 0) {
+                          return GenderSelectorScreen();
+                        }
                         // If the update is complete, navigate to the MainScreen
-                        return NavigationHome();
+                        else
+                          return NavigationHome();
                       }
                     },
                   );

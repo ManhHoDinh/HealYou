@@ -12,6 +12,7 @@ import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/screens/information/hight.dart';
 import 'package:healyou/healyou/presentations/screens/information/weight.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
+import 'package:healyou/healyou/presentations/screens/recommendfood/recommendfood.dart';
 import 'package:healyou/healyou/presentations/screens/run/track/run_track.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
 
@@ -30,6 +31,7 @@ final Map<String, WidgetBuilder> routes = {
   ReviewInformationScreen.routeName: (context) => ReviewInformationScreen(),
   RunMap.routeName: (context) => RunMap(),
   ChooseImageScreen.routeName: (context) => ChooseImageScreen(),
+   RecommendFoodSrceen.routeName: (context) => RecommendFoodSrceen(),
   RunTrackScreen.routeName: (context) => RunTrackScreen(),
 };
 
@@ -38,4 +40,8 @@ class Routes {
   static String setTarget = '/setTarget';
   static String otherTarget = '/otherTarget';
   static String map = '/map';
+  static String navigationHome = '/navigationHome';
+  static String genderSelector = '/gender';
+  static String recommend = '/recommend';
+
 }

@@ -6,7 +6,8 @@ part 'water_target_item.g.dart';
 part 'water_target_item.freezed.dart';
 
 DateTime _sendAtFromJson(Timestamp timestamp) =>
-    DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+    DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch,
+        isUtc: true);
 
 @Freezed()
 class WaterTargetItem with _$WaterTargetItem {

@@ -1,6 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/water_item_controller.dart';
 import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
@@ -10,16 +12,18 @@ import '../../../../core/constants/color_palatte.dart';
 
 class WaterReminderItem extends StatefulWidget {
   final WaterTargetItem item;
-  const WaterReminderItem({super.key, required this.item});
+  final bool? isHistory;
+  const WaterReminderItem({super.key, required this.item, this.isHistory});
 
   @override
   State<WaterReminderItem> createState() => _WaterReminderItemState();
 }
 
 class _WaterReminderItemState extends State<WaterReminderItem> {
+  WaterItemController waterItemController = Get.find();
   @override
   Widget build(BuildContext context) {
-    DateTime time = widget.item.time!;
+    DateTime time = widget.item.time!.toUtc();
     bool switchValue = widget.item.isNotify;
     return Container(
       width: double.infinity,
@@ -31,22 +35,24 @@ class _WaterReminderItemState extends State<WaterReminderItem> {
         children: [
           Container(
             margin: EdgeInsets.only(right: 10),
-            child: Switch(
-                value: switchValue,
-                activeColor: Colors.white,
-                inactiveThumbColor: Color.fromARGB(255, 203, 203, 203),
-                activeTrackColor: Color(0xff30CCF5),
-                inactiveTrackColor: Colors.white,
-                onChanged: (value) {
-                  setState(() {
-                    switchValue = value;
-                  });
-                  WaterItemRequest.updateNotify(widget.item.id, value);
-                  if (!value) {
-                    int id = time.millisecondsSinceEpoch ~/ 1000;
-                    AwesomeNotifications().cancel(id);
-                  }
-                }),
+            child: widget.isHistory == null
+                ? Switch(
+                    value: switchValue,
+                    activeColor: Colors.white,
+                    inactiveThumbColor: Color.fromARGB(255, 203, 203, 203),
+                    activeTrackColor: Color(0xff30CCF5),
+                    inactiveTrackColor: Colors.white,
+                    onChanged: (value) {
+                      setState(() {
+                        switchValue = value;
+                      });
+                      WaterItemRequest.updateNotify(widget.item.id, value);
+                      if (!value) {
+                        int id = time.millisecondsSinceEpoch ~/ 1000;
+                        AwesomeNotifications().cancel(id);
+                      }
+                    })
+                : Container(),
           ),
           Expanded(
             child: Column(
@@ -67,6 +73,7 @@ class _WaterReminderItemState extends State<WaterReminderItem> {
           IconButton(
             onPressed: () {
               WaterItemRequest.deleteWaterReminder(widget.item.id);
+              waterItemController.updateItems();
             },
             icon: Icon(
               Icons.delete,

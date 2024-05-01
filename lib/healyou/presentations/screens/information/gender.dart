@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
 
 // void main() {
@@ -40,6 +43,8 @@ class _GenderSelectorState extends State<GenderSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -102,6 +107,8 @@ class _GenderSelectorState extends State<GenderSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                informationController
+                    .updateGender(isMaleSelected ? "male" : "female");
                 Navigator.pushNamed(context, AgeSelectorScreen.routeName);
               },
             ),

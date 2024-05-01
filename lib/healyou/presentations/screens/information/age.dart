@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healyou/healyou/core/controller/information_controller.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/hight.dart';
 
 // void main() => runApp(const MyApp());
@@ -39,6 +43,7 @@ class _AgeSelectorState extends State<AgeSelectorScreen> {
   int _currentAge = 20;
   final int _minAge = 20;
   final int _maxAge = 100;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
@@ -72,6 +77,8 @@ class _AgeSelectorState extends State<AgeSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    InformationController informationController = Get.find();
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -135,6 +142,7 @@ class _AgeSelectorState extends State<AgeSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
+                informationController.updateAge(_currentAge);
                 Navigator.pushNamed(context, HightSelectorScreen.routeName);
               },
             ),

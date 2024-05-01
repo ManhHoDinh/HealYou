@@ -11,7 +11,7 @@ class FoodModel with _$FoodModel {
     required String Weight,
     required String ImageLink,
     required String Description,
-    
+    required String url,
   }) = _FoodModel;
 
   factory FoodModel.fromJson(Map<String, Object?> json) =>

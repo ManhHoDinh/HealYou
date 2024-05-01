@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/assets_helper.dart';
+import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/widgets/set_item_widget.dart';
@@ -22,7 +24,7 @@ class SetTargetScreen extends StatefulWidget {
 class _SetTargetScreenState extends State<SetTargetScreen> {
   double fontSize = 32;
   bool switchValue = false;
-
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                   ),
                 ),
                 StreamBuilder<Target?>(
-                    stream: TargetRequest.getTarget(TargetType.step),
+                    stream: TargetRequest.getTarget(
+                        TargetType.step, DateTime.now(), userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SetItemWidget(
@@ -61,11 +64,43 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                 )
                               ],
                             ),
-                            value: snapshot.data!.target,
+                            value: snapshot.data!.target.toStringAsFixed(0),
                             addHandler: () async => addHandler(
                                 snapshot.data!.target, 500, snapshot.data!.id),
                             removeHandler: () async => removeHandler(
                                 snapshot.data!.target, 500, snapshot.data!.id));
+                      }
+                      return Container();
+                    }),
+                SizedBox(
+                  height: 20,
+                ),
+                StreamBuilder<Target?>(
+                    stream: TargetRequest.getTarget(
+                        TargetType.water, DateTime.now(), userId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SetItemWidget(
+                            title: Row(
+                              children: [
+                                Icon(
+                                  Icons.water_drop,
+                                  color: ColorPalette.mainRunColor,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Water',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                )
+                              ],
+                            ),
+                            value: snapshot.data!.target.toStringAsFixed(0),
+                            addHandler: () async => addHandler(
+                                snapshot.data!.target, 200, snapshot.data!.id),
+                            removeHandler: () async => removeHandler(
+                                snapshot.data!.target, 200, snapshot.data!.id));
                       }
                       return Container();
                     }),
@@ -141,7 +176,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                     ? Column(
                         children: [
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(TargetType.kcal),
+                              stream: TargetRequest.getTarget(
+                                  TargetType.kcal, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -159,7 +195,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                           )
                                         ],
                                       ),
-                                      value: snapshot.data!.target,
+                                      value: snapshot.data!.target
+                                          .toStringAsFixed(0),
                                       addHandler: () => addHandler(
                                           snapshot.data!.target,
                                           100,
@@ -175,8 +212,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                             height: 20,
                           ),
                           StreamBuilder<Target?>(
-                              stream:
-                                  TargetRequest.getTarget(TargetType.distance),
+                              stream: TargetRequest.getTarget(
+                                  TargetType.distance, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -194,7 +231,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                           )
                                         ],
                                       ),
-                                      value: snapshot.data!.target,
+                                      value: snapshot.data!.target
+                                          .toStringAsFixed(1),
                                       addHandler: () => addHandler(
                                           snapshot.data!.target,
                                           1,
@@ -210,7 +248,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                             height: 20,
                           ),
                           StreamBuilder<Target?>(
-                              stream: TargetRequest.getTarget(TargetType.time),
+                              stream: TargetRequest.getTarget(
+                                  TargetType.time, DateTime.now(), userId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
@@ -228,7 +267,8 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                           )
                                         ],
                                       ),
-                                      value: snapshot.data!.target,
+                                      value: (snapshot.data!.target * 60)
+                                          .toStringAsFixed(0),
                                       addHandler: () => addHandler(
                                           snapshot.data!.target,
                                           10,
@@ -251,15 +291,15 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
     );
   }
 
-  void addHandler(int currentValue, int stepValue, String id) async {
+  void addHandler(double currentValue, int stepValue, String id) async {
     currentValue += stepValue;
-    await TargetRequest.updateTarget(id, currentValue);
+    await TargetRequest.updateTarget(id, currentValue.toDouble());
   }
 
-  void removeHandler(int currentValue, int stepValue, String id) async {
+  void removeHandler(double currentValue, int stepValue, String id) async {
     if (currentValue >= stepValue) {
       currentValue -= stepValue;
     }
-    await TargetRequest.updateTarget(id, currentValue);
+    await TargetRequest.updateTarget(id, currentValue.toDouble());
   }
 }

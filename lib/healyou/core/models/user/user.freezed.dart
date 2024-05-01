@@ -24,6 +24,10 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  int get age => throw _privateConstructorUsedError;
+  int get weight => throw _privateConstructorUsedError;
+  int get height => throw _privateConstructorUsedError;
+  String get gender => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +40,15 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({String id, String name, String phoneNumber, String email});
+  $Res call(
+      {String id,
+      String name,
+      String phoneNumber,
+      String email,
+      int age,
+      int weight,
+      int height,
+      String gender});
 }
 
 /// @nodoc
@@ -56,6 +68,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? name = null,
     Object? phoneNumber = null,
     Object? email = null,
+    Object? age = null,
+    Object? weight = null,
+    Object? height = null,
+    Object? gender = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,6 +90,22 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -86,7 +118,15 @@ abstract class _$$UserModelImplCopyWith<$Res>
       __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String phoneNumber, String email});
+  $Res call(
+      {String id,
+      String name,
+      String phoneNumber,
+      String email,
+      int age,
+      int weight,
+      int height,
+      String gender});
 }
 
 /// @nodoc
@@ -104,6 +144,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? name = null,
     Object? phoneNumber = null,
     Object? email = null,
+    Object? age = null,
+    Object? weight = null,
+    Object? height = null,
+    Object? gender = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -122,6 +166,22 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -130,7 +190,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   const _$UserModelImpl(
-      {this.id = "", this.name = "", this.phoneNumber = "", this.email = ""});
+      {this.id = "",
+      this.name = "",
+      this.phoneNumber = "",
+      this.email = "",
+      this.age = 0,
+      this.weight = 0,
+      this.height = 0,
+      this.gender = ""});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -147,10 +214,22 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   @override
   @JsonKey()
   final String email;
+  @override
+  @JsonKey()
+  final int age;
+  @override
+  @JsonKey()
+  final int weight;
+  @override
+  @JsonKey()
+  final int height;
+  @override
+  @JsonKey()
+  final String gender;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email)';
+    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, weight: $weight, height: $height, gender: $gender)';
   }
 
   @override
@@ -161,7 +240,11 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
-      ..add(DiagnosticsProperty('email', email));
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('age', age))
+      ..add(DiagnosticsProperty('weight', weight))
+      ..add(DiagnosticsProperty('height', height))
+      ..add(DiagnosticsProperty('gender', gender));
   }
 
   @override
@@ -173,12 +256,17 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, phoneNumber, email);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, phoneNumber, email, age, weight, height, gender);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +287,11 @@ abstract class _UserModel implements UserModel {
       {final String id,
       final String name,
       final String phoneNumber,
-      final String email}) = _$UserModelImpl;
+      final String email,
+      final int age,
+      final int weight,
+      final int height,
+      final String gender}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -212,6 +304,14 @@ abstract class _UserModel implements UserModel {
   String get phoneNumber;
   @override
   String get email;
+  @override
+  int get age;
+  @override
+  int get weight;
+  @override
+  int get height;
+  @override
+  String get gender;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
