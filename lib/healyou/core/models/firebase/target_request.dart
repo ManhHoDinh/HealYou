@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
-import 'package:intl/intl.dart';
 
 class TargetRequest {
   static Stream<List<Target>> getAll() =>

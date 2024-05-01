@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class TrackResult extends StatefulWidget {
-  const TrackResult({Key? key}) : super(key: key);
+  const TrackResult({Key? key, required this.runTrack}) : super(key: key);
+  final List<dynamic> runTrack;
   static const routeName = "track_result";
   @override
   _TrackResultState createState() => _TrackResultState();
@@ -15,8 +16,8 @@ class TrackResult extends StatefulWidget {
 
 class _TrackResultState extends State<TrackResult>
     with TickerProviderStateMixin {
-  late List<LatLng> latlng;
   late GoogleMapController googleMapController;
+  late List<LatLng> latLng;
   CameraPosition? initialCameraPosition;
   Set<Marker> markers = {};
   Location location = Location();
@@ -41,6 +42,8 @@ class _TrackResultState extends State<TrackResult>
     kilometerController.forward();
     caloriesController.forward();
     super.initState();
+    _runTrack = widget.runTrack;
+    latLng = _runTrack!.map((e) => e["endLocation"] as LatLng).toList();
     initLocation();
   }
 
@@ -53,9 +56,6 @@ class _TrackResultState extends State<TrackResult>
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    latlng = arguments["latLng"];
     return Scaffold(
         appBar: AppBar(
           title: const Text('Summarize'),
@@ -83,10 +83,10 @@ class _TrackResultState extends State<TrackResult>
                               initialCameraPosition: initialCameraPosition!,
                               polylines: {
                                 Polyline(
-                                  polylineId: PolylineId(latlng.toString()),
+                                  polylineId: PolylineId(latLng.toString()),
                                   visible: true,
-                                  //latlng is List<LatLng>
-                                  points: latlng,
+                                  //latLng is List<latLng>
+                                  points: latLng,
                                   color: Colors.blue,
                                 )
                               },
@@ -149,50 +149,7 @@ class _TrackResultState extends State<TrackResult>
     setState(() {
       initialCameraPosition = CameraPosition(
           target: LatLng(position.latitude!, position.longitude!), zoom: 14);
-      _runTrack = [
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-        {
-          "startTime": DateFormat.Hm().format(DateTime.now()),
-          "endTime": DateFormat.Hm().format(DateTime.now()),
-          "startLocation": LatLng(position.latitude!, position.longitude!),
-          "endLocation": LatLng(position.latitude!, position.longitude!),
-          "velocity": 3,
-        },
-      ];
+      _runTrack = widget.runTrack;
     });
   }
 
@@ -240,4 +197,24 @@ class _TrackResultState extends State<TrackResult>
             .values
             .toList();
   }
+
+  double calculateFullLength(List<LatLng> lnglng) {
+    var result = 0.0;
+    for (int i = 0; i < lnglng.length - 1; i++) {
+      result += calculateDistance(lnglng[i], lnglng[i + 1]);
+    }
+    return result;
+  }
+}
+
+double calculateDistance(LatLng latLng1, LatLng latLng2) {
+  var p = 0.017453292519943295;
+  var c = cos;
+  var a = 0.5 -
+      c((latLng2.latitude - latLng1.latitude) * p) / 2 +
+      c(latLng1.latitude * p) *
+          c(latLng2.latitude * p) *
+          (1 - c((latLng2.longitude - latLng2.longitude) * p)) /
+          2;
+  return 12742 * asin(sqrt(a));
 }

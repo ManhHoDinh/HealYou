@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healyou/healyou/presentations/screens/run/track/track_result.dart';
 import 'package:location/location.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class RunTrackScreen extends StatefulWidget {
   const RunTrackScreen({super.key});
@@ -24,6 +26,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
   bool _isRunning = false;
   Location location = Location();
   bool _isInForeground = true;
+  final List<dynamic> _trackResult = [];
   final List<LatLng> _latlng = [];
   late LocationData _locationData;
   StreamSubscription<LocationData>? _locationSubscription;
@@ -41,9 +44,16 @@ class RunTrackScreenState extends State<RunTrackScreen>
     }).listen((currentLocation) {
       setState(() {
         _locationData = currentLocation;
+        _trackResult.add({
+          "startTime": DateTime.now(),
+          "endTime": DateTime.now(),
+          "startLocation": _latlng.last,
+          "endLocation":
+              LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          "velocity": 3,
+        });
         _latlng
             .add(LatLng(currentLocation.latitude!, currentLocation.longitude!));
-        debugPrint(_latlng.toString());
         if (_isInForeground) _setMarkerToCurrentLocation();
       });
     });
@@ -96,6 +106,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
       title: "$_locationData",
       iconName: 'square',
     );
+    _latlng.add(LatLng(_locationData.latitude!, _locationData.longitude!));
     initialCameraPosition = CameraPosition(
         target: LatLng(_locationData.latitude!, _locationData.longitude!),
         zoom: 14);
@@ -103,6 +114,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
         markerId: const MarkerId('currentLocation'),
         position: LatLng(_locationData.latitude!, _locationData.longitude!)));
     debugPrint(markers.toString());
+
     setState(() {});
   }
 
@@ -165,7 +177,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                     style: TextStyle(fontSize: 24.0),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 500,
                   child: GoogleMap(
                     polylines: {
@@ -192,7 +204,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -211,7 +223,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                         ),
                       ),
                       VerticalDivider(color: Colors.black, thickness: 1),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -231,7 +243,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                         ),
                       ),
                       VerticalDivider(color: Colors.black, thickness: 1),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -253,7 +265,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 300,
                   child: Divider(color: Colors.black, thickness: 1),
                 ),
@@ -288,12 +300,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        child: Container(
-                          child: Icon(
-                              _isRunning ? Icons.pause : Icons.play_arrow,
-                              size: 24.0,
-                              color: Colors.black),
-                        ),
+                        child: Icon(_isRunning ? Icons.pause : Icons.play_arrow,
+                            size: 24.0, color: Colors.black),
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -307,10 +315,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        child: Container(
-                          child: Icon(Icons.location_on,
-                              size: 24.0, color: Colors.black),
-                        ),
+                        child: Icon(Icons.location_on,
+                            size: 24.0, color: Colors.black),
                       ),
                     ],
                   ),
@@ -325,8 +331,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
 
     googleMapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(position.latitude!, position.longitude!),
-            zoom: 14)));
+            target: LatLng(position.latitude!, position.longitude!))));
 
     markers.clear();
 
@@ -358,9 +363,9 @@ class RunTrackScreenState extends State<RunTrackScreen>
           Text("Please wait a moment for us to summarize your run.\n"),
           TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(
-                    TrackResult.routeName,
-                    arguments: {"latLng": _latlng});
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TrackResult(runTrack: _trackResult),
+                ));
               },
               child: Text(
                 "Process",
@@ -370,4 +375,24 @@ class RunTrackScreenState extends State<RunTrackScreen>
       ),
     );
   }
+
+  double calculateFullLength(List<LatLng> lnglng) {
+    var result = 0.0;
+    for (int i = 0; i < lnglng.length - 1; i++) {
+      result += calculateDistance(lnglng[i], lnglng[i + 1]);
+    }
+    return result;
+  }
+}
+
+double calculateDistance(LatLng latLng1, LatLng latLng2) {
+  var p = 0.017453292519943295;
+  var c = cos;
+  var a = 0.5 -
+      c((latLng2.latitude - latLng1.latitude) * p) / 2 +
+      c(latLng1.latitude * p) *
+          c(latLng2.latitude * p) *
+          (1 - c((latLng2.longitude - latLng2.longitude) * p)) /
+          2;
+  return 12742 * asin(sqrt(a));
 }
