@@ -47,28 +47,16 @@ class _SleepTargetState extends State<SleepTarget> {
                     a.startTime
                 ? 1
                 : -1));
-        Isolate.run(
-          () {
-            final closest = event.reduce((a, b) =>
-                (closestToNow(a.startTime, b.startTime, DateTime.now()) ==
-                        a.startTime
-                    ? a
-                    : b));
-            Timer.periodic(Duration(seconds: 1), (timer) {
-              if (DateTime.now().isAfter(closest.startTime) &&
-                  DateTime.now().isBefore(closest.endTime) &&
-                  _sleepTime == false) {
-                setState(() {
-                  _sleepTime = true;
-                });
-              } else if (_sleepTime == true) {
-                setState(() {
-                  _sleepTime = false;
-                });
-              }
+        if (event.isEmpty) return;
+        if (event[0].startTime.isBefore(DateTime.now()) &&
+            event[0].endTime.isAfter(DateTime.now())) _sleepTime = true;
+        if (event[0].startTime.isAfter(DateTime.now())) {
+          Future.delayed(DateTime.now().difference(event[0].startTime), () {
+            setState(() {
+              _sleepTime = true;
             });
-          },
-        );
+          });
+        }
 
         sleepList = event;
       });
@@ -187,7 +175,8 @@ class _SleepTargetState extends State<SleepTarget> {
                               ],
                             ),
                     ),
-                    _sleepList.isNotEmpty &&
+                    _sleepTime &&
+                            _sleepList.isNotEmpty &&
                             DateTime.now().isAfter(_sleepList[0].startTime) &&
                             DateTime.now().isBefore(_sleepList[0].endTime) &&
                             !seeMoreSelected
