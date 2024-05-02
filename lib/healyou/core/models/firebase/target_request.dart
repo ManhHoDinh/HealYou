@@ -61,9 +61,9 @@ class TargetRequest {
       String timeTargetId = await FirebaseHelper.targetCollection.doc().id;
       String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
       double caloTarget =
-          calculateCalo(user!.weight, user.height, user.gender, user.age)
-              .round()
-              .toDouble();
+          calculateCalo(user!.weight, user.height, user.gender, user.age) *
+              user.activity *
+              user.weightLoss.round().toDouble();
       double stepTarget = (caloTarget / 0.05).round().toDouble();
       double distanceTarget = (stepTarget / 1000) * 1.5;
       double time = 0;
@@ -165,9 +165,9 @@ class TargetRequest {
   static double calculateCalo(int weight, int height, String gender, int age) {
     double calo = 0;
     if (gender == 'male') {
-      calo = 88.362 + (13.397 * weight) + 4.799 * height - 5.677 * age;
+      calo = (10 * weight) + 6.25 * height - 5 * age + 5;
     } else {
-      calo = 447.593 + (9.247 * weight) + 3.098 * height - 4.33 * age;
+      calo = (10 * weight) + 6.25 * height - 5 * age - 161;
     }
     return calo;
   }

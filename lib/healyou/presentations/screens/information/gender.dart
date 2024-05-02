@@ -60,7 +60,7 @@ class _GenderSelectorState extends State<GenderSelectorScreen> {
             child: Text(
               'Tell us your gender',
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 32,
                 color: Colors.black,
               ),
               textAlign: TextAlign.center,

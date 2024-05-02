@@ -38,7 +38,6 @@ class _WaterTargetState extends State<WaterTarget> {
 
   @override
   Widget build(BuildContext context) {
-    //  sphericalBottleRef.currentState?.waterLevel = 0.3;
     double height = MediaQuery.of(context).size.height;
     String userId = FirebaseAuth.instance.currentUser!.uid;
     waterItemController.updateItems();
@@ -48,6 +47,8 @@ class _WaterTargetState extends State<WaterTarget> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Target target = snapshot.data!;
+            sphericalBottleRef.currentState?.waterLevel =
+                target.reached / target.target;
             double waterLevel = target.reached / target.target;
             return Stack(children: [
               SingleChildScrollView(
@@ -77,14 +78,14 @@ class _WaterTargetState extends State<WaterTarget> {
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              Container(
-                                height: height * 3 / 10,
-                                child: SphericalBottle(
-                                    key: sphericalBottleRef,
-                                    waterColor: Colors.blue,
-                                    bottleColor: Colors.lightBlue,
-                                    capColor: Colors.blueGrey),
-                              ),
+                              // Container(
+                              //   height: height * 3 / 10,
+                              //   child: SphericalBottle(
+                              //       key: sphericalBottleRef,
+                              //       waterColor: Colors.blue,
+                              //       bottleColor: Colors.lightBlue,
+                              //       capColor: Colors.blueGrey),
+                              // ),
                               Align(
                                 alignment: Alignment.center,
                                 child: Column(
@@ -122,7 +123,8 @@ class _WaterTargetState extends State<WaterTarget> {
                                       Map<String, dynamic> data = {
                                         "time": timeStamp,
                                         "target": targetItem,
-                                        "isNotify": true
+                                        "isNotify": true,
+                                        "userId": userId
                                       };
                                       WaterItemRequest.addWaterReminder(data);
                                       await TargetRequest.updateReached(
@@ -497,7 +499,8 @@ class _WaterTargetState extends State<WaterTarget> {
     Map<String, dynamic> data = {
       "time": timeStamp,
       "target": targetItem,
-      "isNotify": true
+      "isNotify": true,
+      "userId": target.userId
     };
     WaterItemRequest.addWaterReminder(data);
     waterItemController.updateItems();

@@ -91,25 +91,26 @@ class _MyAppState extends State<MyApp> {
     ));
 
     return GetMaterialApp(
-        navigatorKey: MyApp.navigatorKey,
-        title: 'Flutter UI',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: AppTheme.textTheme,
-          platform: TargetPlatform.iOS,
-        ),
-        routes: routes,
-        initialBinding: MyBindings(),
-        // initialRoute: Routes.setTarget,
-        getPages: [
-          GetPage(
-              name: Routes.genderSelector, page: () => GenderSelectorScreen()),
-          GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
-          GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
-          GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
-        ],
-        home: healyouApp());
+      navigatorKey: MyApp.navigatorKey,
+      title: 'Flutter UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: AppTheme.textTheme,
+        platform: TargetPlatform.iOS,
+      ),
+      routes: routes,
+      initialBinding: MyBindings(),
+      initialRoute: Routes.genderSelector,
+      getPages: [
+        GetPage(
+            name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+        GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+        GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+        GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
+      ],
+      // home: healyouApp()
+    );
   }
 }
 // class MyApp extends StatelessWidget {

@@ -11,13 +11,13 @@ DateTime _sendAtFromJson(Timestamp timestamp) =>
 
 @Freezed()
 class WaterTargetItem with _$WaterTargetItem {
-  const factory WaterTargetItem({
-    @Default("") String id,
-    @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
-    @Default(0) int target,
-    @Default(false) bool isNotify,
-    @Default("") String waterTargetId,
-  }) = _WaterTargetItem;
+  const factory WaterTargetItem(
+      {@Default("") String id,
+      @JsonKey(name: "time", fromJson: _sendAtFromJson) DateTime? time,
+      @Default(0) int target,
+      @Default(false) bool isNotify,
+      @Default("") String waterTargetId,
+      @Default("") String userId}) = _WaterTargetItem;
   factory WaterTargetItem.fromJson(Map<String, dynamic> json) =>
       _$WaterTargetItemFromJson(json);
 }
