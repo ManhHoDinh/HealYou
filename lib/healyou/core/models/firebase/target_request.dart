@@ -253,4 +253,43 @@ class TargetRequest {
     });
     return streamController.stream;
   }
+
+  static Stream<List<double>> waterStatistic(
+      TargetType targetType, DateTime usedTime) {
+    DateTime dateTime = DateTime.now();
+
+    int count = 0;
+    StreamController<List<double>> streamController =
+        StreamController<List<double>>();
+
+    FirebaseHelper.targetCollection.snapshots().listen((querySnapshot) {
+      List<double> datas = [];
+      while (count <= 28) {
+        DateTime time = DateTime.utc(usedTime.year, usedTime.month, count);
+        bool isHasData = false;
+        for (QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot
+            in querySnapshot.docs) {
+          Timestamp timestamp = documentSnapshot.get('time');
+          String type = documentSnapshot.get("type");
+          DateTime documentTime = DateTime.fromMillisecondsSinceEpoch(
+              timestamp.millisecondsSinceEpoch);
+          if (documentTime.year == time.year &&
+              documentTime.month == time.month &&
+              documentTime.day == time.day &&
+              targetType == TargetType.values.byName(type)) {
+            double reached = documentSnapshot.get("reached").toDouble();
+            double target = documentSnapshot.get("target").toDouble();
+            datas.add(reached * 100 / target);
+            isHasData = true;
+          }
+        }
+        if (!isHasData) {
+          datas.add(10);
+        }
+        count += 7;
+      }
+      streamController.add(datas);
+    });
+    return streamController.stream;
+  }
 }

@@ -10,6 +10,7 @@ import 'package:healyou/healyou/core/models/firebase/target_request.dart';
 import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
+import 'package:healyou/healyou/presentations/screens/otherTarget/widgets/history_screen.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/widgets/water_reminder_item.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -196,6 +197,7 @@ class _WaterTargetState extends State<WaterTarget> {
                               ],
                             ),
                           ),
+                          SizedBox(height: 40),
                           Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
@@ -249,6 +251,14 @@ class _WaterTargetState extends State<WaterTarget> {
                           ),
                         ],
                       ))),
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  child: IconButton(
+                      icon: Icon(Icons.history),
+                      onPressed: () {
+                        Get.to(() => HistoryScreen());
+                      })),
               Positioned(
                   top: 0,
                   right: 0,
