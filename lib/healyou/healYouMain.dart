@@ -1,3 +1,4 @@
+import 'package:alarm/alarm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,6 +57,8 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   void initState() {
     super.initState();
     // Wait for 5 seconds and then hide the splash screen
+    Alarm.init();
+
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
         _showSplash = false;

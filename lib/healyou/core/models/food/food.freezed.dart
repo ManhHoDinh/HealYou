@@ -25,6 +25,7 @@ mixin _$FoodModel {
   String get Weight => throw _privateConstructorUsedError;
   String get ImageLink => throw _privateConstructorUsedError;
   String get Description => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $FoodModelCopyWith<$Res> {
       String Name,
       String Weight,
       String ImageLink,
-      String Description});
+      String Description,
+      String url});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
     Object? Weight = null,
     Object? ImageLink = null,
     Object? Description = null,
+    Object? url = null,
   }) {
     return _then(_value.copyWith(
       Id: null == Id
@@ -85,6 +88,10 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
           ? _value.Description
           : Description // ignore: cast_nullable_to_non_nullable
               as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$FoodModelImplCopyWith<$Res>
       String Name,
       String Weight,
       String ImageLink,
-      String Description});
+      String Description,
+      String url});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$FoodModelImplCopyWithImpl<$Res>
     Object? Weight = null,
     Object? ImageLink = null,
     Object? Description = null,
+    Object? url = null,
   }) {
     return _then(_$FoodModelImpl(
       Id: null == Id
@@ -143,6 +152,10 @@ class __$$FoodModelImplCopyWithImpl<$Res>
           ? _value.Description
           : Description // ignore: cast_nullable_to_non_nullable
               as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -155,7 +168,8 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
       required this.Name,
       required this.Weight,
       required this.ImageLink,
-      required this.Description});
+      required this.Description,
+      required this.url});
 
   factory _$FoodModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FoodModelImplFromJson(json);
@@ -170,10 +184,12 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
   final String ImageLink;
   @override
   final String Description;
+  @override
+  final String url;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FoodModel(Id: $Id, Name: $Name, Weight: $Weight, ImageLink: $ImageLink, Description: $Description)';
+    return 'FoodModel(Id: $Id, Name: $Name, Weight: $Weight, ImageLink: $ImageLink, Description: $Description, url: $url)';
   }
 
   @override
@@ -185,7 +201,8 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
       ..add(DiagnosticsProperty('Name', Name))
       ..add(DiagnosticsProperty('Weight', Weight))
       ..add(DiagnosticsProperty('ImageLink', ImageLink))
-      ..add(DiagnosticsProperty('Description', Description));
+      ..add(DiagnosticsProperty('Description', Description))
+      ..add(DiagnosticsProperty('url', url));
   }
 
   @override
@@ -199,13 +216,14 @@ class _$FoodModelImpl with DiagnosticableTreeMixin implements _FoodModel {
             (identical(other.ImageLink, ImageLink) ||
                 other.ImageLink == ImageLink) &&
             (identical(other.Description, Description) ||
-                other.Description == Description));
+                other.Description == Description) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, Id, Name, Weight, ImageLink, Description);
+      Object.hash(runtimeType, Id, Name, Weight, ImageLink, Description, url);
 
   @JsonKey(ignore: true)
   @override
@@ -227,7 +245,8 @@ abstract class _FoodModel implements FoodModel {
       required final String Name,
       required final String Weight,
       required final String ImageLink,
-      required final String Description}) = _$FoodModelImpl;
+      required final String Description,
+      required final String url}) = _$FoodModelImpl;
 
   factory _FoodModel.fromJson(Map<String, dynamic> json) =
       _$FoodModelImpl.fromJson;
@@ -242,6 +261,8 @@ abstract class _FoodModel implements FoodModel {
   String get ImageLink;
   @override
   String get Description;
+  @override
+  String get url;
   @override
   @JsonKey(ignore: true)
   _$$FoodModelImplCopyWith<_$FoodModelImpl> get copyWith =>

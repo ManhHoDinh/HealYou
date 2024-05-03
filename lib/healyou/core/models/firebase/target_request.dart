@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
-import 'package:intl/intl.dart';
 
 class TargetRequest {
   static Stream<List<Target>> getAll() =>
@@ -152,6 +150,16 @@ class TargetRequest {
 
     // Return the stream from the StreamController
     return streamController.stream;
+  }
+
+  static Future<Target?> getAllTarget(
+    TargetType targetType,
+  ) {
+    return FirebaseHelper.targetCollection
+        .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("type", isEqualTo: targetType)
+        .get()
+        .then((value) => Target.fromJson(value.docs[0].data()));
   }
 
   static Future<void> updateTarget(String id, double target) async {
