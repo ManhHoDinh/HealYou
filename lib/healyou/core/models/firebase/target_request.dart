@@ -6,8 +6,10 @@ import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
+import 'package:quiver/time.dart';
 
 class TargetRequest {
+  static double averageCompletion = 0;
   static Stream<List<Target>> getAll() =>
       FirebaseHelper.targetCollection.snapshots().map(
           (event) => event.docs.map((e) => Target.fromJson(e.data())).toList());
@@ -271,8 +273,10 @@ class TargetRequest {
         StreamController<List<double>>();
 
     FirebaseHelper.targetCollection.snapshots().listen((querySnapshot) {
-      List<double> datas = [];
-      while (count <= 28) {
+      List<double> listData = [];
+      int dayInMonth = daysInMonth(usedTime.year, usedTime.month);
+
+      while (count <= dayInMonth) {
         DateTime time = DateTime.utc(usedTime.year, usedTime.month, count);
         bool isHasData = false;
         for (QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot
@@ -287,17 +291,34 @@ class TargetRequest {
               targetType == TargetType.values.byName(type)) {
             double reached = documentSnapshot.get("reached").toDouble();
             double target = documentSnapshot.get("target").toDouble();
-            datas.add(reached * 100 / target);
+            listData.add(reached * 100 / target);
             isHasData = true;
           }
         }
         if (!isHasData) {
-          datas.add(10);
+          listData.add(0);
         }
-        count += 7;
+        count++;
       }
-      streamController.add(datas);
+      streamController.add(listData);
     });
     return streamController.stream;
+  }
+
+  static Future<List<DateTime>> getRangeWaterStatistic() async {
+    var data = await FirebaseHelper.targetCollection.orderBy("time").get();
+    List<Target> targets = [];
+    double average = 0;
+    for (var doc in data.docs) {
+      Target targetDoc = Target.fromJson(doc.data());
+      if (targetDoc.type == TargetType.values.byName("water")) {
+        average += targetDoc.reached * 100 / targetDoc.target;
+        targets.add(targetDoc);
+      }
+    }
+    averageCompletion = average / targets.length;
+    Target startRangeTarget = targets[0];
+    Target endRangeTarget = targets[targets.length - 1];
+    return [startRangeTarget.time!, endRangeTarget.time!];
   }
 }

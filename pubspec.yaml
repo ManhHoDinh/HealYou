@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.2.2
   fl_chart: ^0.67.0
   get: ^4.6.6
+  quiver: ^3.2.1
   flutter_animation_progress_bar: ^2.3.1
   dotted_line: ^3.2.2 
   table_calendar: ^3.1.0
