@@ -3,12 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
-import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
-import 'package:healyou/healyou/presentations/screens/account/signup_success_screen.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
-import 'package:healyou/healyou/presentations/widgets/shake.dart';
 import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
