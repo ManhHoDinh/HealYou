@@ -24,6 +24,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
   bool _isRunning = false;
   Location location = Location();
   bool _isInForeground = true;
+  double zoom = 14;
   final List<dynamic> _trackResult = [];
   final List<LatLng> _latlng = [];
   late LocationData _locationData;
@@ -107,10 +108,13 @@ class RunTrackScreenState extends State<RunTrackScreen>
     _latlng.add(LatLng(_locationData.latitude!, _locationData.longitude!));
     initialCameraPosition = CameraPosition(
         target: LatLng(_locationData.latitude!, _locationData.longitude!),
-        zoom: 14);
-    markers.add(Marker(
+        zoom: zoom);
+    markers.add(
+      Marker(
         markerId: const MarkerId('currentLocation'),
-        position: LatLng(_locationData.latitude!, _locationData.longitude!)));
+        position: LatLng(_locationData.latitude!, _locationData.longitude!),
+      ),
+    );
     debugPrint(markers.toString());
 
     setState(() {});
@@ -178,6 +182,9 @@ class RunTrackScreenState extends State<RunTrackScreen>
                 SizedBox(
                   height: 500,
                   child: GoogleMap(
+                    onCameraMove: (CameraPosition camPos) {
+                      if (camPos.zoom != zoom) zoom = camPos.zoom;
+                    },
                     polylines: {
                       Polyline(
                         polylineId: PolylineId(_latlng.toString()),
@@ -329,7 +336,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
 
     googleMapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(position.latitude!, position.longitude!))));
+            target: LatLng(position.latitude!, position.longitude!),
+            zoom: zoom)));
 
     markers.clear();
 

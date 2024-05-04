@@ -318,7 +318,6 @@ class _SleepTargetState extends State<SleepTarget> {
                       ],
                     ),
                     AnimatedContainer(
-                      height: seeMoreSelected ? null : 80,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(),
                       duration: Duration(seconds: 2),
@@ -337,27 +336,27 @@ class _SleepTargetState extends State<SleepTarget> {
                               ],
                             ),
                     ),
-                    _sleepTime &&
-                            _sleepList.isNotEmpty &&
-                            DateTime.now().isAfter(_sleepList[0].startTime) &&
-                            DateTime.now().isBefore(_sleepList[0].endTime) &&
-                            !seeMoreSelected
-                        ? Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.orange),
-                            child: Center(
-                                child: IconButton(
-                              onPressed: () {
-                                _handleOnRecording();
-                              },
-                              icon: Icon(
-                                recording ? Icons.square : Icons.alarm_on,
-                                color: Colors.white,
-                              ),
-                            )))
-                        : SizedBox.shrink(),
+                    // _sleepTime &&
+                    //         _sleepList.isNotEmpty &&
+                    //         DateTime.now().isAfter(_sleepList[0].startTime) &&
+                    //         DateTime.now().isBefore(_sleepList[0].endTime) &&
+                    //         !seeMoreSelected
+                    //     ? Container(
+                    //         width: 50,
+                    //         height: 50,
+                    //         decoration: BoxDecoration(
+                    //             shape: BoxShape.circle, color: Colors.orange),
+                    //         child: Center(
+                    //             child: IconButton(
+                    //           onPressed: () {
+                    //             _handleOnRecording();
+                    //           },
+                    //           icon: Icon(
+                    //             recording ? Icons.square : Icons.alarm_on,
+                    //             color: Colors.white,
+                    //           ),
+                    //         )))
+                    //     : SizedBox.shrink(),
                     Center(
                       child: AudioWaveforms(
                         size: Size(MediaQuery.of(context).size.width, 50.0),

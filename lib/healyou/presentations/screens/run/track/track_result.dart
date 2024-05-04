@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'dart:math' show cos, sqrt, asin;
+
+import 'package:screenshot/screenshot.dart';
 
 class TrackResult extends StatefulWidget {
   const TrackResult({Key? key, required this.runTrack}) : super(key: key);
@@ -26,7 +30,9 @@ class _TrackResultState extends State<TrackResult>
   late AnimationController kilometerController;
   late AnimationController caloriesController;
   List<dynamic>? _runTrack;
-  late double trackLength;
+  ScreenshotController summarizedController = ScreenshotController();
+  ScreenshotController listController = ScreenshotController();
+  double trackLength = 0;
   @override
   void initState() {
     kilometerController = AnimationController(
@@ -68,80 +74,90 @@ class _TrackResultState extends State<TrackResult>
     return Scaffold(
         appBar: AppBar(
           title: const Text('Summarize'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _handleShare();
+                },
+                icon: Icon(Icons.share))
+          ],
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  height: 250,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      heightFactor: 0.3,
-                      widthFactor: 2.5,
-                      child: initialCameraPosition != null
-                          ? GoogleMap(
-                              initialCameraPosition: initialCameraPosition!,
-                              polylines: {
-                                Polyline(
-                                  polylineId: PolylineId(latLng.toString()),
-                                  visible: true,
-                                  //latLng is List<latLng>
-                                  points: latLng,
-                                  color: Colors.blue,
-                                )
-                              },
-                              markers: markers,
-                              zoomControlsEnabled: false,
-                              mapType: MapType.normal,
-                              onMapCreated: (GoogleMapController controller) {
-                                googleMapController = controller;
-                              },
-                            )
-                          : CircularProgressIndicator(),
+          child: Screenshot(
+            controller: summarizedController,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Container(
+                    height: 250,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        heightFactor: 0.3,
+                        widthFactor: 2.5,
+                        child: initialCameraPosition != null
+                            ? GoogleMap(
+                                initialCameraPosition: initialCameraPosition!,
+                                polylines: {
+                                  Polyline(
+                                    polylineId: PolylineId(latLng.toString()),
+                                    visible: true,
+                                    //latLng is List<latLng>
+                                    points: latLng,
+                                    color: Colors.blue,
+                                  )
+                                },
+                                markers: markers,
+                                zoomControlsEnabled: false,
+                                mapType: MapType.normal,
+                                onMapCreated: (GoogleMapController controller) {
+                                  googleMapController = controller;
+                                },
+                              )
+                            : CircularProgressIndicator(),
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.nordic_walking,
-                      size: 13,
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.nordic_walking,
+                        size: 13,
+                      ),
+                      Text("Kilometers: $trackLength")
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: LinearProgressIndicator(
+                      value: kilometerController.value,
+                      minHeight: 7,
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.greenAccent,
                     ),
-                    Text("Kilometers: $trackLength")
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: LinearProgressIndicator(
-                    value: kilometerController.value,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [Text("Calories: ${trackLength * 60}")],
+                  ),
+                  LinearProgressIndicator(
+                    value: caloriesController.value,
                     minHeight: 7,
+                    color: Colors.orange,
                     borderRadius: BorderRadius.circular(100),
-                    color: Colors.greenAccent,
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text("Calories: ${trackLength * 60}")],
-                ),
-                LinearProgressIndicator(
-                  value: caloriesController.value,
-                  minHeight: 7,
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                SizedBox(height: 8.0),
-                Row(children: const [Text("Detail")]),
-                ...builTrackDetail()
-              ],
+                  SizedBox(height: 8.0),
+                  Row(children: const [Text("Detail")]),
+                  ...builTrackDetail()
+                ],
+              ),
             ),
           ),
         ));
@@ -214,6 +230,14 @@ class _TrackResultState extends State<TrackResult>
       result += calculateDistance(lnglng[i], lnglng[i + 1]);
     }
     return result;
+  }
+
+  void _handleShare() {
+    summarizedController.capture().then((Uint8List? value) {
+      if (value != null) {
+        Share.file("Today's achievement", "summarized.png", value, "image/png");
+      }
+    });
   }
 }
 

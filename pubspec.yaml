@@ -76,6 +76,9 @@ dependencies:
   flex_color_picker: ^3.4.1
   audio_waveforms: ^1.0.5
   alarm: ^3.1.2
+  share_plus: ^9.0.0
+  esys_flutter_share_plus: ^2.2.0
+  screenshot: ^2.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

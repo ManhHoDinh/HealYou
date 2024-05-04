@@ -14,7 +14,8 @@ class SleepRequest {
         .update({"isNotify": notifyValue});
   }
 
-  static Stream<List<Sleep>> getByDate(DateTime start, DateTime end) =>
+  static Stream<List<Sleep>> getByDate(DateTime start, DateTime end,
+          {quantity = 5}) =>
       FirebaseHelper.sleepCollection
           .where("user", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .where("startTime", isGreaterThanOrEqualTo: Timestamp.fromDate(start))
