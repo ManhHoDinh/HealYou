@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         ),
         routes: routes,
         initialBinding: MyBindings(),
-        // initialRoute: Routes.setTarget,
+        //initialRoute: Routes.genderSelector,
         getPages: [
           GetPage(
               name: Routes.genderSelector, page: () => GenderSelectorScreen()),

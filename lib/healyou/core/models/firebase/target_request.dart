@@ -6,8 +6,10 @@ import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
+import 'package:quiver/time.dart';
 
 class TargetRequest {
+  static double averageCompletion = 0;
   static Stream<List<Target>> getAll() =>
       FirebaseHelper.targetCollection.snapshots().map(
           (event) => event.docs.map((e) => Target.fromJson(e.data())).toList());
@@ -59,9 +61,9 @@ class TargetRequest {
       String timeTargetId = await FirebaseHelper.targetCollection.doc().id;
       String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
       double caloTarget =
-          calculateCalo(user!.weight, user.height, user.gender, user.age)
-              .round()
-              .toDouble();
+          calculateCalo(user!.weight, user.height, user.gender, user.age) *
+              user.activity *
+              user.weightLoss.round().toDouble();
       double stepTarget = (caloTarget / 0.05).round().toDouble();
       double distanceTarget = (stepTarget / 1000) * 1.5;
       double time = 0;
@@ -173,9 +175,9 @@ class TargetRequest {
   static double calculateCalo(int weight, int height, String gender, int age) {
     double calo = 0;
     if (gender == 'male') {
-      calo = 88.362 + (13.397 * weight) + 4.799 * height - 5.677 * age;
+      calo = (10 * weight) + 6.25 * height - 5 * age + 5;
     } else {
-      calo = 447.593 + (9.247 * weight) + 3.098 * height - 4.33 * age;
+      calo = (10 * weight) + 6.25 * height - 5 * age - 161;
     }
     return calo;
   }
@@ -260,5 +262,63 @@ class TargetRequest {
       print(total);
     });
     return streamController.stream;
+  }
+
+  static Stream<List<double>> waterStatistic(
+      TargetType targetType, DateTime usedTime) {
+    DateTime dateTime = DateTime.now();
+
+    int count = 0;
+    StreamController<List<double>> streamController =
+        StreamController<List<double>>();
+
+    FirebaseHelper.targetCollection.snapshots().listen((querySnapshot) {
+      List<double> listData = [];
+      int dayInMonth = daysInMonth(usedTime.year, usedTime.month);
+
+      while (count <= dayInMonth) {
+        DateTime time = DateTime.utc(usedTime.year, usedTime.month, count);
+        bool isHasData = false;
+        for (QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot
+            in querySnapshot.docs) {
+          Timestamp timestamp = documentSnapshot.get('time');
+          String type = documentSnapshot.get("type");
+          DateTime documentTime = DateTime.fromMillisecondsSinceEpoch(
+              timestamp.millisecondsSinceEpoch);
+          if (documentTime.year == time.year &&
+              documentTime.month == time.month &&
+              documentTime.day == time.day &&
+              targetType == TargetType.values.byName(type)) {
+            double reached = documentSnapshot.get("reached").toDouble();
+            double target = documentSnapshot.get("target").toDouble();
+            listData.add(reached * 100 / target);
+            isHasData = true;
+          }
+        }
+        if (!isHasData) {
+          listData.add(0);
+        }
+        count++;
+      }
+      streamController.add(listData);
+    });
+    return streamController.stream;
+  }
+
+  static Future<List<DateTime>> getRangeWaterStatistic() async {
+    var data = await FirebaseHelper.targetCollection.orderBy("time").get();
+    List<Target> targets = [];
+    double average = 0;
+    for (var doc in data.docs) {
+      Target targetDoc = Target.fromJson(doc.data());
+      if (targetDoc.type == TargetType.values.byName("water")) {
+        average += targetDoc.reached * 100 / targetDoc.target;
+        targets.add(targetDoc);
+      }
+    }
+    averageCompletion = average / targets.length;
+    Target startRangeTarget = targets[0];
+    Target endRangeTarget = targets[targets.length - 1];
+    return [startRangeTarget.time!, endRangeTarget.time!];
   }
 }

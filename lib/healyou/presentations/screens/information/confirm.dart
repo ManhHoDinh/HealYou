@@ -8,21 +8,6 @@ import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 
-// void main() => runApp(const MyApp());
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: Scaffold(
-//         body: ReviewInformationScreen(),
-//       ),
-//     );
-//   }
-// }
-
 class ReviewInformationScreen extends StatelessWidget {
   const ReviewInformationScreen({Key? key}) : super(key: key);
   static const String routeName = 'review_screen';
@@ -42,17 +27,10 @@ class ReviewInformationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   const Padding(
-                    padding: EdgeInsets.only(top: 100.0),
-                    child: Text(
-                      'HealYou',
-                      style: TextStyle(fontSize: 20, color: Colors.blue),
-                    ),
-                  ),
-                  const Padding(
                     padding: EdgeInsets.all(70.0),
                     child: Text(
                       'Review Your Information',
-                      style: TextStyle(fontSize: 40, color: Colors.black),
+                      style: TextStyle(fontSize: 32, color: Colors.black),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -88,15 +66,62 @@ class ReviewInformationScreen extends StatelessWidget {
                       navigateToEditScreen(context, 'GENDER');
                     },
                   ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'TARGET WEIGHT',
+                    value: informationController.targetWeight.value.toString(),
+                    onTap: () {
+                      navigateToEditScreen(context, 'TARGET_WEIGHT');
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  // InfoCard(
+                  //   title: 'ACTIVITY LEVEL',
+                  //   value: informationController.activity.value.toString(),
+                  //   onTap: () {
+                  //     navigateToEditScreen(context, 'TARGET_WEIGHT');
+                  //   },
+                  // ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'WEIGHT LOSS',
+                    value: informationController.weightLoss.value.toString(),
+                    onTap: () {
+                      navigateToEditScreen(context, 'TARGET_WEIGHT');
+                    },
+                  ),
                   SizedBox(height: 20),
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
+                        List activityValue = [1.2, 1.375, 1.55, 1.725, 1.9];
+                        List goalValue = [1, 0.9, 0.8, 0.6];
+                        List<String> activities = [
+                          "Little/no exercise",
+                          "Light exercise",
+                          "Moderate exercise (3-5 days/week)",
+                          "Very active (6-7 days/week)",
+                          "Extra active (very active day & physical job)"
+                        ];
+                        List<String> goals = [
+                          "Maintain weight",
+                          "Mild weight loss",
+                          "Weight loss",
+                          "Extreme weight loss"
+                        ];
+                        print(informationController.activity.value);
+                        print(informationController.weightLoss.value);
                         FirebaseHelper.userCollection.doc(userId).update({
                           "age": informationController.age.value,
                           "height": informationController.height.value,
                           "weight": informationController.weight.value,
                           "gender": informationController.gender.value,
+                          "activity": activityValue[activities
+                              .indexOf(informationController.activity.value)],
+                          "weightLoss": goalValue[goals
+                              .indexOf(informationController.weightLoss.value)],
+                          "targetWeight":
+                              informationController.targetWeight.value
                         });
                         await TargetRequest.autoAddRunTarget();
                         Get.to(() => NavigationHome());
