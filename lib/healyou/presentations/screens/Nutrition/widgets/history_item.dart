@@ -8,6 +8,7 @@ import 'package:healyou/healyou/core/models/nutrition/nutrition.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/history_nutrition.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/food_item.dart';
 import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 
 class HistoryItem extends StatelessWidget {
   final Nutrition nutrition;
@@ -23,10 +24,8 @@ class HistoryItem extends StatelessWidget {
             return AlertDialog(
               title: Text(nutrition.name),
               content: Container(
-                height: MediaQuery.of(context).size.height *
-                    0.5, // Or any other height
-                width: MediaQuery.of(context).size.width *
-                    0.8, // Adjust width if needed
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: ListView.builder(
                   itemCount: nutrition.foodItems?.length ?? 0,
                   itemBuilder: (BuildContext context, int index) {
@@ -67,9 +66,6 @@ class HistoryItem extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
             Text(
               nutrition.name,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
@@ -78,7 +74,7 @@ class HistoryItem extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Date: ${nutrition.time?.toIso8601String()}',
+              '${DateFormat('MMMM d, yyyy').format(nutrition.time!)}',
               style: TextStyle(fontSize: 12),
             ),
           ],

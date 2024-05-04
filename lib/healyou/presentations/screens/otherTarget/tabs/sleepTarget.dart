@@ -1,19 +1,25 @@
 import 'dart:async';
 import 'dart:isolate';
-
+import 'package:flutter/material.dart';
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:analog_clock/analog_clock.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/firebase/sleep_request.dart';
 import 'package:healyou/healyou/core/models/sleep/sleep.dart';
+import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/presentations/widgets/timeArc.dart';
 import 'package:intl/intl.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class SleepTarget extends StatefulWidget {
   const SleepTarget({Key? key}) : super(key: key);
@@ -22,6 +28,7 @@ class SleepTarget extends StatefulWidget {
 }
 
 class _SleepTargetState extends State<SleepTarget> {
+  int targetItem = 8;
   var seeMoreSelected = false;
   late DateTime startSleepTime;
   DateTime startTime = DateTime.now();
@@ -138,33 +145,188 @@ class _SleepTargetState extends State<SleepTarget> {
                       children: [
                         Row(
                           children: [
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Your sleep schedule",
-                                    style: TextStyles.labelStaffDetail),
-                                IconButton(
-                                    onPressed: () {
-                                      _showAddSleepModel();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_circle,
-                                      color: ColorPalette.primaryColor,
-                                    ))
+                                Row(
+                                  children: [
+                                    Text("Your sleep schedule",
+                                        style: TextStyles.labelStaffDetail),
+                                    IconButton(
+                                      onPressed: () {
+                                        _showAddSleepModel();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_circle,
+                                        color: ColorPalette.primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Sleep Target",
+                                        style: TextStyles.labelStaffDetail),
+                                    IconButton(
+                                      onPressed: () {
+                                        Get.defaultDialog(
+                                            title: "Add Sleep Target",
+                                            middleText: "Hello world!",
+                                            backgroundColor: Colors.white,
+                                            onCancel: () {
+                                              setState(() {
+                                                targetItem = 8;
+                                              });
+                                            },
+                                            onConfirm: () {
+                                              confirmHandler();
+                                            },
+                                            titleStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20),
+                                            middleTextStyle:
+                                                TextStyle(color: Colors.black),
+                                            textConfirm: "Confirm",
+                                            textCancel: "Cancel",
+                                            cancelTextColor: Color(0xff1AAEEE),
+                                            confirmTextColor: Colors.white,
+                                            buttonColor: Color(0xff1AAEEE),
+                                            barrierDismissible: false,
+                                            radius: 50,
+                                            content: StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  child: Column(children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Target',
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            IconButton(
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  if (targetItem >
+                                                                      0) {
+                                                                    targetItem -=
+                                                                        1;
+                                                                  }
+                                                                });
+                                                              },
+                                                              icon: Icon(
+                                                                Icons.remove,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 24,
+                                                              ),
+                                                              style: IconButton.styleFrom(
+                                                                  backgroundColor:
+                                                                      Color.fromARGB(
+                                                                          255,
+                                                                          143,
+                                                                          198,
+                                                                          224)),
+                                                            ),
+                                                            Column(
+                                                              children: [
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                                  curve: Curves
+                                                                      .easeInOut,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            10),
+                                                                    child: Text(
+                                                                      targetItem
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              20,
+                                                                          fontWeight:
+                                                                              FontWeight.w800),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            IconButton(
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  if (targetItem <
+                                                                      24) {
+                                                                    targetItem +=
+                                                                        1;
+                                                                  }
+                                                                });
+                                                              },
+                                                              icon: Icon(
+                                                                Icons.add,
+                                                                size: 24,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              style: IconButton.styleFrom(
+                                                                  backgroundColor:
+                                                                      Color.fromARGB(
+                                                                          255,
+                                                                          143,
+                                                                          198,
+                                                                          224)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                                );
+                                              },
+                                            ));
+                                      },
+                                      icon: Icon(
+                                        Icons.add_circle,
+                                        color: ColorPalette.primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // Add your text here
                               ],
                             ),
                           ],
                         ),
                         TextButton(
-                            onPressed: () {
-                              setState(() {
-                                seeMoreSelected = !seeMoreSelected;
-                              });
-                            },
-                            child: Text(
-                              "see more",
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.grey),
-                            ))
+                          onPressed: () {
+                            setState(() {
+                              seeMoreSelected = !seeMoreSelected;
+                            });
+                          },
+                          child: Text(
+                            "see more",
+                            style: TextStyle(fontSize: 13, color: Colors.grey),
+                          ),
+                        ),
                       ],
                     ),
                     AnimatedContainer(
@@ -448,22 +610,46 @@ class _SleepTargetState extends State<SleepTarget> {
   void _handleSetSchedule() {
     SleepRequest.addSleep(
             Sleep(startTime: startTime, endTime: endTime, color: color))
-        .then((value) => setState(() {
-              var start = DateTime.now();
-              start = start.subtract(Duration(hours: 6));
-              var end = start.add(Duration(hours: 6));
-              sleepListStream = SleepRequest.getByDate(start, end);
-              sleepListStream.listen((event) {
-                setState(() {
-                  event.sort((a, b) =>
-                      (closestToNow(a.startTime, b.startTime, DateTime.now()) ==
-                              a.startTime
-                          ? 1
-                          : -1));
-                  sleepList = event;
-                });
-              });
-            }));
+        .then((value) {
+      setState(() {
+        var start = DateTime.now();
+        start = start.subtract(Duration(hours: 6));
+        var end = start.add(Duration(hours: 6));
+        sleepListStream = SleepRequest.getByDate(start, end);
+        sleepListStream.listen((event) {
+          setState(() {
+            event.sort((a, b) =>
+                (closestToNow(a.startTime, b.startTime, DateTime.now()) ==
+                        a.startTime
+                    ? 1
+                    : -1));
+            sleepList = event;
+            double remainingTime = (targetItem - sleepList.length) as double;
+            print(remainingTime);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Success'),
+                  content: Text(
+                    "Remaining time to complete the target time: $remainingTime hours",
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          });
+        });
+      });
+    });
   }
 
   void _handleDeleteSleep(String? id) {
@@ -528,6 +714,39 @@ class _SleepTargetState extends State<SleepTarget> {
     setState(() {
       recording = !recording;
     });
+  }
+
+  void confirmHandler() async {
+    Target target = Target(
+      type: TargetType.time,
+      target: targetItem.toDouble(),
+      reached: 0,
+      userId: "MBwp3rgAgfTcpnC3ymg09Y8unSl1",
+      time: DateTime.now(),
+    );
+
+    Map<String, dynamic> targetJson = target.toJson();
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('targets').doc();
+    await docRef.set(targetJson);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('The sleep target has been added successfully.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

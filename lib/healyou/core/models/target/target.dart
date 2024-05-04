@@ -4,10 +4,10 @@ import 'package:healyou/healyou/core/models/user/user.dart';
 part 'target.g.dart';
 part 'target.freezed.dart';
 
-  DateTime _sendAtFromJson(Timestamp timestamp) =>
-      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+DateTime _sendAtFromJson(Timestamp timestamp) =>
+    DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
 
-  Timestamp _sendAtToJson(DateTime? time) => Timestamp.fromDate(time!);
+Timestamp _sendAtToJson(DateTime? time) => Timestamp.fromDate(time!);
 
 @Freezed()
 class Target with _$Target {
