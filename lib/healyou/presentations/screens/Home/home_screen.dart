@@ -142,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               color: ColorPalette.primaryColor,
                               borderRadius: BorderRadius.circular(10)),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, RecommendFoodSrceen.routeName);
+                            },
                             child: Text(
                               "View all",
                               style: TextStyles.h6

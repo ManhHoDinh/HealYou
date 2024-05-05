@@ -14,6 +14,7 @@ import '../../../core/helper/text_styles.dart';
 import '../../widgets/button_widget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image/image.dart' as img;
+import 'dart:math' as math;
 
 class DetectScreen extends StatefulWidget {
   const DetectScreen({super.key, this.path = ""});
@@ -130,8 +131,8 @@ class _DetectScreenState extends State<DetectScreen> {
                             height: 200,
                             child: Image.file(
                               File(widget.path),
-                            width: 350,
-                            height: 200,
+                              width: 350,
+                              height: 200,
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -139,14 +140,9 @@ class _DetectScreenState extends State<DetectScreen> {
                         Container(
                           alignment: Alignment.center,
                           child: CustomPaint(
-                            size: Size(
-                                350, 200),
+                            size: Size(350, 200),
                             painter: BoundingBoxPainter(
-                              positions: foodDetect!.items.isEmpty
-                                  ? []
-                                  : foodDetect!.items
-                                      .map((e) => e.position!)
-                                      .toList(),
+                              items: foodDetect!.items,
                             ),
                           ),
                         )
@@ -229,24 +225,51 @@ class _DetectScreenState extends State<DetectScreen> {
 }
 
 class BoundingBoxPainter extends CustomPainter {
-  final List<Position> positions;
-  BoundingBoxPainter({required this.positions});
-
+  final List<Item> items;
+  BoundingBoxPainter({required this.items});
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.red
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
-
-    for (var position in positions) {
+    for (var item in items) {
       // Assuming each position value (x, y, width, height) is a percentage of the image size
-      double left = position.x * size.width;
-      double top = position.y * size.height;
-      double right = (position.x + position.width) * size.width;
-      double bottom = (position.y + position.height) * size.height;
+      Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+          .withOpacity(1.0);
+      paint.color = color;
+      double left = item.position!.x * size.width;
+      double top = item.position!.y * size.height;
+      double right = (item.position!.x + item.position!.width) * size.width;
+      double bottom = (item.position!.y + item.position!.height) * size.height;
       print(size);
       canvas.drawRect(Rect.fromLTRB(left, top, right, bottom), paint);
+
+      // Prepare the text for drawing
+      // final textSpan = TextSpan(
+      //   text: item.food!.first.foodInfo.displayName, // The name to draw
+      //   style: TextStyle(
+      //     color: color,
+      //   ),
+      // );
+      // final textPainter = TextPainter(
+      //   text: textSpan,
+      //   textAlign: TextAlign.center,
+      //   textDirection: TextDirection.ltr,
+      // );
+
+      // // Layout the textPainter based on the given width (constraints)
+      // textPainter.layout(
+      //   minWidth: 0,
+      //   maxWidth: size.width,
+      // );
+
+      // // Calculate the position to start drawing the text
+      // // It centers the text in the bounding box
+      // final xCenter = left + (right - left) / 2 - textPainter.width / 2;
+      // final yCenter = top + (bottom - top) / 2 - textPainter.height / 2;
+
+      // // Draw the text
+      // textPainter.paint(canvas, Offset(xCenter, yCenter));
     }
   }
 
