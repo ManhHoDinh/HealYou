@@ -146,6 +146,7 @@ class _MonthTargetState extends State<MonthTarget> {
                 ),
                 SizedBox(
                   height: 20,
+                  
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

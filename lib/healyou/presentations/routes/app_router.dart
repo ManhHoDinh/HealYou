@@ -14,7 +14,6 @@ import 'package:healyou/healyou/presentations/screens/information/weight.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
 import 'package:healyou/healyou/presentations/screens/recommendfood/recommendfood.dart';
 import 'package:healyou/healyou/presentations/screens/run/track/run_track.dart';
-import 'package:healyou/healyou/presentations/screens/run/track/track_result.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -34,7 +33,6 @@ final Map<String, WidgetBuilder> routes = {
   ChooseImageScreen.routeName: (context) => ChooseImageScreen(),
    RecommendFoodSrceen.routeName: (context) => RecommendFoodSrceen(),
   RunTrackScreen.routeName: (context) => RunTrackScreen(),
-  TrackResult.routeName: (context) => TrackResult(),
 };
 
 class Routes {

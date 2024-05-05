@@ -14,6 +14,7 @@ _$WaterTargetItemImpl _$$WaterTargetItemImplFromJson(
       target: (json['target'] as num?)?.toInt() ?? 0,
       isNotify: json['isNotify'] as bool? ?? false,
       waterTargetId: json['waterTargetId'] as String? ?? "",
+      userId: json['userId'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$WaterTargetItemImplToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$WaterTargetItemImplToJson(
       'target': instance.target,
       'isNotify': instance.isNotify,
       'waterTargetId': instance.waterTargetId,
+      'userId': instance.userId,
     };

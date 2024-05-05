@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/healyou/presentations/screens/account/login_screen.dart';
 import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 
 import '../Home/navigation_home.dart';
 
@@ -35,9 +37,7 @@ void signInWithGoogle(BuildContext context) async {
   await FirebaseAuth.instance.signInWithCredential(credential);
   if (FirebaseAuth.instance.currentUser != null) {
     //await UpdateCurrentUser();
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(NavigationHome.routeName, (route) => false);
-      
+    Get.to(() => GenderSelectorScreen());
   }
 }
 
@@ -98,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   InkWell(
                       child: OutlinedButton(
                           onPressed: () async {
-                             signInWithGoogle(context);
+                            signInWithGoogle(context);
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(

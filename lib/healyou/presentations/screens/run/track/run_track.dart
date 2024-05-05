@@ -24,6 +24,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
   bool _isRunning = false;
   Location location = Location();
   bool _isInForeground = true;
+  double zoom = 14;
+  final List<dynamic> _trackResult = [];
   final List<LatLng> _latlng = [];
   late LocationData _locationData;
   StreamSubscription<LocationData>? _locationSubscription;
@@ -41,9 +43,16 @@ class RunTrackScreenState extends State<RunTrackScreen>
     }).listen((currentLocation) {
       setState(() {
         _locationData = currentLocation;
+        _trackResult.add({
+          "startTime": DateTime.now(),
+          "endTime": DateTime.now(),
+          "startLocation": _latlng.last,
+          "endLocation":
+              LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          "velocity": 3,
+        });
         _latlng
             .add(LatLng(currentLocation.latitude!, currentLocation.longitude!));
-        debugPrint(_latlng.toString());
         if (_isInForeground) _setMarkerToCurrentLocation();
       });
     });
@@ -96,13 +105,18 @@ class RunTrackScreenState extends State<RunTrackScreen>
       title: "$_locationData",
       iconName: 'square',
     );
+    _latlng.add(LatLng(_locationData.latitude!, _locationData.longitude!));
     initialCameraPosition = CameraPosition(
         target: LatLng(_locationData.latitude!, _locationData.longitude!),
-        zoom: 14);
-    markers.add(Marker(
+        zoom: zoom);
+    markers.add(
+      Marker(
         markerId: const MarkerId('currentLocation'),
-        position: LatLng(_locationData.latitude!, _locationData.longitude!)));
+        position: LatLng(_locationData.latitude!, _locationData.longitude!),
+      ),
+    );
     debugPrint(markers.toString());
+
     setState(() {});
   }
 
@@ -165,9 +179,12 @@ class RunTrackScreenState extends State<RunTrackScreen>
                     style: TextStyle(fontSize: 24.0),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 500,
                   child: GoogleMap(
+                    onCameraMove: (CameraPosition camPos) {
+                      if (camPos.zoom != zoom) zoom = camPos.zoom;
+                    },
                     polylines: {
                       Polyline(
                         polylineId: PolylineId(_latlng.toString()),
@@ -192,7 +209,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -211,7 +228,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                         ),
                       ),
                       VerticalDivider(color: Colors.black, thickness: 1),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -231,7 +248,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                         ),
                       ),
                       VerticalDivider(color: Colors.black, thickness: 1),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 105,
                         child: Container(
@@ -253,7 +270,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 300,
                   child: Divider(color: Colors.black, thickness: 1),
                 ),
@@ -288,12 +305,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        child: Container(
-                          child: Icon(
-                              _isRunning ? Icons.pause : Icons.play_arrow,
-                              size: 24.0,
-                              color: Colors.black),
-                        ),
+                        child: Icon(_isRunning ? Icons.pause : Icons.play_arrow,
+                            size: 24.0, color: Colors.black),
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -307,10 +320,8 @@ class RunTrackScreenState extends State<RunTrackScreen>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        child: Container(
-                          child: Icon(Icons.location_on,
-                              size: 24.0, color: Colors.black),
-                        ),
+                        child: Icon(Icons.location_on,
+                            size: 24.0, color: Colors.black),
                       ),
                     ],
                   ),
@@ -326,7 +337,7 @@ class RunTrackScreenState extends State<RunTrackScreen>
     googleMapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
             target: LatLng(position.latitude!, position.longitude!),
-            zoom: 14)));
+            zoom: zoom)));
 
     markers.clear();
 
@@ -358,9 +369,9 @@ class RunTrackScreenState extends State<RunTrackScreen>
           Text("Please wait a moment for us to summarize your run.\n"),
           TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(
-                    TrackResult.routeName,
-                    arguments: {"latLng": _latlng});
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TrackResult(runTrack: _trackResult),
+                ));
               },
               child: Text(
                 "Process",

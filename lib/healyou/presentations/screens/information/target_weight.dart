@@ -2,68 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
-import 'package:healyou/healyou/presentations/screens/information/weight.dart';
+import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
+import 'package:healyou/healyou/presentations/screens/information/goal_screen.dart';
 
-// void main() => runApp(const MyApp());
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         body: const SafeArea(
-//           top: false, // Không thêm padding ở phía trên
-//           child: HightSelector(),
-//         ),
-//         floatingActionButton: Padding(
-//           padding: const EdgeInsets.all(75.0),
-//           child: FloatingActionButton(
-//             child: const Icon(Icons.arrow_forward),
-//             onPressed: () {},
-//           ),
-//         ),
-//         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-//       ),
-//     );
-//   }
-// }
-
-class HightSelectorScreen extends StatefulWidget {
-  const HightSelectorScreen({super.key});
-  static const String routeName = 'hight_screen';
+class TargetWeightScreen extends StatefulWidget {
+  const TargetWeightScreen({super.key});
+  static const String routeName = 'weight_screen';
 
   @override
-  _HightSelectorState createState() => _HightSelectorState();
+  State<TargetWeightScreen> createState() => _TargetWeightScreenState();
 }
 
-class _HightSelectorState extends State<HightSelectorScreen> {
+class _TargetWeightScreenState extends State<TargetWeightScreen> {
   late ScrollController _scrollController;
-  int _currentHight = 20;
-  final int _minHight = 120;
-  final int _maxHight = 240;
+  int _currentWeight = 60;
+  final int _minWeight = 20;
+  final int _maxWeight = 100;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController(
-      initialScrollOffset: (_currentHight - _minHight) * 60.0,
+      initialScrollOffset: (_currentWeight - _minWeight) * 60.0,
     );
-    _scrollController.addListener(_selectHight);
+    _scrollController.addListener(_selectWeight);
   }
 
-  void _selectHight() {
+  void _selectWeight() {
     if (_scrollController.hasClients) {
       double center = _scrollController.offset +
           _scrollController.position.viewportDimension / 2;
-      int hightIndex = (center / 60).round();
-      int newHight = _minHight + hightIndex;
-      if (_currentHight != newHight &&
-          newHight >= _minHight &&
-          newHight <= _maxHight) {
+      int weightIndex = (center / 60).round();
+      int newWeight = _minWeight + weightIndex;
+      if (_currentWeight != newWeight &&
+          newWeight >= _minWeight &&
+          newWeight <= _maxWeight) {
         setState(() {
-          _currentHight = newHight;
+          _currentWeight = newWeight;
         });
       }
     }
@@ -71,7 +46,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_selectHight);
+    _scrollController.removeListener(_selectWeight);
     _scrollController.dispose();
     super.dispose();
   }
@@ -92,7 +67,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
           const Padding(
             padding: EdgeInsets.all(70.0),
             child: Text(
-              'Tell us your height',
+              'Tell us your target weight',
               style: TextStyle(fontSize: 32, color: Colors.black),
               textAlign: TextAlign.center,
             ),
@@ -102,7 +77,7 @@ class _HightSelectorState extends State<HightSelectorScreen> {
             child: ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: _maxHight - _minHight + 1,
+              itemCount: _maxWeight - _minWeight + 1,
               itemBuilder: (context, index) {
                 return Center(
                   child: Container(
@@ -112,21 +87,22 @@ class _HightSelectorState extends State<HightSelectorScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          (_minHight + index).toString(),
+                          (_minWeight + index).toString(),
                           style: TextStyle(
-                            color: (_minHight + index) == _currentHight
+                            color: (_minWeight + index) == _currentWeight
                                 ? Colors.blue
                                 : Colors.grey,
-                            fontSize:
-                                (_minHight + index) == _currentHight ? 24 : 16,
+                            fontSize: (_minWeight + index) == _currentWeight
+                                ? 24
+                                : 16,
                           ),
                         ),
                         const SizedBox(height: 10),
                         Container(
                           width: 2,
                           height:
-                              (_minHight + index) == _currentHight ? 120 : 70,
-                          color: (_minHight + index) == _currentHight
+                              (_minWeight + index) == _currentWeight ? 120 : 70,
+                          color: (_minWeight + index) == _currentWeight
                               ? Colors.blue
                               : Colors.grey,
                         ),
@@ -143,8 +119,8 @@ class _HightSelectorState extends State<HightSelectorScreen> {
             child: FloatingActionButton(
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
-                informationController.updateHeight(_currentHight);
-                Navigator.pushNamed(context, WeightSelectorScreen.routeName);
+                informationController.updateTargetWeight(_currentWeight);
+                Get.to(() => GoalScreen());
               },
             ),
           ),
