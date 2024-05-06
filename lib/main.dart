@@ -35,9 +35,9 @@ void main() async {
   await LocalStorageHelper.initLocalStorageHelper();
   NotifyController.initializeNotification();
 
-  if (FirebaseAuth.instance.currentUser != null) {
-    await TargetRequest.autoAddRunTarget();
-  }
+  // if (FirebaseAuth.instance.currentUser != null) {
+  //   await TargetRequest.autoAddRunTarget();
+  // }
 
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,

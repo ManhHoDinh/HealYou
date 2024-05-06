@@ -17,9 +17,9 @@ class Nutrition with _$Nutrition {
     @Default("") String id,
     @Default("") String name,
     @Default("") String meal,
-    @Default(0) String calories,
-    @Default(0) String protein,
-    @Default(0) String fat,
+    @Default("0") String calories,
+    @Default("0") String protein,
+    @Default("0") String fat,
     @Default("") String userId,
     @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
     DateTime? time,

@@ -111,19 +111,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           child: Container(
                             height: 120,
                             width: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.6),
-                                    offset: const Offset(2.0, 4.0),
-                                    blurRadius: 8),
-                              ],
-                            ),
                             child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.png'),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(120.0)),
+                              child: FirebaseAuth.instance.currentUser != null
+                                  ? Image.network(
+                                      FirebaseAuth
+                                              .instance.currentUser!.photoURL ??
+                                          '',
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset('assets/images/userImage.png'),
                             ),
                           ),
                         ),
@@ -133,7 +133,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
+                      FirebaseAuth.instance.currentUser!.photoURL != null
+                          ? FirebaseAuth.instance.currentUser!.displayName!
+                          : 'Guest',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -198,11 +200,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-          FirebaseAuth.instance.signOut();
-                    GoogleSignIn().signOut();
-                    Navigator.of(context)
-                        .pushReplacementNamed('onboarding_screen');
-              
+    FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
+    Navigator.of(context).pushReplacementNamed('onboarding_screen');
   }
 
   Widget inkwell(DrawerList listData) {
