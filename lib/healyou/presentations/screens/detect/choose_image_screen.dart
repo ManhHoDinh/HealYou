@@ -57,7 +57,7 @@ class _ChooseImageCreenState extends State<ChooseImageScreen> {
           ),
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
-          toolbarHeight: 150,
+          toolbarHeight: 100,
           backgroundColor: ColorPalette.primaryColor,
         ),
         body: Container(

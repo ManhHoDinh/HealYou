@@ -21,7 +21,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class RecommendFoodSrceen extends StatefulWidget {
   const RecommendFoodSrceen({super.key, this.animationController});
-  static final String routeName = 'home_screen';
+  static final String routeName = 'recommendFood_screen';
   final AnimationController? animationController;
 
   @override

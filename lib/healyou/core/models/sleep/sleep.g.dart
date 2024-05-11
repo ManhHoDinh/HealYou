@@ -12,7 +12,7 @@ _$SleepImpl _$$SleepImplFromJson(Map<String, dynamic> json) => _$SleepImpl(
       endTime: _sendDateTimeFromJson(json['endTime'] as Timestamp),
       color: json['color'] == null
           ? Colors.greenAccent
-          : _sendColorFromJson(json['color'] as int),
+          : _sendColorFromJson((json['color'] as num).toInt()),
       sleepTime: json['sleepTime'] == null
           ? const <DateTime>[]
           : _sendSleepTimesListFromJson(json['sleepTime'] as List),

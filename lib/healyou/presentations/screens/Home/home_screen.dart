@@ -101,7 +101,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       label: "Start now",
                                       color: ColorPalette.white,
                                       textColor: ColorPalette.primaryColor,
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                            RunTrackScreen.routeName);
+                                      },
                                     ),
                                   )
                                 ],

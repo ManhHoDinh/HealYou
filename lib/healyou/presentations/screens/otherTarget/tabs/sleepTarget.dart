@@ -54,28 +54,16 @@ class _SleepTargetState extends State<SleepTarget> {
                     a.startTime
                 ? 1
                 : -1));
-        Isolate.run(
-          () {
-            final closest = event.reduce((a, b) =>
-                (closestToNow(a.startTime, b.startTime, DateTime.now()) ==
-                        a.startTime
-                    ? a
-                    : b));
-            Timer.periodic(Duration(seconds: 1), (timer) {
-              if (DateTime.now().isAfter(closest.startTime) &&
-                  DateTime.now().isBefore(closest.endTime) &&
-                  _sleepTime == false) {
-                setState(() {
-                  _sleepTime = true;
-                });
-              } else if (_sleepTime == true) {
-                setState(() {
-                  _sleepTime = false;
-                });
-              }
+        if (event.isEmpty) return;
+        if (event[0].startTime.isBefore(DateTime.now()) &&
+            event[0].endTime.isAfter(DateTime.now())) _sleepTime = true;
+        if (event[0].startTime.isAfter(DateTime.now())) {
+          Future.delayed(DateTime.now().difference(event[0].startTime), () {
+            setState(() {
+              _sleepTime = true;
             });
-          },
-        );
+          });
+        }
 
         sleepList = event;
       });
@@ -330,7 +318,6 @@ class _SleepTargetState extends State<SleepTarget> {
                       ],
                     ),
                     AnimatedContainer(
-                      height: seeMoreSelected ? null : 80,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(),
                       duration: Duration(seconds: 2),
@@ -349,26 +336,27 @@ class _SleepTargetState extends State<SleepTarget> {
                               ],
                             ),
                     ),
-                    _sleepList.isNotEmpty &&
-                            DateTime.now().isAfter(_sleepList[0].startTime) &&
-                            DateTime.now().isBefore(_sleepList[0].endTime) &&
-                            !seeMoreSelected
-                        ? Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.orange),
-                            child: Center(
-                                child: IconButton(
-                              onPressed: () {
-                                _handleOnRecording();
-                              },
-                              icon: Icon(
-                                recording ? Icons.square : Icons.alarm_on,
-                                color: Colors.white,
-                              ),
-                            )))
-                        : SizedBox.shrink(),
+                    // _sleepTime &&
+                    //         _sleepList.isNotEmpty &&
+                    //         DateTime.now().isAfter(_sleepList[0].startTime) &&
+                    //         DateTime.now().isBefore(_sleepList[0].endTime) &&
+                    //         !seeMoreSelected
+                    //     ? Container(
+                    //         width: 50,
+                    //         height: 50,
+                    //         decoration: BoxDecoration(
+                    //             shape: BoxShape.circle, color: Colors.orange),
+                    //         child: Center(
+                    //             child: IconButton(
+                    //           onPressed: () {
+                    //             _handleOnRecording();
+                    //           },
+                    //           icon: Icon(
+                    //             recording ? Icons.square : Icons.alarm_on,
+                    //             color: Colors.white,
+                    //           ),
+                    //         )))
+                    //     : SizedBox.shrink(),
                     Center(
                       child: AudioWaveforms(
                         size: Size(MediaQuery.of(context).size.width, 50.0),

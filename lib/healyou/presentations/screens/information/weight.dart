@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/confirm.dart';
+import 'package:healyou/healyou/presentations/screens/information/target_weight.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -40,7 +41,7 @@ class WeightSelectorScreen extends StatefulWidget {
 
 class _WeightSelectorState extends State<WeightSelectorScreen> {
   late ScrollController _scrollController;
-  int _currentWeight = 20;
+  int _currentWeight = 50;
   final int _minWeight = 20;
   final int _maxWeight = 100;
 
@@ -93,7 +94,7 @@ class _WeightSelectorState extends State<WeightSelectorScreen> {
             padding: EdgeInsets.all(70.0),
             child: Text(
               'Tell us your weight',
-              style: TextStyle(fontSize: 40, color: Colors.black),
+              style: TextStyle(fontSize: 32, color: Colors.black),
               textAlign: TextAlign.center,
             ),
           ),
@@ -145,7 +146,7 @@ class _WeightSelectorState extends State<WeightSelectorScreen> {
               child: const Icon(Icons.arrow_forward),
               onPressed: () {
                 informationController.updateWeight(_currentWeight);
-                Navigator.pushNamed(context, ReviewInformationScreen.routeName);
+                Get.to(() => TargetWeightScreen());
               },
             ),
           ),

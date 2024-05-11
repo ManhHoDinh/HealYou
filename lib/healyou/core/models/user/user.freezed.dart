@@ -26,6 +26,9 @@ mixin _$UserModel {
   String get email => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
   int get weight => throw _privateConstructorUsedError;
+  int get targetWeight => throw _privateConstructorUsedError;
+  double get activity => throw _privateConstructorUsedError;
+  double get weightLoss => throw _privateConstructorUsedError;
   int get height => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
 
@@ -47,6 +50,9 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       int age,
       int weight,
+      int targetWeight,
+      double activity,
+      double weightLoss,
       int height,
       String gender});
 }
@@ -70,6 +76,9 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = null,
     Object? age = null,
     Object? weight = null,
+    Object? targetWeight = null,
+    Object? activity = null,
+    Object? weightLoss = null,
     Object? height = null,
     Object? gender = null,
   }) {
@@ -98,6 +107,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as int,
+      targetWeight: null == targetWeight
+          ? _value.targetWeight
+          : targetWeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      activity: null == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as double,
+      weightLoss: null == weightLoss
+          ? _value.weightLoss
+          : weightLoss // ignore: cast_nullable_to_non_nullable
+              as double,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -125,6 +146,9 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String email,
       int age,
       int weight,
+      int targetWeight,
+      double activity,
+      double weightLoss,
       int height,
       String gender});
 }
@@ -146,6 +170,9 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? age = null,
     Object? weight = null,
+    Object? targetWeight = null,
+    Object? activity = null,
+    Object? weightLoss = null,
     Object? height = null,
     Object? gender = null,
   }) {
@@ -174,6 +201,18 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as int,
+      targetWeight: null == targetWeight
+          ? _value.targetWeight
+          : targetWeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      activity: null == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as double,
+      weightLoss: null == weightLoss
+          ? _value.weightLoss
+          : weightLoss // ignore: cast_nullable_to_non_nullable
+              as double,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -196,6 +235,9 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.email = "",
       this.age = 0,
       this.weight = 0,
+      this.targetWeight = 0,
+      this.activity = 0,
+      this.weightLoss = 0,
       this.height = 0,
       this.gender = ""});
 
@@ -222,6 +264,15 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   final int weight;
   @override
   @JsonKey()
+  final int targetWeight;
+  @override
+  @JsonKey()
+  final double activity;
+  @override
+  @JsonKey()
+  final double weightLoss;
+  @override
+  @JsonKey()
   final int height;
   @override
   @JsonKey()
@@ -229,7 +280,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, weight: $weight, height: $height, gender: $gender)';
+    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, weight: $weight, targetWeight: $targetWeight, activity: $activity, weightLoss: $weightLoss, height: $height, gender: $gender)';
   }
 
   @override
@@ -243,6 +294,9 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('age', age))
       ..add(DiagnosticsProperty('weight', weight))
+      ..add(DiagnosticsProperty('targetWeight', targetWeight))
+      ..add(DiagnosticsProperty('activity', activity))
+      ..add(DiagnosticsProperty('weightLoss', weightLoss))
       ..add(DiagnosticsProperty('height', height))
       ..add(DiagnosticsProperty('gender', gender));
   }
@@ -259,14 +313,20 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.targetWeight, targetWeight) ||
+                other.targetWeight == targetWeight) &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
+            (identical(other.weightLoss, weightLoss) ||
+                other.weightLoss == weightLoss) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, phoneNumber, email, age, weight, height, gender);
+  int get hashCode => Object.hash(runtimeType, id, name, phoneNumber, email,
+      age, weight, targetWeight, activity, weightLoss, height, gender);
 
   @JsonKey(ignore: true)
   @override
@@ -290,6 +350,9 @@ abstract class _UserModel implements UserModel {
       final String email,
       final int age,
       final int weight,
+      final int targetWeight,
+      final double activity,
+      final double weightLoss,
       final int height,
       final String gender}) = _$UserModelImpl;
 
@@ -308,6 +371,12 @@ abstract class _UserModel implements UserModel {
   int get age;
   @override
   int get weight;
+  @override
+  int get targetWeight;
+  @override
+  double get activity;
+  @override
+  double get weightLoss;
   @override
   int get height;
   @override

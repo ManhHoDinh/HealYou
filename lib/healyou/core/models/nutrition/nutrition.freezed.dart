@@ -209,9 +209,9 @@ class _$NutritionImpl implements _Nutrition {
       {this.id = "",
       this.name = "",
       this.meal = "",
-      this.calories = "",
-      this.protein = "",
-      this.fat = "",
+      this.calories = "0",
+      this.protein = "0",
+      this.fat = "0",
       this.userId = "",
       @JsonKey(name: "time", fromJson: _sendAtFromJson, toJson: _sendAtToJson)
       this.time,
