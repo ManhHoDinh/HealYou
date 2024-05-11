@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
+import 'package:healyou/healyou/core/models/display/display.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
 import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
@@ -54,7 +56,7 @@ class TargetRequest {
         user!.height != 0 &&
         user.weight != 0 &&
         user.gender != "") {
-      print('đúng');
+      Display display = Display();
       String runTargetId = await FirebaseHelper.targetCollection.doc().id;
       String kcalTargetId = await FirebaseHelper.targetCollection.doc().id;
       String kmTargetId = await FirebaseHelper.targetCollection.doc().id;
@@ -62,8 +64,8 @@ class TargetRequest {
       String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
       double caloTarget =
           calculateCalo(user!.weight, user.height, user.gender, user.age) *
-              user.activity *
-              user.weightLoss.round().toDouble();
+              display.getActivityLevel(user.activity) *
+              display.getWeightLoss(user.weightLoss).round().toDouble();
       double stepTarget = (caloTarget / 0.05).round().toDouble();
       double distanceTarget = (stepTarget / 1000) * 1.5;
       double time = 0;
@@ -186,6 +188,7 @@ class TargetRequest {
     DateTime dateTime = DateTime.now();
     int day = dateTime.weekday;
     int count = 1;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     StreamController<List<Map<String, dynamic>>> streamController =
         StreamController<List<Map<String, dynamic>>>();
     List<Map<String, dynamic>> listReached = [];
@@ -208,6 +211,7 @@ class TargetRequest {
           if (documentTime.year == time.year &&
               documentTime.month == time.month &&
               documentTime.day == time.day &&
+              userId == documentSnapshot.get("userId") &&
               type == "step") {
             listReached.add({
               "index": count - 1,
@@ -229,6 +233,7 @@ class TargetRequest {
 
   static Stream<double> getWeekTotalReached(TargetType targetType) {
     DateTime dateTime = DateTime.now();
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     int day = dateTime.weekday;
     int count = 1;
     StreamController<double> streamController = StreamController<double>();
@@ -252,6 +257,7 @@ class TargetRequest {
           if (documentTime.year == time.year &&
               documentTime.month == time.month &&
               documentTime.day == time.day &&
+              userId == documentSnapshot.get("userId") &&
               targetType == TargetType.values.byName(type)) {
             total += documentSnapshot.get("reached").toDouble();
           }
@@ -267,6 +273,7 @@ class TargetRequest {
   static Stream<List<double>> waterStatistic(
       TargetType targetType, DateTime usedTime) {
     DateTime dateTime = DateTime.now();
+    String userId = FirebaseAuth.instance.currentUser!.uid;
 
     int count = 0;
     StreamController<List<double>> streamController =
@@ -288,6 +295,7 @@ class TargetRequest {
           if (documentTime.year == time.year &&
               documentTime.month == time.month &&
               documentTime.day == time.day &&
+              userId == documentSnapshot.get("userId") &&
               targetType == TargetType.values.byName(type)) {
             double reached = documentSnapshot.get("reached").toDouble();
             double target = documentSnapshot.get("target").toDouble();
@@ -308,10 +316,13 @@ class TargetRequest {
   static Future<List<DateTime>> getRangeWaterStatistic() async {
     var data = await FirebaseHelper.targetCollection.orderBy("time").get();
     List<Target> targets = [];
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
     double average = 0;
     for (var doc in data.docs) {
       Target targetDoc = Target.fromJson(doc.data());
-      if (targetDoc.type == TargetType.values.byName("water")) {
+      if (targetDoc.type == TargetType.values.byName("water") &&
+          userId == targetDoc.userId) {
         average += targetDoc.reached * 100 / targetDoc.target;
         targets.add(targetDoc);
       }
