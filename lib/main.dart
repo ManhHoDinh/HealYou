@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
       ),
       routes: routes,
       initialBinding: MyBindings(),
-      initialRoute: Routes.recommendedDishes,
+      //initialRoute: Routes.recommendedDishes,
       getPages: [
         GetPage(
             name: Routes.genderSelector, page: () => GenderSelectorScreen()),
@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
             name: Routes.recommendedDishes,
             page: () => RecommendedDishesScreen()),
       ],
-      // home: healyouApp()
+       home: healyouApp()
     );
   }
 }
