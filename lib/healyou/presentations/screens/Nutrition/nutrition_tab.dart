@@ -31,6 +31,7 @@ Future<String> getNutrition(String query) async {
   );
 
   if (response.statusCode == 200) {
+    print(response.body);
     return response.body;
   } else {
     throw Exception('Failed to load nutrition');
@@ -121,20 +122,20 @@ class _DateTargetState extends State<NutritionSreen> {
                         document.data() as Map<String, dynamic>;
                     List<Map<String, dynamic>> foodItems =
                         List<Map<String, dynamic>>.from(data['foodItems']);
+                    double calo = 0;
+                    foodItems.forEach((element) {
+                      calo += double.parse(element['calories']);
+                    });
                     return Column(
-                      children: foodItems.map((foodItem) {
-                        return Column(
-                          children: [
-                            _buildInfoBox(
-                              data['name'],
-                              double.parse(foodItem['calories']),
-                              document.id,
-                              'cal',
-                            ),
-                            SizedBox(height: 20),
-                          ],
-                        );
-                      }).toList(),
+                      children: [
+                        _buildInfoBox(
+                          data['name'],
+                          calo,
+                          document.id,
+                          'cal',
+                        ),
+                        SizedBox(height: 20),
+                      ],
                     );
                   }),
               SizedBox(

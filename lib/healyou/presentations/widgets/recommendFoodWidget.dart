@@ -20,9 +20,7 @@ class RecommendFoodWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
           ),
           image: DecorationImage(
-            image: NetworkImage(
-              food.ImageLink,
-            ),
+            image: AssetImage(food.ImageLink),
             fit: BoxFit.cover,
           ),
         ),

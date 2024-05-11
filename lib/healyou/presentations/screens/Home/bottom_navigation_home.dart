@@ -36,7 +36,7 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
 
   @override
   void dispose() {
-    animationController?.dispose();
+    animationController!.dispose();
     super.dispose();
   }
 
@@ -90,20 +90,17 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
                       HomeScreen(animationController: animationController);
                 });
               });
-            } 
-            else if (index == 3) {
+            } else if (index == 3) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
                 }
                 setState(() {
-                  tabBody =
-                      OtherTargetScreen(animationController: animationController);
+                  tabBody = OtherTargetScreen(
+                      animationController: animationController);
                 });
               });
-            } 
-            
-            else if (index == 1 || index == 3) {
+            } else if (index == 1 || index == 3) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
