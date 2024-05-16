@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 class Generator {
   late List nutritionInput;
   final dio = Dio();
@@ -15,7 +16,7 @@ class Generator {
       'params': params
     };
     var response =
-        await dio.post("http://10.0.2.2:8080/predict/", data: request);
+        await dio.post("http://52.221.231.17:8080/predict/", data: request);
     return response.data;
   }
 }
