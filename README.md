@@ -1,4 +1,15 @@
-# Introduction
+# Healthcare application
+
+An app that helps you lose weight, track your running distance, manage your sleep, remind you to drink water and more
+
+## Mục lục
+- [Introduction](#intruduction)
+- [Cài đặt](#cài-đặt)
+- [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
+- [Đóng góp](#đóng-góp)
+- [Giấy phép](#giấy-phép)
+
+## Introduction
 ![healthy-u-logo2-1](https://github.com/ManhHoDinh/HealYou/assets/105732042/6361f139-ca06-4c24-a0d9-8235f8eeeb44)
 
 In today's fast-paced lifestyle, maintaining a healthy lifestyle has become increasingly challenging. However, with the advent of technology, managing one's health has become more accessible and convenient. Our Health Management Application is designed to empower individuals to take control of their well-being and lead healthier lives.
