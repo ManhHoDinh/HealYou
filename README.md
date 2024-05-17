@@ -7,8 +7,7 @@ An app that helps you lose weight, track your running distance, manage your slee
 - [Introduction](#intruduction)
 - [Install](#install)
 - [Main functions](#main-functions)
-- [Đóng góp](#đóng-góp)
-- [Giấy phép](#giấy-phép)
+- [Thanks](#thanks)
 
 ## Introduction
 
@@ -44,7 +43,7 @@ Below are the main functions of the Library Management project:
   
 ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_13_20 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/4e8ae3a4-9a99-46b8-8c8e-05480b51c2c4)                  ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 8_02_38 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/ed089047-4ec1-478d-b77a-62442e4618c1)
 
-### 1. track running distance
+### 2. Track running distance
 
 - track running distance
 
@@ -52,12 +51,32 @@ Below are the main functions of the Library Management project:
 
 - Statistics on distance run by day, week, month
 
-![Android Emulator - Pixel_7_API_30_5554 5_17_2024 6_53_58 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/225fd33b-7ea6-4f04-b1ad-e3ccc4a97925)      ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_21_02 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/f154f7d5-dbae-49bd-a604-330d186c371c)
+![Android Emulator - Pixel_7_API_30_5554 5_17_2024 6_53_58 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/225fd33b-7ea6-4f04-b1ad-e3ccc4a97925)      ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_21_02 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/f154f7d5-dbae-49bd-a604-330d186c371c)    
+
+
 ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_26_40 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/544875e7-7b48-41f5-9468-11ca731f2a55)       ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_17_07 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/60916ba7-3b36-408b-ba27-d614bbd93d1c)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 3. Track users drinking water
+
+- Monitor the amount of water users have drunk
+
+- Create appointment reminders
+
+![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_16_33 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/54279f15-5c53-4742-9349-db2fafadbcb7)     ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 8_20_23 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/11a2cd00-eea9-4112-8620-b4302bde9a89)
+
+### 4. Track users sleeping
+
+- Statistics on user sleep time
+  
+- Create alarm
+
+  ![Android Emulator - Pixel_7_API_30_5554 5_17_2024 7_14_27 PM](https://github.com/ManhHoDinh/HealYou/assets/105732042/5cacaca9-5aef-4833-9b97-15ebd8a95978)
+
+
+## Thanks
+
+This project has almost basically completed the functions of a healthcarre application. However, developed by a development team that is still university students and does not have enough experience, this project may have a problem. number of problems. You can download ours to get more experience. Thank you for visiting our project.
+
+I appreciate every team member for showing tireless effort on this project.
+
