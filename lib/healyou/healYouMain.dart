@@ -86,15 +86,15 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         return SplashScreen();
                       } else {
                         print(AuthServices.CurrentUser);
-                        UserModel currentUser = AuthServices.CurrentUser!;
-                        if (currentUser.height == 0 &&
-                            currentUser.weight == 0 &&
-                            currentUser.gender == "" &&
-                            currentUser.age == 0) {
-                          return GenderSelectorScreen();
-                        }
-                        // If the update is complete, navigate to the MainScreen
-                        else
+                        // UserModel currentUser = AuthServices.CurrentUser!;
+                        // if (currentUser.height == 0 &&
+                        //     currentUser.weight == 0 &&
+                        //     currentUser.gender == "" &&
+                        //     currentUser.age == 0) {
+                        //   return GenderSelectorScreen();
+                        // }
+                        // // If the update is complete, navigate to the MainScreen
+                        // else
                           return NavigationHome();
                       }
                     },

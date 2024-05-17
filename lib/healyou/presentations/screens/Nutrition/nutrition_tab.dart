@@ -13,6 +13,8 @@ import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/progress
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class NutritionSreen extends StatefulWidget {
   const NutritionSreen({super.key});
 
@@ -38,127 +40,127 @@ Future<String> getNutrition(String query) async {
 class _DateTargetState extends State<NutritionSreen> {
   List<Widget> _infoBoxes = [];
   final _formKey = GlobalKey<FormState>();
-  int _boxIndex = 0;
+
   String _title = '';
   int _value = 0;
   String _unit = '';
-  int _expandedItemIndex = -1;
+  String? _expandedItemIndex;
   User? currentUser = FirebaseAuth.instance.currentUser;
   double totalCalories = 0.0;
   double totalProtein = 0.0;
   double totalFat = 0.0;
   final List<FoodItem> _addedFoodItems = [];
-  Map<int, List<FoodItem>> _expandedFoodItemsMap = {};
+  final Map<int, List<FoodItem>> _expandedFoodItemsMap = {};
   final List<FoodItem> _foodItems = [];
   @override
   late DateTime _lastFetchDate;
   List<Widget> infoBoxes = [];
-
-  Future<void> fetchData() async {
-    DateTime now = DateTime.now();
-    DateTime today = DateTime(now.year, now.month, now.day);
-
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('nutrition')
-        .where('time', isGreaterThanOrEqualTo: today)
-        .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      querySnapshot.docs.forEach((document) {
-        var data = document.data();
-        String name = (data as Map<String, dynamic>)['name'] ?? 'default';
-        double calories = double.parse(data['calories']);
-        String id = document.id;
-        Widget infoBox = _buildInfoBox(name, calories, id);
-
-        // Add the infoBox to the list
-        infoBoxes.add(infoBox);
-      });
-
-      // Call setState to update the UI
-      setState(() {});
-    } else {
-      print('No data found');
-    }
-  }
-
   bool _isLoading = false;
   List<dynamic> _apiResponseData = [];
-
+  String id = '';
   FoodItem? _selectedFoodItem;
   @override
   bool _expanded = false;
-  @override
+
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     totalCalories =
         _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.calories));
     totalProtein =
         _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.protein));
     totalFat =
         _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.fat));
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-            height: 20,
-          ),
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    double width = MediaQuery.of(context).size.width;
+    DateTime now = DateTime.now();
+    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('nutrition')
+          .where('userId', isEqualTo: userId)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        List<Widget> infoBoxes = [];
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          print('Error: ${snapshot.error}');
+          return Text("Something went wrong");
+        }
+        List<QueryDocumentSnapshot> documents =
+            snapshot.data!.docs.where((document) {
+          DateTime time = document['time'].toDate();
+          return time.isAfter(now) && time.isBefore(tomorrow);
+        }).toList();
 
-          ProgressWidget(
-              percent: 0.2,
-              size: width * 7 / 10,
-              calories: totalCalories / 100,
-              protein: totalProtein,
-              fat: totalFat,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          // _buildInfoBox("Calories", calo, "cal"),
-          // _expanded ? _buildExpandedItems() : Container(),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // _buildInfoBox("Protein", protein, "g"),
-          // _expanded ? _buildExpandedItems() : Container(),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            children: _infoBoxes
-                .asMap()
-                .entries
-                .map((entry) => Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: Column(
-                        children: [
-                          entry.value,
-                          if (_expandedItemIndex == entry.key)
-                            _buildExpandedItems(entry.key),
-                        ],
-                      ),
-                    ))
-                .toList(),
-          ),
-          // _buildInfoBox("Pat", fat, "cal"),
-
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          _buildAddBox(),
-          SizedBox(
-            height: 20,
-          ),
-          _buildHistory(),
-        ]),
-      ),
+        return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SingleChildScrollView(
+                child: Column(children: [
+              SizedBox(
+                height: 20,
+              ),
+              ProgressWidget(
+                  percent: 0.2,
+                  size: width * 7 / 10,
+                  calories: totalCalories / 100,
+                  protein: totalProtein,
+                  fat: totalFat,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    List<Map<String, dynamic>> foodItems =
+                        List<Map<String, dynamic>>.from(data['foodItems']);
+                    return Column(
+                      children: foodItems.map((foodItem) {
+                        return Column(
+                          children: [
+                            _buildInfoBox(
+                              data['name'],
+                              double.parse(foodItem['calories']),
+                              document.id,
+                              'cal',
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        );
+                      }).toList(),
+                    );
+                  }),
+              SizedBox(
+                height: 20,
+              ),
+              _buildAddBox(),
+              SizedBox(
+                height: 20,
+              ),
+              _buildHistory(),
+            ])));
+      },
     );
+  }
+
+  double _calculateTotalFromFirestore(
+      List<QueryDocumentSnapshot> documents, String fieldName) {
+    double total = 0.0;
+    for (var document in documents) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      List<dynamic> foodItems = data['foodItems'];
+      for (var foodItem in foodItems) {
+        total += double.parse(foodItem[fieldName]);
+      }
+    }
+    return total;
   }
 
   Widget _buildHistory() {
@@ -226,120 +228,131 @@ class _DateTargetState extends State<NutritionSreen> {
                     builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
                         title: Text('Add new item'),
-                        content: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: <Widget>[
-                              TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Edit Name'),
-                                onSaved: (value) {
-                                  setState(() {
-                                    _title = value!;
-                                  });
-                                },
-                              ),
-                              TextField(
-                                controller: _controller,
-                                decoration: InputDecoration(
-                                  labelText: 'Search',
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  decoration:
+                                      InputDecoration(labelText: 'Edit Name'),
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _title = value!;
+                                    });
+                                  },
                                 ),
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _controller.text = value;
-                                  });
-                                },
-                              ),
-                              FutureBuilder<String>(
-                                future: getNutrition(_controller.text),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  } else {
-                                    if (snapshot.hasError)
-                                      return Text('Error: ${snapshot.error}');
-                                    else {
-                                      if (snapshot.hasData &&
-                                          snapshot.data != null) {
-                                        _apiResponseData =
-                                            jsonDecode(snapshot.data!);
-                                        final data = jsonDecode(snapshot.data!);
-                                        if (data.isNotEmpty) {
-                                          return ListTile(
-                                            leading: Image.asset(
-                                                'assets/images/rice.png'),
-                                            title: Text(' ${data[0]['name']}'),
-                                            subtitle: Text(
-                                                ' ${data[0]['calories']} cal'),
-                                            trailing: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                IconButton(
-                                                  icon: Icon(Icons.add),
-                                                  onPressed: () {
-                                                    Fluttertoast.showToast(
-                                                        msg: "Thêm thành công",
-                                                        toastLength:
-                                                            Toast.LENGTH_SHORT,
-                                                        gravity:
-                                                            ToastGravity.BOTTOM,
-                                                        timeInSecForIosWeb: 1,
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0);
+                                TextField(
+                                  controller: _controller,
+                                  decoration: InputDecoration(
+                                    labelText: 'Search',
+                                  ),
+                                  onSubmitted: (value) {
+                                    setState(() {
+                                      _controller.text = value;
+                                    });
+                                  },
+                                ),
+                                FutureBuilder<String>(
+                                  future: getNutrition(_controller.text),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CircularProgressIndicator();
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Text('Error: ${snapshot.error}');
+                                      else {
+                                        if (snapshot.hasData &&
+                                            snapshot.data != null) {
+                                          _apiResponseData =
+                                              jsonDecode(snapshot.data!);
+                                          final data =
+                                              jsonDecode(snapshot.data!);
+                                          if (data.isNotEmpty) {
+                                            return ListTile(
+                                              leading: Image.asset(
+                                                  'assets/images/rice.png'),
+                                              title:
+                                                  Text(' ${data[0]['name']}'),
+                                              subtitle: Text(
+                                                  ' ${data[0]['calories']} cal'),
+                                              trailing: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  IconButton(
+                                                    icon: Icon(Icons.add),
+                                                    onPressed: () {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              "Add Successfully",
+                                                          toastLength: Toast
+                                                              .LENGTH_SHORT,
+                                                          gravity: ToastGravity
+                                                              .BOTTOM,
+                                                          timeInSecForIosWeb: 1,
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          textColor:
+                                                              Colors.white,
+                                                          fontSize: 16.0);
 
-                                                    final newFoodItem =
-                                                        FoodItem(
-                                                      imageUrl:
-                                                          "assets/images/rice.png",
-                                                      name: _apiResponseData[0]
-                                                              ['name'] ??
-                                                          'Unknown',
-                                                      calories: (_apiResponseData[
-                                                                      0][
-                                                                  'calories'] ??
-                                                              0)
-                                                          .toString(),
-                                                      protein: (_apiResponseData[
-                                                                      0][
-                                                                  'protein_g'] ??
-                                                              0)
-                                                          .toString(),
-                                                      fat: (_apiResponseData[0][
-                                                                  'fat_total_g'] ??
-                                                              0)
-                                                          .toString(),
-                                                    );
+                                                      final newFoodItem =
+                                                          FoodItem(
+                                                        imageUrl:
+                                                            "assets/images/rice.png",
+                                                        name:
+                                                            _apiResponseData[0]
+                                                                    ['name'] ??
+                                                                'Unknown',
+                                                        calories:
+                                                            (_apiResponseData[0]
+                                                                        [
+                                                                        'calories'] ??
+                                                                    0)
+                                                                .toString(),
+                                                        protein: (_apiResponseData[
+                                                                        0][
+                                                                    'protein_g'] ??
+                                                                0)
+                                                            .toString(),
+                                                        fat: (_apiResponseData[
+                                                                        0][
+                                                                    'fat_total_g'] ??
+                                                                0)
+                                                            .toString(),
+                                                      );
 
-                                                    setState(() {
-                                                      _selectedFoodItems
-                                                          .add(newFoodItem);
-                                                    });
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.delete),
-                                                  onPressed: () {
-                                                    // Handle delete action
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
+                                                      setState(() {
+                                                        _selectedFoodItems
+                                                            .add(newFoodItem);
+                                                      });
+                                                    },
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(Icons.delete),
+                                                    onPressed: () {
+                                                      // Handle delete action
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Text('');
+                                          }
                                         } else {
-                                          return Text('No data');
+                                          return Text('');
                                         }
-                                      } else {
-                                        return Text('No data');
                                       }
                                     }
-                                  }
-                                },
-                              ),
-                            ],
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         actions: <Widget>[
@@ -356,8 +369,9 @@ class _DateTargetState extends State<NutritionSreen> {
                                     setState(() {
                                       _isLoading = false;
                                       _foodItems.addAll(_selectedFoodItems);
-                                      _handleAddFoodItem(_selectedFoodItems);
-                                      _expandedItemIndex = _boxIndex + 1;
+                                      _handleAddFoodItem(
+                                          _selectedFoodItems, id);
+                                      _expandedItemIndex = (id);
                                       uploadDataToFirebase(_title,
                                           _selectedFoodItems, currentUser!.uid);
                                       _selectedFoodItems.clear();
@@ -386,10 +400,8 @@ class _DateTargetState extends State<NutritionSreen> {
     final CollectionReference collection =
         FirebaseFirestore.instance.collection('nutrition');
 
-    // Create a list to hold the food items
     List<Map<String, dynamic>> foodItemsList = [];
 
-    // Add each food item to the list
     foodItems.forEach((foodItem) {
       foodItemsList.add({
         'meal': foodItem.name,
@@ -399,9 +411,10 @@ class _DateTargetState extends State<NutritionSreen> {
       });
     });
 
-    // Upload the data to Firebase
+    DocumentReference docRef = collection.doc();
     try {
-      collection.add({
+      docRef.set({
+        'id': docRef.id,
         'name': name,
         'foodItems': foodItemsList,
         'userId': userId,
@@ -416,44 +429,20 @@ class _DateTargetState extends State<NutritionSreen> {
     }
   }
 
-  void _handleAddFoodItem(List<FoodItem> foodItems) {
+  void _handleAddFoodItem(List<FoodItem> foodItems, String id) {
     setState(() {
       for (var foodItem in foodItems) {
         _addedFoodItems.add(foodItem);
-        _expandedFoodItemsMap[_boxIndex] = [foodItem];
         double totalCalories = double.parse(foodItem.calories);
-        _infoBoxes.add(
-            _buildInfoBox(_title, totalCalories, _boxIndex.toString(), "cal"));
-        _boxIndex++;
-        _expandedItemIndex = _boxIndex - 1;
+        _infoBoxes.add(_buildInfoBox(_title, totalCalories, id, "cal"));
+        _expandedItemIndex = id;
       }
     });
   }
 
-  Future<List<Nutrition>> fetchDataFromFirebase(String userId) async {
-    final CollectionReference collection =
-        FirebaseFirestore.instance.collection('nutrition');
-    final QuerySnapshot querySnapshot =
-        await collection.where('userId', isEqualTo: userId).get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      return querySnapshot.docs.map((doc) {
-        return Nutrition(
-          id: doc.id,
-          meal: doc['meal'],
-          calories: doc['calories'],
-          protein: doc['protein'],
-          fat: doc['fat'],
-          time: doc['time'],
-        );
-      }).toList();
-    } else {
-      return [];
-    }
-  }
-
   Widget _buildInfoBox(String name, double calories, String id,
       [String unit = 'cal']) {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -499,245 +488,34 @@ class _DateTargetState extends State<NutritionSreen> {
                   onTap: () {
                     setState(() {
                       _expanded = !_expanded;
-                      _expandedItemIndex = (_expandedItemIndex == int.parse(id)
-                          ? -1
-                          : int.parse(id))!;
+                      _expandedItemIndex = _expanded ? id : null;
                     });
-                    print('Expanded state: $_expanded');
                   },
-                  child: Image.asset(
-                    "assets/images/arrow.png",
-                    width: 50,
-                    height: 50,
+                  child: Transform.translate(
+                    offset: Offset(0, -10),
+                    child: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _handleDeleteFoodItem(id);
+                      },
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          if (_expandedItemIndex == int.parse(id))
-            _buildExpandedItems(int.parse(id)),
         ],
       ),
     );
   }
 
-  void _handleDeleteFoodItem(int index, FoodItem foodItem) {
+  void _handleDeleteFoodItem(String id) async {
+    await FirebaseFirestore.instance.collection('nutrition').doc(id).delete();
     setState(() {
-      _addedFoodItems.remove(foodItem);
-      _expandedFoodItemsMap[index]?.remove(foodItem);
-      if (_expandedFoodItemsMap[index]?.isEmpty ?? false) {
-        _infoBoxes.removeAt(index);
-        _expandedItemIndex = -1;
+      if (_expandedFoodItemsMap[id]?.isEmpty ?? false) {
+        _infoBoxes.removeAt(int.parse(id));
+        _expandedItemIndex = (-1) as String?;
       }
     });
-  }
-
-  void _handleEditFoodItem(int index, FoodItem foodItem) {
-    String _editedName = _title;
-    List<FoodItem> _selectedFoodItems = [];
-    final TextEditingController _controller = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Text('Edit item'),
-              content: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        initialValue: _editedName,
-                        decoration: InputDecoration(labelText: 'Edit Name'),
-                        onSaved: (value) {
-                          setState(() {
-                            _title = value!;
-                          });
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                          labelText: 'Search',
-                        ),
-                        onSubmitted: (value) {
-                          setState(() {
-                            _controller.text = value;
-                          });
-                        },
-                      ),
-                      FutureBuilder<String>(
-                        future: getNutrition(_controller.text),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else {
-                            if (snapshot.hasError)
-                              return Text('Error: ${snapshot.error}');
-                            else {
-                              if (snapshot.hasData && snapshot.data != null) {
-                                _apiResponseData = jsonDecode(snapshot.data!);
-                                final data = jsonDecode(snapshot.data!);
-                                if (data.isNotEmpty) {
-                                  return ListTile(
-                                    leading:
-                                        Image.asset('assets/images/rice.png'),
-                                    title: Text(' ${data[0]['name']}'),
-                                    subtitle:
-                                        Text(' ${data[0]['calories']} cal'),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(Icons.add),
-                                          onPressed: () {
-                                            Fluttertoast.showToast(
-                                                msg: "Thêm thành công",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-
-                                            final newFoodItem = FoodItem(
-                                              imageUrl:
-                                                  "assets/images/rice.png",
-                                              name: _apiResponseData[0]
-                                                      ['name'] ??
-                                                  'Unknown',
-                                              calories: (_apiResponseData[0]
-                                                          ['calories'] ??
-                                                      0)
-                                                  .toString(),
-                                              protein: (_apiResponseData[0]
-                                                          ['protein_g'] ??
-                                                      0)
-                                                  .toString(),
-                                              fat: (_apiResponseData[0]
-                                                          ['fat_total_g'] ??
-                                                      0)
-                                                  .toString(),
-                                            );
-
-                                            setState(() {
-                                              _selectedFoodItems
-                                                  .add(newFoodItem);
-                                            });
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            // Handle delete action
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return Text('No data');
-                                }
-                              } else {
-                                return Text('No data');
-                              }
-                            }
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Done'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      getNutrition(_controller.text).then((data) {
-                        if (data != null) {
-                          setState(() {
-                            _isLoading = false;
-                            _foodItems.addAll(_selectedFoodItems);
-                            _handleAddFoodItem(_selectedFoodItems);
-                            _expandedItemIndex = _boxIndex + 1;
-                            _selectedFoodItems.clear();
-                          });
-                          FirebaseFirestore.instance
-                              .collection('nutrition')
-                              .doc(foodItem.name)
-                              .update({
-                            'name': _editedName,
-                            // Add other fields you want to update here
-                          }).then((_) {
-                            print('Update successful');
-                          }).catchError((error) {
-                            print('Update failed: $error');
-                          });
-                          Navigator.of(context).pop();
-                        }
-                      });
-                    }
-                  },
-                ),
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {},
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildExpandedItems(int index) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(_expanded ? 0 : 0),
-        topRight: Radius.circular(_expanded ? 0 : 0),
-      ),
-      child: Column(
-        children: (_expandedFoodItemsMap[index] ?? []).map((foodItem) {
-          return Container(
-            color: Color(0xffEFF0FF),
-            padding: EdgeInsets.only(top: 5),
-            child: ListTile(
-              leading: Image.asset(foodItem.imageUrl),
-              title: Text(foodItem.name),
-              subtitle: Text('${foodItem.calories} cal'),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      _handleEditFoodItem(index, foodItem);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _handleDeleteFoodItem(index, foodItem);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
   }
 }

@@ -1,6 +1,9 @@
-# healyou
+# Introduction
+![healthy-u-logo2-1](https://github.com/ManhHoDinh/HealYou/assets/105732042/6361f139-ca06-4c24-a0d9-8235f8eeeb44)
 
-A new Flutter project.
+In today's fast-paced lifestyle, maintaining a healthy lifestyle has become increasingly challenging. However, with the advent of technology, managing one's health has become more accessible and convenient. Our Health Management Application is designed to empower individuals to take control of their well-being and lead healthier lives.
+
+Our application provides a comprehensive suite of features to address various aspects of health management. From tracking daily activities such as exercise routines, dietary intake, and hydration levels, to monitoring vital health indicators like heart rate, blood pressure, and sleep patterns, our application offers a holistic approach to health tracking.
 
 ## Getting Started
 
