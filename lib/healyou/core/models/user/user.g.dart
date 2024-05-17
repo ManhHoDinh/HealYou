@@ -13,12 +13,13 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       phoneNumber: json['phoneNumber'] as String? ?? "",
       email: json['email'] as String? ?? "",
       age: json['age'] as int? ?? 0,
-      weight: json['weight'] as int? ?? 0,
       targetWeight: json['targetWeight'] as int? ?? 0,
-      activity: (json['activity'] as num?)?.toDouble() ?? 0,
-      weightLoss: (json['weightLoss'] as num?)?.toDouble() ?? 0,
-      height: json['height'] as int? ?? 0,
       gender: json['gender'] as String? ?? "",
+      weight: json['weight'] as int? ?? 0,
+      height: json['height'] as int? ?? 0,
+      activity: json['activity'] as String? ?? "",
+      mealPerDay: json['mealPerDay'] as int? ?? 3,
+      weightLoss: json['weightLoss'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -28,10 +29,11 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'phoneNumber': instance.phoneNumber,
       'email': instance.email,
       'age': instance.age,
-      'weight': instance.weight,
       'targetWeight': instance.targetWeight,
-      'activity': instance.activity,
-      'weightLoss': instance.weightLoss,
-      'height': instance.height,
       'gender': instance.gender,
+      'weight': instance.weight,
+      'height': instance.height,
+      'activity': instance.activity,
+      'mealPerDay': instance.mealPerDay,
+      'weightLoss': instance.weightLoss,
     };

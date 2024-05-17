@@ -7,6 +7,7 @@ import 'package:healyou/healyou/healYouMain.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
+import 'package:healyou/healyou/presentations/screens/recommendedDishes/recommended_dishes_screen.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
@@ -85,25 +86,29 @@ class _MyAppState extends State<MyApp> {
     ));
 
     return GetMaterialApp(
-        navigatorKey: MyApp.navigatorKey,
-        title: 'Flutter UI',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: AppTheme.textTheme,
-          platform: TargetPlatform.iOS,
-        ),
-        routes: routes,
-        initialBinding: MyBindings(),
-        //initialRoute: Routes.genderSelector,
-        getPages: [
-          GetPage(
-              name: Routes.genderSelector, page: () => GenderSelectorScreen()),
-          GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
-          GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
-          GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
-        ],
-        home: healyouApp());
+      navigatorKey: MyApp.navigatorKey,
+      title: 'Flutter UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: AppTheme.textTheme,
+        platform: TargetPlatform.iOS,
+      ),
+      routes: routes,
+      initialBinding: MyBindings(),
+      //initialRoute: Routes.recommendedDishes,
+      getPages: [
+        GetPage(
+            name: Routes.genderSelector, page: () => GenderSelectorScreen()),
+        GetPage(name: Routes.runTarget, page: () => RuntargetScreen()),
+        GetPage(name: Routes.setTarget, page: () => SetTargetScreen()),
+        GetPage(name: Routes.navigationHome, page: () => NavigationHome()),
+        GetPage(
+            name: Routes.recommendedDishes,
+            page: () => RecommendedDishesScreen()),
+      ],
+       home: healyouApp()
+    );
   }
 }
 // class MyApp extends StatelessWidget {
