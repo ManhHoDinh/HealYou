@@ -72,9 +72,70 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
   @override
   Widget build(BuildContext context) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
-    DateTime now = DateTime.now();
-    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
     TextEditingController mealNameController = TextEditingController();
+    DateTime now = DateTime.now();
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+    DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    void uploadDataToFirebase(String name, List<FoodNutrition> foodItems,
+        String userId, bool isNewMeal) {
+      final CollectionReference collection =
+          FirebaseFirestore.instance.collection('nutrition');
+
+      List<Map<String, dynamic>> foodItemsList = [];
+
+      foodItems.forEach((foodItem) {
+        foodItemsList.add({
+          'meal': foodItem.name,
+          'calories': foodItem.calories,
+        });
+      });
+
+      if (isNewMeal) {
+        DocumentReference docRef = collection.doc();
+        try {
+          docRef.set({
+            'id': docRef.id,
+            'name': name,
+            'foodItems': foodItemsList.toList(),
+            'userId': userId,
+            'time': Timestamp.now(),
+          });
+          Fluttertoast.showToast(msg: 'Add success');
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        } catch (e) {
+          // Handle error
+        }
+      } else {
+        collection
+            .where('userId', isEqualTo: userId)
+            .where('name', isEqualTo: selectMeal)
+            .get()
+            .then((snapshot) {
+          if (snapshot.docs.isNotEmpty) {
+            // Assuming 'name' is unique and there's only one match, we update the first document found.
+            snapshot.docs
+                .where((document) {
+                  DateTime time = document['time'].toDate();
+                  return time.isAfter(startOfDay) && time.isBefore(endOfDay);
+                })
+                .first
+                .reference
+                .update({
+                  'foodItems': FieldValue.arrayUnion(foodItemsList),
+                });
+            Fluttertoast.showToast(msg: 'Add success');
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          } else {
+            // Handle no document found error
+            Fluttertoast.showToast(msg: 'Error not found meal to add food');
+          }
+        });
+      }
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -109,6 +170,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                 print('Error: ${snapshot.error}');
                                 return Text("Something went wrong");
                               }
+                              // Get the start and end of day DateTime objects
                               return ListView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
@@ -116,8 +178,8 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                       .where((document) {
                                         DateTime time =
                                             document['time'].toDate();
-                                        return time.isAfter(now) &&
-                                            time.isBefore(tomorrow);
+                                        return time.isAfter(startOfDay) &&
+                                            time.isBefore(endOfDay);
                                       })
                                       .toList()
                                       .length,
@@ -125,8 +187,8 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                     DocumentSnapshot document =
                                         snapshot.data!.docs.where((document) {
                                       DateTime time = document['time'].toDate();
-                                      return time.isAfter(now) &&
-                                          time.isBefore(tomorrow);
+                                      return time.isAfter(startOfDay) &&
+                                          time.isBefore(endOfDay);
                                     }).toList()[index];
                                     Map<String, dynamic> data =
                                         document.data() as Map<String, dynamic>;
@@ -300,69 +362,5 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                   )),
                 ],
               ));
-  }
-
-  void uploadDataToFirebase(String name, List<FoodNutrition> foodItems,
-      String userId, bool isNewMeal) {
-    DateTime now = DateTime.now();
-    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
-
-    final CollectionReference collection =
-        FirebaseFirestore.instance.collection('nutrition');
-
-    List<Map<String, dynamic>> foodItemsList = [];
-
-    foodItems.forEach((foodItem) {
-      foodItemsList.add({
-        'meal': foodItem.name,
-        'calories': foodItem.calories,
-      });
-    });
-
-    if (isNewMeal) {
-      DocumentReference docRef = collection.doc();
-      try {
-        docRef.set({
-          'id': docRef.id,
-          'name': name,
-          'foodItems': foodItemsList.toList(),
-          'userId': userId,
-          'time': Timestamp.now(),
-        });
-        Fluttertoast.showToast(msg: 'Add success');
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      } catch (e) {
-        // Handle error
-      }
-    } else {
-      collection
-          .where('userId', isEqualTo: userId)
-          .where('name', isEqualTo: selectMeal)
-          .get()
-          .then((snapshot) {
-        if (snapshot.docs.isNotEmpty) {
-          // Assuming 'name' is unique and there's only one match, we update the first document found.
-          snapshot.docs
-              .where((document) {
-                DateTime time = document['time'].toDate();
-                return time.isAfter(now) && time.isBefore(tomorrow);
-              })
-              .first
-              .reference
-              .update({
-                'foodItems': FieldValue.arrayUnion(foodItemsList),
-              });
-          Fluttertoast.showToast(msg: 'Add success');
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        } else {
-          // Handle no document found error
-          Fluttertoast.showToast(msg: 'Error not found meal to add food');
-        }
-      });
-    }
   }
 }

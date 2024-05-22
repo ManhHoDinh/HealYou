@@ -233,27 +233,6 @@ class _DetectScreenState extends State<DetectScreen> {
                                     }
                                     return Text('No data');
                                   })))
-                          .toList()
-                          // .map((e) => Container(
-                          //       decoration: BoxDecoration(
-                          //         borderRadius: BorderRadius.circular(20),
-                          //         border:
-                          //             Border.all(color: ColorPalette.grayText),
-                          //       ),
-                          //       margin: EdgeInsets.symmetric(horizontal: 50),
-                          //       padding: EdgeInsets.symmetric(horizontal: 20),
-                          //       child: Row(
-                          //         children: [
-                          //           Text(e.food!.first.foodInfo.displayName),
-                          //           Spacer(),
-                          //           Text(e.food!.first.foodInfo.nutrition!.calories100g.toString() +
-                          //               "g"),
-
-                          //           Text(e.food!.first.quantity.toString() +
-                          //               "g"),
-                          //         ],
-                          //       ),
-                          //     ))
                           .toList()),
                 ),
                 SizedBox(
