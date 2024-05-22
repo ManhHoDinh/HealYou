@@ -25,12 +25,13 @@ mixin _$UserModel {
   String get phoneNumber => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
-  int get weight => throw _privateConstructorUsedError;
   int get targetWeight => throw _privateConstructorUsedError;
-  double get activity => throw _privateConstructorUsedError;
-  double get weightLoss => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
+  int get weight => throw _privateConstructorUsedError;
+  int get height => throw _privateConstructorUsedError;
+  String get activity => throw _privateConstructorUsedError;
+  int get mealPerDay => throw _privateConstructorUsedError;
+  String get weightLoss => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,12 +50,13 @@ abstract class $UserModelCopyWith<$Res> {
       String phoneNumber,
       String email,
       int age,
-      int weight,
       int targetWeight,
-      double activity,
-      double weightLoss,
+      String gender,
+      int weight,
       int height,
-      String gender});
+      String activity,
+      int mealPerDay,
+      String weightLoss});
 }
 
 /// @nodoc
@@ -75,12 +77,13 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? phoneNumber = null,
     Object? email = null,
     Object? age = null,
-    Object? weight = null,
     Object? targetWeight = null,
-    Object? activity = null,
-    Object? weightLoss = null,
-    Object? height = null,
     Object? gender = null,
+    Object? weight = null,
+    Object? height = null,
+    Object? activity = null,
+    Object? mealPerDay = null,
+    Object? weightLoss = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -103,29 +106,33 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      weight: null == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as int,
       targetWeight: null == targetWeight
           ? _value.targetWeight
           : targetWeight // ignore: cast_nullable_to_non_nullable
               as int,
-      activity: null == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as double,
-      weightLoss: null == weightLoss
-          ? _value.weightLoss
-          : weightLoss // ignore: cast_nullable_to_non_nullable
-              as double,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
+      activity: null == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as String,
+      mealPerDay: null == mealPerDay
+          ? _value.mealPerDay
+          : mealPerDay // ignore: cast_nullable_to_non_nullable
+              as int,
+      weightLoss: null == weightLoss
+          ? _value.weightLoss
+          : weightLoss // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -145,12 +152,13 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String phoneNumber,
       String email,
       int age,
-      int weight,
       int targetWeight,
-      double activity,
-      double weightLoss,
+      String gender,
+      int weight,
       int height,
-      String gender});
+      String activity,
+      int mealPerDay,
+      String weightLoss});
 }
 
 /// @nodoc
@@ -169,12 +177,13 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? phoneNumber = null,
     Object? email = null,
     Object? age = null,
-    Object? weight = null,
     Object? targetWeight = null,
-    Object? activity = null,
-    Object? weightLoss = null,
-    Object? height = null,
     Object? gender = null,
+    Object? weight = null,
+    Object? height = null,
+    Object? activity = null,
+    Object? mealPerDay = null,
+    Object? weightLoss = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -197,29 +206,33 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      weight: null == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as int,
       targetWeight: null == targetWeight
           ? _value.targetWeight
           : targetWeight // ignore: cast_nullable_to_non_nullable
               as int,
-      activity: null == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as double,
-      weightLoss: null == weightLoss
-          ? _value.weightLoss
-          : weightLoss // ignore: cast_nullable_to_non_nullable
-              as double,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
+      activity: null == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as String,
+      mealPerDay: null == mealPerDay
+          ? _value.mealPerDay
+          : mealPerDay // ignore: cast_nullable_to_non_nullable
+              as int,
+      weightLoss: null == weightLoss
+          ? _value.weightLoss
+          : weightLoss // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -234,12 +247,13 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.phoneNumber = "",
       this.email = "",
       this.age = 0,
-      this.weight = 0,
       this.targetWeight = 0,
-      this.activity = 0,
-      this.weightLoss = 0,
+      this.gender = "",
+      this.weight = 0,
       this.height = 0,
-      this.gender = ""});
+      this.activity = "",
+      this.mealPerDay = 3,
+      this.weightLoss = ""});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -261,26 +275,29 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   final int age;
   @override
   @JsonKey()
-  final int weight;
-  @override
-  @JsonKey()
   final int targetWeight;
   @override
   @JsonKey()
-  final double activity;
+  final String gender;
   @override
   @JsonKey()
-  final double weightLoss;
+  final int weight;
   @override
   @JsonKey()
   final int height;
   @override
   @JsonKey()
-  final String gender;
+  final String activity;
+  @override
+  @JsonKey()
+  final int mealPerDay;
+  @override
+  @JsonKey()
+  final String weightLoss;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, weight: $weight, targetWeight: $targetWeight, activity: $activity, weightLoss: $weightLoss, height: $height, gender: $gender)';
+    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, targetWeight: $targetWeight, gender: $gender, weight: $weight, height: $height, activity: $activity, mealPerDay: $mealPerDay, weightLoss: $weightLoss)';
   }
 
   @override
@@ -293,12 +310,13 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('age', age))
-      ..add(DiagnosticsProperty('weight', weight))
       ..add(DiagnosticsProperty('targetWeight', targetWeight))
-      ..add(DiagnosticsProperty('activity', activity))
-      ..add(DiagnosticsProperty('weightLoss', weightLoss))
+      ..add(DiagnosticsProperty('gender', gender))
+      ..add(DiagnosticsProperty('weight', weight))
       ..add(DiagnosticsProperty('height', height))
-      ..add(DiagnosticsProperty('gender', gender));
+      ..add(DiagnosticsProperty('activity', activity))
+      ..add(DiagnosticsProperty('mealPerDay', mealPerDay))
+      ..add(DiagnosticsProperty('weightLoss', weightLoss));
   }
 
   @override
@@ -312,21 +330,35 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
                 other.phoneNumber == phoneNumber) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.age, age) || other.age == age) &&
-            (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.targetWeight, targetWeight) ||
                 other.targetWeight == targetWeight) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.height, height) || other.height == height) &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
+            (identical(other.mealPerDay, mealPerDay) ||
+                other.mealPerDay == mealPerDay) &&
             (identical(other.weightLoss, weightLoss) ||
-                other.weightLoss == weightLoss) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.gender, gender) || other.gender == gender));
+                other.weightLoss == weightLoss));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, phoneNumber, email,
-      age, weight, targetWeight, activity, weightLoss, height, gender);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      phoneNumber,
+      email,
+      age,
+      targetWeight,
+      gender,
+      weight,
+      height,
+      activity,
+      mealPerDay,
+      weightLoss);
 
   @JsonKey(ignore: true)
   @override
@@ -349,12 +381,13 @@ abstract class _UserModel implements UserModel {
       final String phoneNumber,
       final String email,
       final int age,
-      final int weight,
       final int targetWeight,
-      final double activity,
-      final double weightLoss,
+      final String gender,
+      final int weight,
       final int height,
-      final String gender}) = _$UserModelImpl;
+      final String activity,
+      final int mealPerDay,
+      final String weightLoss}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -370,17 +403,19 @@ abstract class _UserModel implements UserModel {
   @override
   int get age;
   @override
-  int get weight;
-  @override
   int get targetWeight;
   @override
-  double get activity;
+  String get gender;
   @override
-  double get weightLoss;
+  int get weight;
   @override
   int get height;
   @override
-  String get gender;
+  String get activity;
+  @override
+  int get mealPerDay;
+  @override
+  String get weightLoss;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

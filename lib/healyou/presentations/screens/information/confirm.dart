@@ -94,21 +94,6 @@ class ReviewInformationScreen extends StatelessWidget {
                   Center(
                     child: ElevatedButton(
                       onPressed: () async {
-                        List activityValue = [1.2, 1.375, 1.55, 1.725, 1.9];
-                        List goalValue = [1, 0.9, 0.8, 0.6];
-                        List<String> activities = [
-                          "Little/no exercise",
-                          "Light exercise",
-                          "Moderate exercise (3-5 days/week)",
-                          "Very active (6-7 days/week)",
-                          "Extra active (very active day & physical job)"
-                        ];
-                        List<String> goals = [
-                          "Maintain weight",
-                          "Mild weight loss",
-                          "Weight loss",
-                          "Extreme weight loss"
-                        ];
                         print(informationController.activity.value);
                         print(informationController.weightLoss.value);
                         FirebaseHelper.userCollection.doc(userId).update({
@@ -116,10 +101,8 @@ class ReviewInformationScreen extends StatelessWidget {
                           "height": informationController.height.value,
                           "weight": informationController.weight.value,
                           "gender": informationController.gender.value,
-                          "activity": activityValue[activities
-                              .indexOf(informationController.activity.value)],
-                          "weightLoss": goalValue[goals
-                              .indexOf(informationController.weightLoss.value)],
+                          "activity": informationController.activity.value,
+                          "weightLoss": informationController.weightLoss.value,
                           "targetWeight":
                               informationController.targetWeight.value
                         });

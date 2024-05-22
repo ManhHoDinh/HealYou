@@ -9,15 +9,15 @@ import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
 import 'package:intl/intl.dart';
-
+import 'package:healyou/healyou/presentations/screens/recommendedDishes/recommended_dishes_screen.dart';
 import '../../../core/helper/assets_helper.dart';
 import '../../../core/helper/image_helper.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.animationController});
   static final String routeName = 'home_screen';
   final AnimationController? animationController;
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -226,35 +226,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: Column(
                             children: [
                               Expanded(
-                                  child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage(AssetHelper.caloBackground),
-                                    fit: BoxFit.cover,
+                                  child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => RecommendedDishesScreen());
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          AssetHelper.caloBackground),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "2281",
-                                          style:
-                                              TextStyles.h3.whiteTextColor.bold,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Center(
+                                          child: Text(
+                                            "2281",
+                                            style: TextStyles
+                                                .h3.whiteTextColor.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      "Today's calories",
-                                      style: TextStyles.h6.whiteTextColor,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    )
-                                  ],
+                                      Text(
+                                        "Today's calories",
+                                        style: TextStyles.h6.whiteTextColor,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )),
                               SizedBox(

@@ -31,7 +31,7 @@ final Map<String, WidgetBuilder> routes = {
   ReviewInformationScreen.routeName: (context) => ReviewInformationScreen(),
   RunMap.routeName: (context) => RunMap(),
   ChooseImageScreen.routeName: (context) => ChooseImageScreen(),
-   RecommendFoodSrceen.routeName: (context) => RecommendFoodSrceen(),
+  RecommendFoodSrceen.routeName: (context) => RecommendFoodSrceen(),
   RunTrackScreen.routeName: (context) => RunTrackScreen(),
 };
 
@@ -43,5 +43,5 @@ class Routes {
   static String navigationHome = '/navigationHome';
   static String genderSelector = '/gender';
   static String recommend = '/recommend';
-
+  static String recommendedDishes = '/recommendedDishes';
 }
