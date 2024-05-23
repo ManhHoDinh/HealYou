@@ -36,4 +36,6 @@ class AssetHelper {
   //detect
   static const String camera = imgAssets + 'camera.png';
   static const String gallery = imgAssets + 'gallery.png';
+  
+  static const String food = imgAssets + 'food1.avif';
 }

@@ -31,6 +31,7 @@ Future<String> getNutrition(String query) async {
   );
 
   if (response.statusCode == 200) {
+    print(response.body);
     return response.body;
   } else {
     throw Exception('Failed to load nutrition');
@@ -72,7 +73,8 @@ class _DateTargetState extends State<NutritionSreen> {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     double width = MediaQuery.of(context).size.width;
     DateTime now = DateTime.now();
-    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+    DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('nutrition')
@@ -89,7 +91,7 @@ class _DateTargetState extends State<NutritionSreen> {
         List<QueryDocumentSnapshot> documents =
             snapshot.data!.docs.where((document) {
           DateTime time = document['time'].toDate();
-          return time.isAfter(now) && time.isBefore(tomorrow);
+          return time.isAfter(startOfDay) && time.isBefore(endOfDay);
         }).toList();
 
         return Container(
@@ -114,27 +116,27 @@ class _DateTargetState extends State<NutritionSreen> {
               ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: documents.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    DocumentSnapshot document = documents[index];
                     Map<String, dynamic> data =
                         document.data() as Map<String, dynamic>;
                     List<Map<String, dynamic>> foodItems =
                         List<Map<String, dynamic>>.from(data['foodItems']);
+                    double calo = 0;
+                    foodItems.forEach((element) {
+                      calo += double.parse(element['calories']);
+                    });
                     return Column(
-                      children: foodItems.map((foodItem) {
-                        return Column(
-                          children: [
-                            _buildInfoBox(
-                              data['name'],
-                              double.parse(foodItem['calories']),
-                              document.id,
-                              'cal',
-                            ),
-                            SizedBox(height: 20),
-                          ],
-                        );
-                      }).toList(),
+                      children: [
+                        _buildInfoBox(
+                          data['name'],
+                          calo,
+                          document.id,
+                          'cal',
+                        ),
+                        SizedBox(height: 20),
+                      ],
                     );
                   }),
               SizedBox(

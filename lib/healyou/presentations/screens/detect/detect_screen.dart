@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -6,6 +7,8 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/models/food_detect/food_detect.dart';
+import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/food_item.dart';
+import 'package:healyou/healyou/presentations/screens/detect/AddFoodTOMealScreen.dart';
 import 'dart:ui' as ui;
 
 import '../../../core/constants/color_palatte.dart';
@@ -13,8 +16,8 @@ import '../../../core/constants/dimension_constants.dart';
 import '../../../core/helper/text_styles.dart';
 import '../../widgets/button_widget.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:image/image.dart' as img;
 import 'dart:math' as math;
+import 'package:http/http.dart' as http;
 
 class DetectScreen extends StatefulWidget {
   const DetectScreen({super.key, this.path = ""});
@@ -79,6 +82,7 @@ class _DetectScreenState extends State<DetectScreen> {
 
       // Handle successful response
       if (response.statusCode == 200) {
+        print('Response: ${response.data}');
         setState(() {
           foodDetect = FoodDetect.fromJson(response.data);
         });
@@ -87,6 +91,22 @@ class _DetectScreenState extends State<DetectScreen> {
       }
     } on DioError catch (e) {
       print('Error posting image: ${e.message}');
+    }
+  }
+
+  Future<String> getNutrition(String query) async {
+    final response = await http.get(
+      Uri.parse('https://api.api-ninjas.com/v1/nutrition?query=$query'),
+      headers: {
+        'X-Api-Key': 'lQS1ZgWLB4kX8yIl0uVK2g==8Rj1lVD7eL5NCFH1',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      return response.body;
+    } else {
+      return '[]'; // Default value for error case
     }
   }
 
@@ -153,50 +173,67 @@ class _DetectScreenState extends State<DetectScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 50,
-                  /*  child: StreamBuilder<List<GarbageModel>>(
-                stream: FireBaseDataBase.readGarbages(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Something went wrong! ${snapshot.error}'),
-                    );
-                  } else if (snapshot.hasData) {
-                    return GridView.count(
-                        padding: const EdgeInsets.only(bottom: kMediumPadding),
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 15,
-                        childAspectRatio: 8,
-                        children: snapshot.data!
-                            .where((element) {
-                              if (element.name == "Chai") {
-                                garbageModel = element;
-                                return true;
-                              }
-                              return false;
-                            })
-                            .map((e) => Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                        color: ColorPalette.grayText),
-                                  ),
-                                  margin: EdgeInsets.symmetric(horizontal: 50),
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    children: [
-                                      Text(e.name),
-                                      Expanded(child: Container()),
-                                      Text(e.price.toString() + "/Kg")
-                                    ],
-                                  ),
-                                ))
-                            .toList());
-                  } else
-                    return Container();
-                }),
-          */
+                Expanded(
+                  child: GridView.count(
+                      padding: const EdgeInsets.only(bottom: kMediumPadding),
+                      crossAxisCount: 1,
+                      mainAxisSpacing: 15,
+                      childAspectRatio: 8,
+                      children: foodDetect!.items
+                          .map((e) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border:
+                                    Border.all(color: ColorPalette.grayText),
+                              ),
+                              margin: EdgeInsets.symmetric(horizontal: 50),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: FutureBuilder<String>(
+                                  future: getNutrition(
+                                      e.food!.first.foodInfo.displayName),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Text('Error: ${snapshot.error}');
+                                      else {
+                                        if (snapshot.hasData &&
+                                            snapshot.data != null) {
+                                          final data =
+                                              jsonDecode(snapshot.data!);
+                                          if (data.isNotEmpty) {
+                                            return Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 10,
+                                                  child: Text(e.food!.first
+                                                      .foodInfo.displayName),
+                                                ),
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(e
+                                                          .food!.first.quantity
+                                                          .toString() +
+                                                      "g"),
+                                                ),
+                                                Expanded(
+                                                  flex: 5,
+                                                    child: Text(
+                                                        '${data[0]['calories']} cal'))
+                                              ],
+                                            );
+                                          }
+                                        }
+                                      }
+                                    }
+                                    return Text('No data');
+                                  })))
+                          .toList()),
                 ),
                 SizedBox(
                   height: 20,
@@ -205,15 +242,16 @@ class _DetectScreenState extends State<DetectScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                     margin: EdgeInsets.only(bottom: 20),
                     child: ButtonWidget(
-                        label: "Xác nhận",
+                        label: "Confirm",
                         color: ColorPalette.primaryColor,
                         textColor: Colors.white,
                         onTap: () {
-                          /* Navigator.push(context, MaterialPageRoute(builder: (context) {
-                     return TransactionScreen(
-                        garbageItem: garbageModel,
-                      );
-                    }));*/
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return AddFoodToMealScreen(
+                              foodDetect: foodDetect,
+                            );
+                          }));
                         }))
               ],
             )

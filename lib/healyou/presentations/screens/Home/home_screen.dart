@@ -34,8 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Id: "",
         Name: "Biryani",
         Weight: "200g",
-        ImageLink:
-            "https://imgs.search.brave.com/-oEY4kz9VBEw_PILXluVs-AHCfsKfo_LZSIZpn62gAE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zc2wu/Yy5waG90b3NoZWx0/ZXIuY29tL2ltZy1n/ZXQvSTAwMDAudXZz/d29ab0hsdy9zLzUw/MC9JMDAwMC51dnN3/b1pvSGx3LmpwZw",
+        ImageLink:AssetHelper.food,
         Description:
             "Need the best thing for cheat day. Biryani is the thing for you.....",
         url: '');
