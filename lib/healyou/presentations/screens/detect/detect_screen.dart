@@ -75,7 +75,7 @@ class _DetectScreenState extends State<DetectScreen> {
         data: formData,
         options: Options(
           headers: {
-            "Authorization": "Api-Key KNefxQtB.nXMvfNugyLD3yvEtgrvJiNdNyMiYY1ZS"
+            "Authorization": "Api-Key B5QiyPuB.D8q5sz5QrUnVYxwybgBMlQgS45Ahzokl"
           },
         ),
       );
@@ -222,7 +222,7 @@ class _DetectScreenState extends State<DetectScreen> {
                                                       "g"),
                                                 ),
                                                 Expanded(
-                                                  flex: 5,
+                                                    flex: 5,
                                                     child: Text(
                                                         '${data[0]['calories']} cal'))
                                               ],
