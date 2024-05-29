@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Id: "",
         Name: "Biryani",
         Weight: "200g",
-        ImageLink:AssetHelper.food,
+        ImageLink: AssetHelper.food,
         Description:
             "Need the best thing for cheat day. Biryani is the thing for you.....",
         url: '');
@@ -226,40 +226,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: Column(
                             children: [
                               Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => RecommendedDishesScreen());
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          AssetHelper.caloBackground),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage(AssetHelper.caloBackground),
+                                    fit: BoxFit.cover,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            "2281",
-                                            style: TextStyles
-                                                .h3.whiteTextColor.bold,
-                                          ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          "2281",
+                                          style:
+                                              TextStyles.h3.whiteTextColor.bold,
                                         ),
                                       ),
-                                      Text(
-                                        "Today's calories",
-                                        style: TextStyles.h6.whiteTextColor,
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      "Today's calories",
+                                      style: TextStyles.h6.whiteTextColor,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    )
+                                  ],
                                 ),
                               )),
                               SizedBox(

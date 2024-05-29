@@ -102,11 +102,12 @@ class ReviewInformationScreen extends StatelessWidget {
                           "weight": informationController.weight.value,
                           "gender": informationController.gender.value,
                           "activity": informationController.activity.value,
+                          "weightLoss": informationController.weightLoss.value,
                           "targetWeight":
                               informationController.targetWeight.value
                         });
                         await TargetRequest.autoAddRunTarget();
-                        Navigator.pushNamedAndRemoveUntil(context, NavigationHome.routeName, (route) => false);
+                        Get.to(() => NavigationHome());
                       },
                       child: const Text('Confirm'),
                       style: ElevatedButton.styleFrom(

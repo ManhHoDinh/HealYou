@@ -44,6 +44,13 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
             title: AppBarWidget(
               title: DateFormat("dd/MM/yyyy").format(DateTime.now()),
             ),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,
