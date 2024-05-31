@@ -1,5 +1,6 @@
 import 'package:healyou/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends StatefulWidget {
   @override
@@ -10,6 +11,25 @@ class _HelpScreenState extends State<HelpScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _sendEmail() async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: '21522327@gm.uit.edu.vn',
+      query: encodeQueryParameters(<String, String>{
+        'subject': 'Can you help me resolve some problems in my app?',
+        'body': 'Hi,\nI am having trouble with the app. Can you help me?'
+      }),
+    );
+    await launchUrl(emailLaunchUri);
+  }
+
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 
   @override
@@ -73,7 +93,9 @@ class _HelpScreenState extends State<HelpScreen> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _sendEmail();
+                          },
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),

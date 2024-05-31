@@ -114,31 +114,32 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.notifications,
-                            fill: 1,
-                            size: 30,
-                            color: ColorPalette.mainRunColor,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text('Notification',
-                                style: TextStyle(fontSize: 16)),
-                          )
-                        ],
-                      ),
-                    ),
-                    Icon(Icons.chevron_right,
-                        size: 30, color: ColorPalette.mainRunColor)
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Padding(
+                //       padding: const EdgeInsets.symmetric(vertical: 10),
+                //       child: Row(
+                //         children: [
+                //           Icon(
+                //             Icons.notifications,
+                //             fill: 1,
+                //             size: 30,
+                //             color: ColorPalette.mainRunColor,
+                //           ),
+                //           Padding(
+                //             padding: const EdgeInsets.only(left: 10),
+                //             child: Text('Notification',
+                //                 style: TextStyle(fontSize: 16)),
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //     Icon(Icons.chevron_right,
+                //         size: 30, color: ColorPalette.mainRunColor)
+                //   ],
+                // ),
+               
                 Divider(
                   height: 2,
                   color: Color(0xffE1DEDE),
