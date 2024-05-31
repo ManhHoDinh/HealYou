@@ -285,10 +285,10 @@ packages:
     dependency: transitive
     description:
       name: diffutil_dart
-      sha256: "5e74883aedf87f3b703cb85e815bdc1ed9208b33501556e4a8a5572af9845c81"
+      sha256: e0297e4600b9797edff228ed60f4169a778ea357691ec98408fa3b72994c7d06
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "3.0.0"
   dio:
     dependency: "direct main"
     description:
@@ -498,10 +498,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_chat_ui
-      sha256: "40fb37acc328dd179eadc3d67bf8bd2d950dc0da34464aa8d48e8707e0234c09"
+      sha256: c8580c85e2d29359ffc84147e643d08d883eb6e757208652377f0105ef58807f
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.13"
+    version: "1.6.12"
   flutter_fgbg:
     dependency: transitive
     description:
@@ -964,18 +964,18 @@ packages:
     dependency: "direct main"
     description:
       name: json_annotation
-      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
       url: "https://pub.dev"
     source: hosted
-    version: "4.9.0"
+    version: "4.8.1"
   json_serializable:
     dependency: "direct main"
     description:
       name: json_serializable
-      sha256: ea1432d167339ea9b5bb153f0571d0039607a873d6e04e0117af043f14a1fd4b
+      sha256: aa1f5a8912615733e0fdc7a02af03308933c93235bdc8d50d0b0c8a8ccb0b969
       url: "https://pub.dev"
     source: hosted
-    version: "6.8.0"
+    version: "6.7.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -1204,10 +1204,10 @@ packages:
     dependency: transitive
     description:
       name: photo_view
-      sha256: "1fc3d970a91295fbd1364296575f854c9863f225505c28c46e0a03e48960c75e"
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.0"
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:
@@ -1521,10 +1521,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "17cd5e205ea615e2c6ea7a77323a11712dffa0720a8a90540db57a01347f9ad9"
+      sha256: "360a6ed2027f18b73c8d98e159dda67a61b7f2e0f6ec26e86c3ada33b0621775"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.2"
+    version: "6.3.1"
   url_launcher_ios:
     dependency: transitive
     description:

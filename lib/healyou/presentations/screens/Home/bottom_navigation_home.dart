@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/presentations/bottom_navigation_view/tabIconData.dart';
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
+import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import '../../../core/constants/color_palatte.dart';
@@ -119,8 +120,7 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
                   return;
                 }
                 setState(() {
-                  tabBody =
-                      HomeScreen(animationController: animationController);
+                  tabBody = ChatPage(animationController: animationController);
                 });
               });
             }
