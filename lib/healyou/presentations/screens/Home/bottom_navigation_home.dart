@@ -4,6 +4,9 @@ import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
+import 'package:healyou/healyou/presentations/screens/recommendedDishes/recommended_dishes_screen.dart';
+import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
+
 import '../../../core/constants/color_palatte.dart';
 import '../../bottom_navigation_view/bottom_bar_view.dart';
 
@@ -81,7 +84,7 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
           tabIconsList: tabIconsList,
           addClick: () {},
           changeIndex: (int index) {
-            if (index == 0 ) {
+            if (index == 0) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -101,26 +104,28 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
                       animationController: animationController);
                 });
               });
-              
             } 
+            else if (index == 1) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                       tabBody = RecommendedDishesScreen();
+          
+                });
+              });
+            }
+
+            
             else if (index == 2) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
                 }
                 setState(() {
-                  tabBody = ChatPage(
-                      animationController: animationController);
-                });
-              });
-              
-            } else if (index == 1 || index == 3) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody = ChatPage(animationController: animationController);
+                       tabBody = RuntargetScreen();
+          
                 });
               });
             }

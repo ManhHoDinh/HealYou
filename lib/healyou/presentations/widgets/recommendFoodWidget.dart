@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:healyou/healyou/core/helper/text_styles.dart';
 import 'package:healyou/healyou/core/models/food/food.dart';
 
+import '../../core/helper/assets_helper.dart';
+
 class RecommendFoodWidget extends StatelessWidget {
   final FoodModel food;
   final VoidCallback onTap;
@@ -20,7 +22,7 @@ class RecommendFoodWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
           ),
           image: DecorationImage(
-            image: AssetImage(food.ImageLink),
+            image: AssetImage(AssetHelper.food),
             fit: BoxFit.cover,
           ),
         ),

@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import '../../../core/constants/color_palatte.dart';
 import '../../../core/constants/dimension_constants.dart';
 import '../../../core/models/food_detect/food_detect.dart';

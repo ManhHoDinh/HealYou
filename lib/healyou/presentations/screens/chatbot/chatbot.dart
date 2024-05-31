@@ -36,10 +36,11 @@ Future<String> getResponseFromCozeAPI(String userMessage) async {
       'stream': false,
     }),
   );
- if (response.statusCode == 200) {
+  if (response.statusCode == 200) {
     var data = jsonDecode(response.body);
     if (data['messages'] != null && data['messages'].isNotEmpty) {
-     return data['messages'].firstWhere((message) => message['type'] == 'answer')['content'];
+      return data['messages']
+          .firstWhere((message) => message['type'] == 'answer')['content'];
     } else {
       throw Exception('Response data does not contain expected fields');
     }
@@ -283,7 +284,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(bottom: 70),
+          padding: EdgeInsets.only(bottom: 10),
           child: Chat(
             messages: _messages,
             onAttachmentPressed: _handleAttachmentPressed,

@@ -41,16 +41,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
-        index: DrawerIndex.RunTarget,
-        labelName: 'Run target',
-        isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
-      ),
-      DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
+        labelName: 'Chatbot',
         isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
+        imageName: 'assets/images/chatbot.png',
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
@@ -114,7 +108,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(120.0)),
-                              child: FirebaseAuth.instance.currentUser != null
+                              child: FirebaseAuth.instance.currentUser !=
+                                          null &&
+                                      FirebaseAuth
+                                              .instance.currentUser!.photoURL !=
+                                          null
                                   ? Image.network(
                                       FirebaseAuth
                                               .instance.currentUser!.photoURL ??
@@ -320,7 +318,6 @@ enum DrawerIndex {
   About,
   Invite,
   SetTarget,
-  RunTarget,
 }
 
 class DrawerList {

@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healyou/healyou/presentations/screens/Home/bottom_navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
 import 'package:healyou/healyou/presentations/screens/setTarget/set_target_screen.dart';
-
+import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import '../../../../app_theme.dart';
 import '../../../../custom_drawer/drawer_user_controller.dart';
 import '../../../../custom_drawer/home_drawer.dart';
@@ -66,12 +66,12 @@ class _NavigationHomeState extends State<NavigationHome> {
       switch (drawerIndex) {
         case DrawerIndex.HOME:
           setState(() {
-            screenView =  BottomHomeScreen();
+            screenView = BottomHomeScreen();
           });
           break;
         case DrawerIndex.Help:
           setState(() {
-            screenView = HelpScreen();
+            screenView = ChatPage();
           });
           break;
         case DrawerIndex.FeedBack:
@@ -83,20 +83,13 @@ class _NavigationHomeState extends State<NavigationHome> {
           setState(() {
             screenView = InviteFriend();
           });
-          break; 
+          break;
         case DrawerIndex.SetTarget:
           setState(() {
             screenView = SetTargetScreen();
           });
-          break; 
-        case DrawerIndex.RunTarget:
-          setState(() {
-            screenView = RuntargetScreen();
-          });
-          break; 
-            
+          break;
         default:
-          
           break;
       }
     }

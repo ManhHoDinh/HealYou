@@ -25,6 +25,11 @@ class _RuntargetScreenState extends State<RuntargetScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: AppBarWidget(title: 'Run Target'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              onPressed: () {
+              },
+            ),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,

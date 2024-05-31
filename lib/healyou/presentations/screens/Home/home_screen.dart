@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Id: "",
         Name: "Biryani",
         Weight: "200g",
-        ImageLink:AssetHelper.food,
+        ImageLink: AssetHelper.food,
         Description:
             "Need the best thing for cheat day. Biryani is the thing for you.....",
         url: '');
@@ -139,23 +139,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           style: TextStyles.h3.bold,
                         ),
                         Spacer(),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                              color: ColorPalette.primaryColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, RecommendFoodSrceen.routeName);
-                            },
-                            child: Text(
-                              "View all",
-                              style: TextStyles.h6
-                                  .copyWith(color: ColorPalette.white),
-                            ),
-                          ),
-                        )
+                        // Container(
+                        //   height: 35,
+                        //   decoration: BoxDecoration(
+                        //       color: ColorPalette.primaryColor,
+                        //       borderRadius: BorderRadius.circular(10)),
+                        //   child: TextButton(
+                        //     onPressed: () {
+                        //       Navigator.pushNamed(
+                        //           context, RecommendFoodSrceen.routeName);
+                        //     },
+                        //     child: Text(
+                        //       "View all",
+                        //       style: TextStyles.h6
+                        //           .copyWith(color: ColorPalette.white),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -168,11 +168,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         crossAxisSpacing: 10,
                         childAspectRatio: 1,
                         children: [
-                          ...recommendFood.map((e) => Expanded(
-                                  child: RecommendFoodWidget(
+                          ...recommendFood.map((e) => RecommendFoodWidget(
                                 food: e,
                                 onTap: () {},
-                              )))
+                              ))
                         ],
                       ),
                     ),
@@ -226,40 +225,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: Column(
                             children: [
                               Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => RecommendedDishesScreen());
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          AssetHelper.caloBackground),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage(AssetHelper.caloBackground),
+                                    fit: BoxFit.cover,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            "2281",
-                                            style: TextStyles
-                                                .h3.whiteTextColor.bold,
-                                          ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          "2281",
+                                          style:
+                                              TextStyles.h3.whiteTextColor.bold,
                                         ),
                                       ),
-                                      Text(
-                                        "Today's calories",
-                                        style: TextStyles.h6.whiteTextColor,
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      "Today's calories",
+                                      style: TextStyles.h6.whiteTextColor,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    )
+                                  ],
                                 ),
                               )),
                               SizedBox(

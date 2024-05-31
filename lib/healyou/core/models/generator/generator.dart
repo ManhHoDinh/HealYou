@@ -15,8 +15,9 @@ class Generator {
       'ingredients': ingredients,
       'params': params
     };
-    var response =
-        await dio.post("http://52.221.231.17:8080/predict/", data: request);
+    var response = await dio.post(
+        "http://rcmf.dev.lumisightemr.datahouse.asia:8888/predict/",
+        data: request);
     return response.data;
   }
 }
