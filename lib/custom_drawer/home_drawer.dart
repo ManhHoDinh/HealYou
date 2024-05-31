@@ -42,9 +42,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
+        labelName: 'Chatbot',
         isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
+        imageName: 'assets/images/chatbot.png',
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
@@ -108,9 +108,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(120.0)),
-                              child: FirebaseAuth.instance.currentUser != null && FirebaseAuth
-                                              .instance.currentUser!.photoURL!=null
-                                  ?Image.network(
+                              child: FirebaseAuth.instance.currentUser !=
+                                          null &&
+                                      FirebaseAuth
+                                              .instance.currentUser!.photoURL !=
+                                          null
+                                  ? Image.network(
                                       FirebaseAuth
                                               .instance.currentUser!.photoURL ??
                                           '',
