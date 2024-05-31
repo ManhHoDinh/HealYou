@@ -89,12 +89,6 @@ class _NavigationHomeState extends State<NavigationHome> {
             screenView = SetTargetScreen();
           });
           break; 
-        case DrawerIndex.RunTarget:
-          setState(() {
-            screenView = RuntargetScreen();
-          });
-          break; 
-            
         default:
           
           break;

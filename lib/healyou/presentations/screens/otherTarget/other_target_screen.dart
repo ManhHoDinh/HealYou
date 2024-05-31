@@ -44,6 +44,13 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
             title: AppBarWidget(
               title: DateFormat("dd/MM/yyyy").format(DateTime.now()),
             ),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
             bottom: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,
@@ -52,7 +59,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
               tabs: [
                 Tab(icon: Text('Water')),
                 Tab(icon: Text('Nutrition')),
-                Tab(icon: Text('Sleep')),
+                //  Tab(icon: Text('Sleep')),
               ],
             ),
           ),
@@ -60,7 +67,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
             children: [
               WaterTarget(),
               NutritionSreen(),
-              SleepTarget(),
+              //  SleepTarget(),
             ],
           ),
         ));

@@ -30,6 +30,13 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
     return Scaffold(
       appBar: AppBar(
         title: AppBarWidget(title: 'Set Target'),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {},
+        ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
