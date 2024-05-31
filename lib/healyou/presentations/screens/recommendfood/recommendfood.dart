@@ -11,6 +11,7 @@ import 'package:healyou/healyou/core/models/food/food.dart';
 import 'package:healyou/healyou/presentations/screens/map/run_map_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/AppBar.dart';
 import 'package:healyou/healyou/presentations/widgets/button_widget.dart';
+import 'package:healyou/healyou/presentations/widgets/recommendFoodItem.dart';
 import 'package:healyou/healyou/presentations/widgets/recommendFoodWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,6 @@ class RecommendFoodSrceen extends StatefulWidget {
   const RecommendFoodSrceen({super.key, this.animationController});
   static final String routeName = 'recommendFood_screen';
   final AnimationController? animationController;
-
   @override
   State<RecommendFoodSrceen> createState() => _RecommendFoodSrceenState();
 }
@@ -31,10 +31,11 @@ class RecommendFoodSrceen extends StatefulWidget {
 class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
     with TickerProviderStateMixin {
   final url =
-      'https://api.edamam.com/search?q=rice&app_id=ff91fcd3&app_key=7bda438b43ce3c13d7ce49ef25aee31f&from=0&to=10&calories=591-722&health=alcohol-free';
+      'https://api.edamam.com/search?q=chicken&app_id=ff91fcd3&app_key=7bda438b43ce3c13d7ce49ef25aee31f&from=30&to=100&calories=591-722&health=alcohol-free';
   getApiData() async {
     var response = await http.get(Uri.parse(url));
     Map<String, dynamic> json = jsonDecode(response.body);
+    print(response.body);
     List<dynamic> data = json['hits'];
     recommendFood.clear();
     data.forEach((item) {
@@ -46,9 +47,10 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
         Description: item['recipe']['source'],
         url: item['recipe']['url'],
       );
-      recommendFood.add(food);
+      setState(() {
+        recommendFood.add(food);
+      });
     });
-    setState(() {});
   }
 
   String? text;
@@ -161,7 +163,7 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
                       childAspectRatio: 1,
                       children: [
                         ...recommendFood.map((e) => Expanded(
-                                child: RecommendFoodWidget(
+                                child: RecommendFoodItem(
                               food: e,
                               onTap: () {
                                 print('Navigating to URL: ${e.url}');
@@ -289,7 +291,7 @@ class _SearchPageState extends State<SearchPage> {
                       childAspectRatio: 1,
                       children: [
                         ...recommendFood.map((e) => Expanded(
-                                child: RecommendFoodWidget(
+                                child: RecommendFoodItem(
                               food: e,
                               onTap: () {
                                 print('Navigating to URL: ${e.url}');
