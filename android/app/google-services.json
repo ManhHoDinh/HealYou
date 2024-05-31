@@ -111,6 +111,110 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:387564562162:android:f5df7a42f33f481842926b",
+        "android_client_info": {
+          "package_name": "com.healyou.fitness_and_health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387564562162-2lv4nql3f45prg327f6ja4fsm1jjn09a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healyou.fitness_and_health",
+            "certificate_hash": "3dd0f85f06f2763f599be49630a135b0bc2a417f"
+          }
+        },
+        {
+          "client_id": "387564562162-62u0am722dgvo449tkfkujn7pdlpamim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healyou.fitness_and_health",
+            "certificate_hash": "0180dabc780945d4bdee341d9ec5431c1ad40af2"
+          }
+        },
+        {
+          "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXzS-2hLMjKwU8obRH1pd02dHrlSwre3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "387564562162-em9nmimriet9ae7nkabdk2hve1mmmfph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healyou"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387564562162:android:59d8e246c6dde84242926b",
+        "android_client_info": {
+          "package_name": "com.uit.healu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387564562162-24lbar9omu0rn3muvj7e3nr8oe73b3us.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uit.healu",
+            "certificate_hash": "5b89f7d3b5281d45b5aecb08a33f812482b40ba7"
+          }
+        },
+        {
+          "client_id": "387564562162-s81dq0kbnkoqiufsjamb43vudbfq7o4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uit.healu",
+            "certificate_hash": "0180dabc780945d4bdee341d9ec5431c1ad40af2"
+          }
+        },
+        {
+          "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXzS-2hLMjKwU8obRH1pd02dHrlSwre3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387564562162-sbrnlmdm992i6sttbiguothsei0gum63.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "387564562162-em9nmimriet9ae7nkabdk2hve1mmmfph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healyou"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:387564562162:android:a2c5392bfae42b3142926b",
         "android_client_info": {
           "package_name": "com.uit.healyou"

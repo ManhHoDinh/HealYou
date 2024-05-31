@@ -139,23 +139,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           style: TextStyles.h3.bold,
                         ),
                         Spacer(),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                              color: ColorPalette.primaryColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, RecommendFoodSrceen.routeName);
-                            },
-                            child: Text(
-                              "View all",
-                              style: TextStyles.h6
-                                  .copyWith(color: ColorPalette.white),
-                            ),
-                          ),
-                        )
+                        // Container(
+                        //   height: 35,
+                        //   decoration: BoxDecoration(
+                        //       color: ColorPalette.primaryColor,
+                        //       borderRadius: BorderRadius.circular(10)),
+                        //   child: TextButton(
+                        //     onPressed: () {
+                        //       Navigator.pushNamed(
+                        //           context, RecommendFoodSrceen.routeName);
+                        //     },
+                        //     child: Text(
+                        //       "View all",
+                        //       style: TextStyles.h6
+                        //           .copyWith(color: ColorPalette.white),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -168,11 +168,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         crossAxisSpacing: 10,
                         childAspectRatio: 1,
                         children: [
-                          ...recommendFood.map((e) => Expanded(
-                                  child: RecommendFoodWidget(
+                          ...recommendFood.map((e) => RecommendFoodWidget(
                                 food: e,
                                 onTap: () {},
-                              )))
+                              ))
                         ],
                       ),
                     ),
