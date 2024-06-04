@@ -95,7 +95,7 @@ class AuthServices {
     }
   }
 
-  static Future UpdateCurrentUser() async {
+  static Future<void> UpdateCurrentUser() async {
     await FirebaseFirestore.instance
         .collection('user')
         .doc(FirebaseAuth.instance.currentUser!.uid)

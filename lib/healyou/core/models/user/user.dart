@@ -17,7 +17,8 @@ class UserModel with _$UserModel {
       @Default(0) int height,
       @Default("") String activity,
       @Default(3) int mealPerDay,
-      @Default("") String weightLoss}) = _UserModel;
+      @Default("") String weightLoss,
+      @Default(false) bool verified}) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

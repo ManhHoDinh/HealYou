@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/presentations/screens/detect/choose_image_screen.dart';
 
 class AppBarWidget extends StatefulWidget {
-  AppBarWidget({super.key,required this.title});
+  AppBarWidget({super.key, required this.title});
   String title;
   @override
   State<AppBarWidget> createState() => _AppBarWidgetState();
@@ -17,13 +18,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 8),
-                child: Container(
-                  width: AppBar().preferredSize.height - 8,
-                  height: AppBar().preferredSize.height - 8,
-                ),
-              ),
               Expanded(
                 child: Center(
                   child: Padding(
@@ -42,8 +36,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               Padding(
                 padding: const EdgeInsets.only(top: 8, right: 8),
                 child: Container(
-                  width: AppBar().preferredSize.height - 8,
-                  height: AppBar().preferredSize.height - 8,
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
@@ -54,12 +46,19 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                         color: Colors.black,
                       ),
                       onTap: () {
-                        Navigator.of(context).pushNamed(ChooseImageScreen.routeName);
+                        Navigator.of(context)
+                            .pushNamed(ChooseImageScreen.routeName);
                       },
                     ),
                   ),
                 ),
               ),
+              Padding(
+                  padding: EdgeInsets.only(left: 5.0, top: 5.0),
+                  child: IconButton(
+                    onPressed: () => FirebaseAuth.instance.signOut(),
+                    icon: Icon(Icons.exit_to_app),
+                  ))
             ],
           ),
         ],
