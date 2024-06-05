@@ -20,6 +20,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       activity: json['activity'] as String? ?? "",
       mealPerDay: json['mealPerDay'] as int? ?? 3,
       weightLoss: json['weightLoss'] as String? ?? "",
+      verified: json['verified'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -36,4 +37,5 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'activity': instance.activity,
       'mealPerDay': instance.mealPerDay,
       'weightLoss': instance.weightLoss,
+      'verified': instance.verified,
     };

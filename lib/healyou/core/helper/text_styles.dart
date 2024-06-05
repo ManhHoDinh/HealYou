@@ -179,9 +179,11 @@ class TextStyles {
       fontWeight: FontWeight.w500,
       fontFamily: AppFonts.inter);
   static const TextStyle inforRoomDetail = TextStyle(
-    fontSize: 14,
-    color: Color(0xff1B1446),
-  );
+      fontSize: 14,
+      color: Color(0xff1B1446),
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.normal);
+
   static const TextStyle descriptionRoom = TextStyle(
       fontSize: 14,
       color: ColorPalette.rankText,

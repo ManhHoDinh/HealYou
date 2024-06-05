@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/firebase/target_request.dart';
-import 'package:healyou/healyou/core/models/firebase/user_request.dart';
-import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 
 class ReviewInformationScreen extends StatelessWidget {

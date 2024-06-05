@@ -1,25 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:healyou/healyou/core/helper/AuthFunctions.dart';
-import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
-import 'package:healyou/healyou/presentations/screens/account/reset_password.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../information/gender.dart';
-
-class LoginScreen extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   static const String routeName = 'login_screen';
-  const LoginScreen({Key? key}) : super(key: key);
+  const ResetPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   String? passError;
   String? emailError;
   var error = "";
@@ -60,9 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Row to align left text
                   children: [
                     Text(
-                      'Sign In',
+                      'Forget your password?',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -72,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Row to align left text
                   children: <Widget>[
                     Text(
-                      'Fill the detail to sign in account',
+                      'Fill the email so we can send you an reset code',
                       style: TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   ],
@@ -87,22 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Email',
                           prefixIcon: const Icon(Icons.mail_outline),
                           errorText: emailError),
-                    ),
-                    TextField(
-                      controller: passController,
-                      onChanged: handleChangePass,
-                      obscureText: !showPass,
-                      decoration: InputDecoration(
-                          hintText: 'Password',
-                          prefixIcon: const Icon(Icons.key),
-                          suffixIcon: IconButton(
-                              onPressed: () => setState(() {
-                                    showPass = !showPass;
-                                  }),
-                              icon: Icon(showPass
-                                  ? Icons.visibility_off
-                                  : Icons.visibility)),
-                          errorText: passError),
                     ),
                     const SizedBox(
                       height: 10,
@@ -133,17 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         listen: false)
                                     .showLoading();
                                 try {
-                                  // Perform your asynchronous operation here
-                                  await _handleSignin();
-                                  if (AuthServices.CurrentUser == null) {
-                                    Get.snackbar("Error",
-                                        "We cannot sign you in right now. Please try again later.");
-                                  }
-                                  if (AuthServices.CurrentUser!.gender == "" ||
-                                      AuthServices.CurrentUser!.age == 0) {
-                                    Get.to(GenderSelectorScreen());
-                                  }
-                                  Get.to(HomeScreen());
+                                  sendResetEmail();
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
                                           listen: false)
@@ -151,57 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                               child: const Text(
-                                "Sign in",
+                                "Send reset email",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
                               ))),
                     ),
-                    TextButton(
-                        onPressed: () => Get.to(ResetPasswordScreen()),
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(color: Color(0xfff8753d)),
-                        ))
                   ],
                 )
               ],
             ),
           ))),
     );
-  }
-
-  _handleSignin() async {
-    try {
-      FirebaseAuth.instance.userChanges().listen((User? user) {
-        if (user == null) {
-          print('User is currently signed out!');
-        } else {
-          print('User is signed in!');
-        }
-      });
-
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passController.text);
-      return credential;
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.code);
-      if (e.code == 'channel-error') {
-        setState(() {
-          error = 'Please fill in all field';
-        });
-      } else if (e.code == 'user-not-found') {
-        setState(() {
-          error = 'No user found for that email.';
-        });
-      } else if (e.code == 'invalid-credential') {
-        setState(() {
-          error = 'Wrong email or password provided.';
-        });
-      }
-      return null;
-    }
   }
 
   void _handleInputEmail(String value) {
@@ -219,15 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void handleChangePass(String value) {
-    if (value.length < 5) {
-      setState(() {
-        passError = 'The password must have at least 5 characters';
-      });
-    } else {
-      setState(() {
-        passError = null;
-      });
-    }
+  Future<void> sendResetEmail() async {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: emailController.text);
   }
 }

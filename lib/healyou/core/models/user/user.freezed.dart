@@ -32,6 +32,7 @@ mixin _$UserModel {
   String get activity => throw _privateConstructorUsedError;
   int get mealPerDay => throw _privateConstructorUsedError;
   String get weightLoss => throw _privateConstructorUsedError;
+  bool get verified => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +57,8 @@ abstract class $UserModelCopyWith<$Res> {
       int height,
       String activity,
       int mealPerDay,
-      String weightLoss});
+      String weightLoss,
+      bool verified});
 }
 
 /// @nodoc
@@ -84,6 +86,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? activity = null,
     Object? mealPerDay = null,
     Object? weightLoss = null,
+    Object? verified = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -134,6 +137,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.weightLoss
           : weightLoss // ignore: cast_nullable_to_non_nullable
               as String,
+      verified: null == verified
+          ? _value.verified
+          : verified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -158,7 +165,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       int height,
       String activity,
       int mealPerDay,
-      String weightLoss});
+      String weightLoss,
+      bool verified});
 }
 
 /// @nodoc
@@ -184,6 +192,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? activity = null,
     Object? mealPerDay = null,
     Object? weightLoss = null,
+    Object? verified = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -234,6 +243,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.weightLoss
           : weightLoss // ignore: cast_nullable_to_non_nullable
               as String,
+      verified: null == verified
+          ? _value.verified
+          : verified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -253,7 +266,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.height = 0,
       this.activity = "",
       this.mealPerDay = 3,
-      this.weightLoss = ""});
+      this.weightLoss = "",
+      this.verified = false});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -294,10 +308,13 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   @override
   @JsonKey()
   final String weightLoss;
+  @override
+  @JsonKey()
+  final bool verified;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, targetWeight: $targetWeight, gender: $gender, weight: $weight, height: $height, activity: $activity, mealPerDay: $mealPerDay, weightLoss: $weightLoss)';
+    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, targetWeight: $targetWeight, gender: $gender, weight: $weight, height: $height, activity: $activity, mealPerDay: $mealPerDay, weightLoss: $weightLoss, verified: $verified)';
   }
 
   @override
@@ -316,7 +333,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('height', height))
       ..add(DiagnosticsProperty('activity', activity))
       ..add(DiagnosticsProperty('mealPerDay', mealPerDay))
-      ..add(DiagnosticsProperty('weightLoss', weightLoss));
+      ..add(DiagnosticsProperty('weightLoss', weightLoss))
+      ..add(DiagnosticsProperty('verified', verified));
   }
 
   @override
@@ -340,7 +358,9 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.mealPerDay, mealPerDay) ||
                 other.mealPerDay == mealPerDay) &&
             (identical(other.weightLoss, weightLoss) ||
-                other.weightLoss == weightLoss));
+                other.weightLoss == weightLoss) &&
+            (identical(other.verified, verified) ||
+                other.verified == verified));
   }
 
   @JsonKey(ignore: true)
@@ -358,7 +378,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       height,
       activity,
       mealPerDay,
-      weightLoss);
+      weightLoss,
+      verified);
 
   @JsonKey(ignore: true)
   @override
@@ -387,7 +408,8 @@ abstract class _UserModel implements UserModel {
       final int height,
       final String activity,
       final int mealPerDay,
-      final String weightLoss}) = _$UserModelImpl;
+      final String weightLoss,
+      final bool verified}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -416,6 +438,8 @@ abstract class _UserModel implements UserModel {
   int get mealPerDay;
   @override
   String get weightLoss;
+  @override
+  bool get verified;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
