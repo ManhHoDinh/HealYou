@@ -26,12 +26,12 @@ Future<String> getResponseFromCozeAPI(String userMessage) async {
       'Content-Type': 'application/json',
       'Accept': '*/*',
       'Authorization':
-          'Bearer pat_Rn2rb0inRUfVu504kO3gU6fOE4zGchgQkCFvJ1WB6rS9OZULNuxlibs6KOtpJfN7',
+          'Bearer pat_IKoo5BN8jTVO79DBEsKiyaBpVexAC2eDl13v3FS7V3PIQuMO8PHbExQvjnMTtRgC',
     },
     body: jsonEncode({
       'conversation_id': '123',
-      'bot_id': '7357549513332752392',
-      'user': '123333333',
+      'bot_id': '7364664750359855112',
+      'user': '29032201862555',
       'query': userMessage,
       'stream': false,
     }),
@@ -39,7 +39,8 @@ Future<String> getResponseFromCozeAPI(String userMessage) async {
   if (response.statusCode == 200) {
     var data = jsonDecode(response.body);
     if (data['messages'] != null && data['messages'].isNotEmpty) {
-      return data['messages'][1]['content'];
+      return data['messages']
+          .firstWhere((message) => message['type'] == 'answer')['content'];
     } else {
       throw Exception('Response data does not contain expected fields');
     }
@@ -283,7 +284,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(bottom: 70),
+          padding: EdgeInsets.only(bottom: 10),
           child: Chat(
             messages: _messages,
             onAttachmentPressed: _handleAttachmentPressed,

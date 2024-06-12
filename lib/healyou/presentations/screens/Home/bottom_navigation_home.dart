@@ -3,6 +3,7 @@ import 'package:healyou/healyou/presentations/bottom_navigation_view/tabIconData
 import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import 'package:healyou/healyou/presentations/screens/otherTarget/other_target_screen.dart';
+import 'package:healyou/healyou/presentations/screens/chatbot/chatbot.dart';
 import 'package:healyou/healyou/presentations/screens/recommendedDishes/recommended_dishes_screen.dart';
 import 'package:healyou/healyou/presentations/screens/runTarget/run_target_screen.dart';
 
