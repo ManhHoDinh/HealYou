@@ -64,6 +64,12 @@ class _NavigationHomeState extends State<NavigationHome> {
           break;
         case DrawerIndex.Help:
           setState(() {
+            screenView = HelpScreen();
+          });
+          break;
+          
+        case DrawerIndex.Chatbot:
+          setState(() {
             screenView = ChatPage();
           });
           break;

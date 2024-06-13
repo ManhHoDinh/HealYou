@@ -170,164 +170,166 @@ class RunTrackScreenState extends State<RunTrackScreen>
     return Scaffold(
       body: initialCameraPosition == null
           ? SizedBox.shrink()
-          : Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: const Text(
-                    'GPS',
-                    style: TextStyle(fontSize: 24.0),
+          : SafeArea(
+            child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: const Text(
+                      'GPS',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 500,
-                  child: GoogleMap(
-                    onCameraMove: (CameraPosition camPos) {
-                      if (camPos.zoom != zoom) zoom = camPos.zoom;
-                    },
-                    polylines: {
-                      Polyline(
-                        polylineId: PolylineId(_latlng.toString()),
-                        visible: true,
-                        //latlng is List<LatLng>
-                        points: _latlng,
-                        color: Colors.blue,
-                      )
-                    },
-                    initialCameraPosition: initialCameraPosition!,
-                    markers: markers,
-                    zoomControlsEnabled: false,
-                    mapType: MapType.normal,
-                    onMapCreated: (GoogleMapController controller) {
-                      googleMapController = controller;
-                    },
+                  SizedBox(
+                    height: 500,
+                    child: GoogleMap(
+                      onCameraMove: (CameraPosition camPos) {
+                        if (camPos.zoom != zoom) zoom = camPos.zoom;
+                      },
+                      polylines: {
+                        Polyline(
+                          polylineId: PolylineId(_latlng.toString()),
+                          visible: true,
+                          //latlng is List<LatLng>
+                          points: _latlng,
+                          color: Colors.blue,
+                        )
+                      },
+                      initialCameraPosition: initialCameraPosition!,
+                      markers: markers,
+                      zoomControlsEnabled: false,
+                      mapType: MapType.normal,
+                      onMapCreated: (GoogleMapController controller) {
+                        googleMapController = controller;
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  height: 50,
-                  margin: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 50,
-                        width: 105,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 248, 248, 248),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Km', style: TextStyle(color: Colors.black)),
-                              Text('0,00',
-                                  style: TextStyle(color: Colors.black)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      VerticalDivider(color: Colors.black, thickness: 1),
-                      SizedBox(
-                        height: 50,
-                        width: 105,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 248, 248, 248),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Km/H',
-                                  style: TextStyle(color: Colors.black)),
-                              Text('4,00',
-                                  style: TextStyle(color: Colors.black)),
-                            ],
+                  Container(
+                    height: 50,
+                    margin: EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 50,
+                          width: 105,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 248, 248, 248),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Km', style: TextStyle(color: Colors.black)),
+                                Text('0,00',
+                                    style: TextStyle(color: Colors.black)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      VerticalDivider(color: Colors.black, thickness: 1),
-                      SizedBox(
-                        height: 50,
-                        width: 105,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 248, 248, 248),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Time',
-                                  style: TextStyle(color: Colors.black)),
-                              Text(formatDuration(Duration(seconds: _start)),
-                                  style: TextStyle(color: Colors.black)),
-                            ],
+                        VerticalDivider(color: Colors.black, thickness: 1),
+                        SizedBox(
+                          height: 50,
+                          width: 105,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 248, 248, 248),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Km/H',
+                                    style: TextStyle(color: Colors.black)),
+                                Text('4,00',
+                                    style: TextStyle(color: Colors.black)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        VerticalDivider(color: Colors.black, thickness: 1),
+                        SizedBox(
+                          height: 50,
+                          width: 105,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 248, 248, 248),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Time',
+                                    style: TextStyle(color: Colors.black)),
+                                Text(formatDuration(Duration(seconds: _start)),
+                                    style: TextStyle(color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 300,
-                  child: Divider(color: Colors.black, thickness: 1),
-                ),
-                Container(
-                  height: 50,
-                  margin: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor:
-                              const Color.fromARGB(255, 248, 248, 248),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: Image.asset('assets/images/spotify.png',
-                            width: 30, height: 30),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          _handleRun(_isRunning);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor:
-                              const Color.fromARGB(255, 248, 248, 248),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: Icon(_isRunning ? Icons.pause : Icons.play_arrow,
-                            size: 24.0, color: Colors.black),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          _setMarkerToCurrentLocation();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor:
-                              const Color.fromARGB(255, 248, 248, 248),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: Icon(Icons.location_on,
-                            size: 24.0, color: Colors.black),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 300,
+                    child: Divider(color: Colors.black, thickness: 1),
                   ),
-                ),
-              ],
-            ),
+                  Container(
+                    height: 50,
+                    margin: EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        // ElevatedButton(
+                        //   onPressed: () {},
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor:
+                        //         const Color.fromARGB(255, 248, 248, 248),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(8.0),
+                        //     ),
+                        //   ),
+                        //   child: Image.asset('assets/images/spotify.png',
+                        //       width: 30, height: 30),
+                        // ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _handleRun(_isRunning);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor:
+                                const Color.fromARGB(255, 248, 248, 248),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          child: Icon(_isRunning ? Icons.pause : Icons.play_arrow,
+                              size: 24.0, color: Colors.black),
+                        ),
+                        // ElevatedButton(
+                        //   onPressed: () async {
+                        //     _setMarkerToCurrentLocation();
+                        //   },
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor:
+                        //         const Color.fromARGB(255, 248, 248, 248),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(8.0),
+                        //     ),
+                        //   ),
+                        //   child: Icon(Icons.location_on,
+                        //       size: 24.0, color: Colors.black),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+          ),
     );
   }
 

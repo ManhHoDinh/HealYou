@@ -35,90 +35,94 @@ class RunMapState extends State<RunMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(16.0),
-            child: const Text(
-              'GPS',
-              style: TextStyle(fontSize: 24.0),
-            ),
-          ),
-          Container(
-            height: 500,
-            child: GoogleMap(
-              mapType: MapType.hybrid,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-            ),
-          ),
-          Container(
-            height: 50,
-            margin: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromARGB(255, 248, 248, 248),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  child: const Column(
-                    children: [
-                      Icon(Icons.map, size: 24.0, color: Colors.black),
-                      Text('Map', style: TextStyle(color: Colors.black)),
-                    ],
-                  ),
-                ),
-                VerticalDivider(color: Colors.black, thickness: 1),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromARGB(255, 248, 248, 248),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  child: Image.asset('assets/images/spotify.png',
-                      width: 30, height: 50),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 300,
-            child: Divider(color: Colors.black, thickness: 1),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RunTrackScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: const Color.fromARGB(255, 248, 248, 248),
-                shape: CircleBorder(),
-              ),
-              child: Container(
-                height: 50,
-                width: 50,
-                alignment: Alignment.center,
-                child: Text('Run', style: TextStyle(color: Colors.black)),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: const Text(
+                'GPS',
+                style: TextStyle(fontSize: 24.0),
               ),
             ),
-          ),
-        ],
+            Container(
+              height: 500,
+              child: GoogleMap(
+                mapType: MapType.hybrid,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+            ),
+            // Container(
+            //   height: 50,
+            //   margin: EdgeInsets.all(16.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: <Widget>[
+            //       ElevatedButton(
+            //         onPressed: () {},
+            //         style: ElevatedButton.styleFrom(
+            //           foregroundColor: Colors.white,
+            //           backgroundColor: const Color.fromARGB(255, 248, 248, 248),
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(8.0),
+            //           ),
+            //         ),
+            //         child: const Column(
+            //           children: [
+            //             Icon(Icons.map, size: 24.0, color: Colors.black),
+            //             Text('Map', style: TextStyle(color: Colors.black)),
+            //           ],
+            //         ),
+            //       ),
+            //       VerticalDivider(color: Colors.black, thickness: 1),
+            //       // ElevatedButton(
+            //       //   onPressed: () {},
+            //       //   style: ElevatedButton.styleFrom(
+            //       //     foregroundColor: Colors.white,
+            //       //     backgroundColor: const Color.fromARGB(255, 248, 248, 248),
+            //       //     shape: RoundedRectangleBorder(
+            //       //       borderRadius: BorderRadius.circular(8.0),
+            //       //     ),
+            //       //   ),
+            //       //   child: Image.asset('assets/images/spotify.png',
+            //       //       width: 30, height: 50),
+            //       // ),
+            //     ],
+            //   ),
+            // ),
+
+            // Container(
+            //   width: 300,
+            //   child: Divider(color: Colors.black, thickness: 1),
+            // ),
+            SizedBox(height: 50),
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RunTrackScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 248, 248, 248),
+                  shape: CircleBorder(),
+                ),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  alignment: Alignment.center,
+                  child: Text('Run', style: TextStyle(color: Colors.black)),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -41,31 +41,36 @@ class _HomeDrawerState extends State<HomeDrawer> {
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
-        index: DrawerIndex.Help,
+        index: DrawerIndex.Chatbot,
         labelName: 'Chatbot',
         isAssetsImage: true,
         imageName: 'assets/images/chatbot.png',
+      ),
+      DrawerList(
+        index: DrawerIndex.Help,
+        labelName: 'Help',
+        icon: Icon(Icons.help),
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
         labelName: 'FeedBack',
         icon: Icon(Icons.help),
       ),
-      DrawerList(
-        index: DrawerIndex.Invite,
-        labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
-      ),
-      DrawerList(
-        index: DrawerIndex.Share,
-        labelName: 'Rate the app',
-        icon: Icon(Icons.share),
-      ),
-      DrawerList(
-        index: DrawerIndex.About,
-        labelName: 'About Us',
-        icon: Icon(Icons.info),
-      ),
+      // DrawerList(
+      //   index: DrawerIndex.Invite,
+      //   labelName: 'Invite Friend',
+      //   icon: Icon(Icons.group),
+      // ),
+      // DrawerList(
+      //   index: DrawerIndex.Share,
+      //   labelName: 'Rate the app',
+      //   icon: Icon(Icons.share),
+      // ),
+      // DrawerList(
+      //   index: DrawerIndex.About,
+      //   labelName: 'About Us',
+      //   icon: Icon(Icons.info),
+      // ),
     ];
   }
 
@@ -73,6 +78,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    int retryAttempt = 5;
+
     return Scaffold(
       backgroundColor: AppTheme.notWhite.withOpacity(0.5),
       body: Column(
@@ -117,9 +124,41 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                       FirebaseAuth
                                               .instance.currentUser!.photoURL ??
                                           '',
-                                      height: 120,
-                                      width: 120,
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        if (retryAttempt > 0) {
+                                          retryAttempt--;
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) {
+                                            setState(() {});
+                                          });
+                                        }
+                                        return InkWell(
+                                          onTap: () {
+                                            setState(() {});
+                                          },
+                                          child: const Icon(Icons.error),
+                                        );
+                                      },
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
                                     )
                                   : Image.asset('assets/images/userImage.png'),
                             ),
@@ -197,9 +236,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  void onTapped() {
-    FirebaseAuth.instance.signOut();
-    GoogleSignIn().signOut();
+  void onTapped() async{
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacementNamed('onboarding_screen');
   }
 
@@ -318,6 +357,7 @@ enum DrawerIndex {
   About,
   Invite,
   SetTarget,
+  Chatbot
 }
 
 class DrawerList {
