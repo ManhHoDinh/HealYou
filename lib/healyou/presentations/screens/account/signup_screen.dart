@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
+import 'package:healyou/healyou/presentations/screens/account/validation/validation_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
 import 'package:healyou/healyou/presentations/widgets/loading_provider.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController passController;
+  bool showPass = false;
 
   @override
   void initState() {
@@ -106,14 +108,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     TextField(
                       controller: passController,
-                      onChanged: (text) {
-                        handleChangePass(text);
-                      },
+                      onChanged: handleChangePass,
+                      obscureText: !showPass,
                       decoration: InputDecoration(
                           hintText: 'Password',
                           prefixIcon: const Icon(Icons.key),
-                          errorText: passErrorText),
+                          suffixIcon: IconButton(
+                              onPressed: () => setState(() {
+                                    showPass = !showPass;
+                                  }),
+                              icon: Icon(showPass
+                                  ? Icons.visibility_off
+                                  : Icons.visibility)),
+                          ),
                     ),
+                    
                     const SizedBox(
                       height: 10,
                     ),
@@ -139,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   final credential =
                                       await _handleSignup(); // var credential = await _handleSignup();
                                   if (credential != null) {
-                                    Get.to(() => GenderSelectorScreen());
+                                    Get.to(ValidationScreen());
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
@@ -168,12 +177,30 @@ class _SignupScreenState extends State<SignupScreen> {
     if ((emailErrorText?.isNotEmpty ?? false) ||
         (passErrorText?.isNotEmpty ?? false)) return null;
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
         email: emailController.text,
         password: passController.text,
-      );
+      )
+          .catchError((error) {
+        debugPrint(error.code);
+        switch (error.code) {
+          case 'weak-password':
+            Get.snackbar(
+                "Error", "Weak password. Please try another stronger password");
+          case 'invalid-email':
+            Get.snackbar("Error", "The email you provide is incorrect.");
+          case 'email-already-in-use':
+            Get.snackbar("Error",
+                "This email has already been used. Please check again or try another email. ");
+            break;
+          default:
+            Get.snackbar("Error", "Some error has happened");
+            break;
+        }
+      });
       String uid = credential.user!.uid;
+      debugPrint(credential.toString());
       UserModel user = UserModel(
           id: uid,
           name: nameController.text,
@@ -181,7 +208,8 @@ class _SignupScreenState extends State<SignupScreen> {
           age: 0,
           height: 0,
           weight: 0,
-          gender: "");
+          gender: "",
+          verified: false);
       await FirebaseAuth.instance.currentUser?.reload();
       // Create a new user with a first and last name
       // final user = <String, dynamic>{"name": nameController.text};
@@ -196,18 +224,24 @@ class _SignupScreenState extends State<SignupScreen> {
         debugPrint(error.toString());
         return null;
       });
+      var acs = ActionCodeSettings(
+          // URL you want to redirect back to. The domain (www.example.com) for this
+          // URL must be whitelisted in the Firebase Console.
+          url: 'https://healu-20551.firebaseapp.com?id=$uid',
+          // This must be true
+          handleCodeInApp: true,
+          androidPackageName: 'com.android.healu',
+          // installIfNotAvailable
+          androidInstallApp: true,
+          // minimumVersion
+          androidMinimumVersion: '12');
+      await FirebaseAuth.instance
+          .sendSignInLinkToEmail(
+              email: emailController.text, actionCodeSettings: acs)
+          .catchError((onError) =>
+              debugPrint('Error sending email verification $onError'))
+          .then((value) => debugPrint('Successfully sent email verification'));
       return result;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        setState(() {
-          signInError = 'The password provided is too weak.';
-        });
-      } else if (e.code == 'email-already-in-use') {
-        setState(() {
-          signInError = 'The account already exists for that email.';
-        });
-      }
-      return null;
     } catch (e) {
       print(e);
     }

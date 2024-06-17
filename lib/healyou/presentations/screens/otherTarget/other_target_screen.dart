@@ -59,7 +59,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
               tabs: [
                 Tab(icon: Text('Water')),
                 Tab(icon: Text('Nutrition')),
-                //  Tab(icon: Text('Sleep')),
+                 Tab(icon: Text('Sleep')),
               ],
             ),
           ),
@@ -67,7 +67,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
             children: [
               WaterTarget(),
               NutritionSreen(),
-              //  SleepTarget(),
+                SleepTarget(),
             ],
           ),
         ));

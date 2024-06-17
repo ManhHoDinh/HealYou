@@ -26,7 +26,7 @@ void signInWithGoogle(BuildContext context) async {
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser =
       await GoogleSignIn().signIn().catchError((error) {
-    debugPrint(error.toString());
+    debugPrint("GoogleSignInError: $error");
   });
   debugPrint(googleUser.toString());
   // Obtain the auth details from the request

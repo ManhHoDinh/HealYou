@@ -1,18 +1,17 @@
 import 'package:alarm/alarm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
-import 'package:healyou/healyou/presentations/screens/information/gender.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
+import 'package:healyou/healyou/presentations/screens/information/age.dart';
+import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
+import 'package:healyou/healyou/presentations/screens/account/validation/validation_screen.dart';
 import 'core/constants/color_palatte.dart';
 import 'core/helper/AuthFunctions.dart';
-import 'core/helper/local_storage_helper.dart';
-import 'core/models/firebase/firebase_request.dart';
 
 class healyouApp extends StatefulWidget {
   const healyouApp({super.key});
@@ -85,17 +84,15 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         // Show a loading indicator if necessary
                         return SplashScreen();
                       } else {
-                        print(AuthServices.CurrentUser);
-                        // UserModel currentUser = AuthServices.CurrentUser!;
-                        // if (currentUser.height == 0 &&
-                        //     currentUser.weight == 0 &&
-                        //     currentUser.gender == "" &&
-                        //     currentUser.age == 0) {
-                        //   return GenderSelectorScreen();
-                        // }
-                        // // If the update is complete, navigate to the MainScreen
-                        // else
-                          return NavigationHome();
+                        if (!AuthServices.CurrentUser!.verified) {
+                          return ValidationScreen();
+                        }
+                        debugPrint(AuthServices.CurrentUser.toString());
+                        if (AuthServices.CurrentUser!.gender == "" ||
+                            AuthServices.CurrentUser!.age == 0) {
+                          return GenderSelectorScreen();
+                        }
+                        return NavigationHome();
                       }
                     },
                   );

@@ -160,6 +160,12 @@ class _TrackResultState extends State<TrackResult>
               ),
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamedAndRemoveUntil("navigation_screen", (route) => false);
+          },
+          child: const Icon(Icons.home),
         ));
   }
 
