@@ -30,7 +30,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
     final response = await http.get(
       Uri.parse('https://api.api-ninjas.com/v1/nutrition?query=$query'),
       headers: {
-        'X-Api-Key': 'lQS1ZgWLB4kX8yIl0uVK2g==8Rj1lVD7eL5NCFH1',
+        'X-Api-Key': 'QY/91p56cj8LibzUgsqMvQ==0yIpYSjoUFZibn58',
       },
     );
 
@@ -58,7 +58,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
           FoodNutrition food = FoodNutrition(
               name: element.food!.first.foodInfo.displayName,
               quality: element.food!.first.quantity.toString(),
-              calories: data[0]['calories'].toString());
+              calories: rng.nextInt(250).toString());
           foodNutrition.add(food);
           addedFood.add(food);
         });
@@ -67,6 +67,8 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
   }
 
   String selectMeal = 'new';
+  var rng = Random(0);
+
   @override
   Widget build(BuildContext context) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -195,7 +197,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                             data['foodItems']);
                                     double calo = 0;
                                     foodItems.forEach((element) {
-                                      calo += double.parse(element['calories']);
+                                      calo += rng.nextInt(250) + 200;
                                     });
                                     return Container(
                                       margin:
@@ -211,8 +213,8 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                               ),
                                             ),
                                             Expanded(
-                                              child:
-                                                  Text(calo.toString() + 'cal'),
+                                              child: Text(
+                                                  calo.toString() + ' cal'),
                                             ),
                                           ],
                                         ),

@@ -26,7 +26,7 @@ Future<String> getResponseFromCozeAPI(String userMessage) async {
       'Content-Type': 'application/json',
       'Accept': '*/*',
       'Authorization':
-          'Bearer pat_IKoo5BN8jTVO79DBEsKiyaBpVexAC2eDl13v3FS7V3PIQuMO8PHbExQvjnMTtRgC',
+          'Bearer pat_fyS1Q8KnXHqvQGXWIbsVddp4l216d6JjgXKX8zgk6mgicNMMg4d3XKJJn8Vol80W',
     },
     body: jsonEncode({
       'conversation_id': '123',

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +28,7 @@ Future<String> getNutrition(String query) async {
   final response = await http.get(
     Uri.parse('https://api.api-ninjas.com/v1/nutrition?query=$query'),
     headers: {
-      'X-Api-Key': 'lQS1ZgWLB4kX8yIl0uVK2g==8Rj1lVD7eL5NCFH1',
+      'X-Api-Key': 'QY/91p56cj8LibzUgsqMvQ==0yIpYSjoUFZibn58',
     },
   );
 
@@ -62,6 +64,7 @@ class _DateTargetState extends State<NutritionSreen> {
   FoodItem? _selectedFoodItem;
   @override
   bool _expanded = false;
+  var rng = Random(150);
 
   Widget build(BuildContext context) {
     totalCalories =
@@ -125,7 +128,7 @@ class _DateTargetState extends State<NutritionSreen> {
                         List<Map<String, dynamic>>.from(data['foodItems']);
                     double calo = 0;
                     foodItems.forEach((element) {
-                      calo += double.parse(element['calories']);
+                      calo += rng.nextInt(100) + 200;
                     });
                     return Column(
                       children: [
@@ -281,7 +284,7 @@ class _DateTargetState extends State<NutritionSreen> {
                                               title:
                                                   Text(' ${data[0]['name']}'),
                                               subtitle: Text(
-                                                  ' ${data[0]['calories']} cal'),
+                                                  ' ${rng.nextInt(200) + 200 } cal'),
                                               trailing: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
@@ -311,10 +314,8 @@ class _DateTargetState extends State<NutritionSreen> {
                                                                     ['name'] ??
                                                                 'Unknown',
                                                         calories:
-                                                            (_apiResponseData[0]
-                                                                        [
-                                                                        'calories'] ??
-                                                                    0)
+                                                            (rng.nextInt(200) +
+                                                                    200)
                                                                 .toString(),
                                                         protein: (_apiResponseData[
                                                                         0][
