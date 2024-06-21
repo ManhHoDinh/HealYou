@@ -6,6 +6,7 @@ import '../../../../app_theme.dart';
 import '../../../../custom_drawer/drawer_user_controller.dart';
 import '../../../../custom_drawer/home_drawer.dart';
 import '../../../../feedback_screen.dart';
+import '../../../../help_screen.dart';
 import '../../../../invite_friend_screen.dart';
 
 class NavigationHome extends StatefulWidget {
@@ -63,6 +64,12 @@ class _NavigationHomeState extends State<NavigationHome> {
           });
           break;
         case DrawerIndex.Help:
+          setState(() {
+            screenView = HelpScreen();
+          });
+          break;
+          
+        case DrawerIndex.Chatbot:
           setState(() {
             screenView = ChatPage();
           });

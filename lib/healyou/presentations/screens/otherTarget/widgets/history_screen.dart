@@ -16,7 +16,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  late DateTime selectedDate;
+  late DateTime selectedDate = DateTime.now();
   late List<DateTime> range;
   @override
   void initState() {
