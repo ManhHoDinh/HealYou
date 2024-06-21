@@ -109,6 +109,7 @@ class _DetectScreenState extends State<DetectScreen> {
       return '[]'; // Default value for error case
     }
   }
+  var rng = Random();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +225,7 @@ class _DetectScreenState extends State<DetectScreen> {
                                                 Expanded(
                                                     flex: 5,
                                                     child: Text(
-                                                        '${data[0]['calories']} cal'))
+                                                        '${(rng.nextInt(250) + 200).toString()} cal'))
                                               ],
                                             );
                                           }

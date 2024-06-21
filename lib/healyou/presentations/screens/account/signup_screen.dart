@@ -24,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController passController;
+  bool showPass = false;
 
   @override
   void initState() {
@@ -107,14 +108,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     TextField(
                       controller: passController,
-                      onChanged: (text) {
-                        handleChangePass(text);
-                      },
+                      onChanged: handleChangePass,
+                      obscureText: !showPass,
                       decoration: InputDecoration(
                           hintText: 'Password',
                           prefixIcon: const Icon(Icons.key),
-                          errorText: passErrorText),
+                          suffixIcon: IconButton(
+                              onPressed: () => setState(() {
+                                    showPass = !showPass;
+                                  }),
+                              icon: Icon(showPass
+                                  ? Icons.visibility_off
+                                  : Icons.visibility)),
+                          ),
                     ),
+                    
                     const SizedBox(
                       height: 10,
                     ),

@@ -45,7 +45,6 @@ void signInWithGoogle(BuildContext context) async {
     final doc = await FirebaseFirestore.instance
         .collection("user")
         .doc(credentialWithGoogle.user?.uid);
-    UserModel user;
     var docSnapshot = await doc.get();
     if (docSnapshot.exists) {
       Navigator.of(context)

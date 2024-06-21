@@ -87,9 +87,11 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         if (!AuthServices.CurrentUser!.verified) {
                           return ValidationScreen();
                         }
-                        debugPrint(AuthServices.CurrentUser.toString());
+                        debugPrint("Hello "+AuthServices.CurrentUser.toString());
                         if (AuthServices.CurrentUser!.gender == "" ||
-                            AuthServices.CurrentUser!.age == 0) {
+                            AuthServices.CurrentUser!.age == 0 || AuthServices.CurrentUser!.height == 0 || AuthServices.CurrentUser!.weight == 0
+                      || AuthServices.CurrentUser!.targetWeight == 0 
+                            ) {
                           return GenderSelectorScreen();
                         }
                         return NavigationHome();
