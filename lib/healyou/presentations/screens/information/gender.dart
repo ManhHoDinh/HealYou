@@ -4,30 +4,6 @@ import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
 import 'package:healyou/healyou/core/helper/dish_request.dart';
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//           body: const GenderSelector(),
-//           floatingActionButton: Padding(
-//             padding: const EdgeInsets.all(75.0),
-//             child: FloatingActionButton(
-//               child: const Icon(Icons.arrow_forward),
-//               onPressed: () {},
-//             ),
-//           ),
-//           floatingActionButtonLocation:
-//               FloatingActionButtonLocation.centerFloat),
-//     );
-//   }
-// }
 
 class GenderSelectorScreen extends StatefulWidget {
   const GenderSelectorScreen({super.key});

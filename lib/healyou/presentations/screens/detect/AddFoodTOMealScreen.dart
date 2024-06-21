@@ -214,7 +214,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                  calo.toString() + ' cal'),
+                                                  data['calories'].toString() + ' cal'),
                                             ),
                                           ],
                                         ),

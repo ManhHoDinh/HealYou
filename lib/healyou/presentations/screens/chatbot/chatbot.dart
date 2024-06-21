@@ -37,6 +37,8 @@ Future<String> getResponseFromCozeAPI(String userMessage) async {
     }),
   );
   if (response.statusCode == 200) {
+    print('Response: ${response.body}');
+    
     var data = jsonDecode(response.body);
     if (data['messages'] != null && data['messages'].isNotEmpty) {
       return data['messages']
