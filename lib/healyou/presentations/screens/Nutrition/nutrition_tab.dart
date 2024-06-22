@@ -142,6 +142,7 @@ class _DateTargetState extends State<NutritionSreen> {
                       ],
                     );
                   }),
+            
               SizedBox(
                 height: 20,
               ),
@@ -369,19 +370,21 @@ class _DateTargetState extends State<NutritionSreen> {
                                 });
                                 getNutrition(_controller.text).then((data) {
                                   if (data != null) {
-                                    setState(() {
-                                      _isLoading = false;
-                                      _foodItems.addAll(_selectedFoodItems);
-                                      _handleAddFoodItem(
-                                          _selectedFoodItems, id);
-                                      _expandedItemIndex = (id);
+                                    // setState(() {
+                                    //   _isLoading = false;
+                                    //   _foodItems.addAll(_selectedFoodItems);
+                                    //   _handleAddFoodItem(
+                                    //       _selectedFoodItems, id);
+                                    //   _expandedItemIndex = (id);
                                       uploadDataToFirebase(_title,
                                           _selectedFoodItems, currentUser!.uid);
                                       _selectedFoodItems.clear();
-                                    });
+                                    // });
                                     Navigator.of(context).pop();
                                   }
-                                });
+                                }
+                                );
+                              
                               }
                             },
                           ),
