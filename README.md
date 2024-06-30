@@ -1,7 +1,6 @@
-# Healthcare application
+## Health and fitness application
 
-An app that helps you lose weight, track your running distance, manage your sleep, remind you to drink water and more
-
+<img src="./HealYouPoster.png"/>
 ## Table of contents
 
 - [Introduction](#intruduction)
