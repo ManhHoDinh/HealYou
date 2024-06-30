@@ -1,6 +1,7 @@
 ## Health and fitness application
 
 <img src="./HealYouPoster.png"/>
+
 ## Table of contents
 
 - [Introduction](#intruduction)
