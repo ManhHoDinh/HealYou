@@ -16,7 +16,7 @@ class Generator {
       'params': params
     };
     var response = await dio.post(
-        "http://rcmf.dev.lumisightemr.datahouse.asia:8888/predict/",
+        "https://recommend-dish.onrender.com/predict/",
         data: request);
     return response.data;
   }
