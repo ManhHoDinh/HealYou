@@ -43,24 +43,24 @@ class _GoalScreenState extends State<GoalScreen> {
                         informationController.updateWeightLoss(goals[index]);
                         Get.to(() => ActivityScreen());
                       },
-                      child: Text(
-                        goals[index],
-                        style: TextStyle(fontSize: 18),
-                      ),
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all<EdgeInsets>(
+                        padding: WidgetStateProperty.all<EdgeInsets>(
                           EdgeInsets.symmetric(
                               vertical: 30,
                               horizontal: 40), // Adjust padding as needed
                         ),
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                            WidgetStateProperty.all<Color>(Colors.white),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
+                      ),
+                      child: Text(
+                        goals[index],
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
                 separatorBuilder: (context, index) => SizedBox(

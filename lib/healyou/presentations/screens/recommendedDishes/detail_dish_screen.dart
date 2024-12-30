@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:collection/collection.dart';
 import 'package:healyou/healyou/core/models/dish/dish.dart';
 import 'package:healyou/healyou/presentations/screens/recommendedDishes/widgets/ingredient_chart.dart';
 

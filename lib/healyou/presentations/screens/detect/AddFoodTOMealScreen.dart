@@ -16,7 +16,7 @@ import 'dart:convert'; // Import for jsonDecode
 class AddFoodToMealScreen extends StatefulWidget {
   final FoodDetect? foodDetect;
 
-  AddFoodToMealScreen({super.key, required this.foodDetect});
+  const AddFoodToMealScreen({super.key, required this.foodDetect});
 
   @override
   State<AddFoodToMealScreen> createState() => _AddFoodToMealScreenState();
@@ -83,12 +83,12 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
 
       List<Map<String, dynamic>> foodItemsList = [];
 
-      foodItems.forEach((foodItem) {
+      for (var foodItem in foodItems) {
         foodItemsList.add({
           'meal': foodItem.name,
           'calories': foodItem.calories,
         });
-      });
+      }
 
       if (isNewMeal) {
         DocumentReference docRef = collection.doc();
@@ -196,9 +196,9 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                         List<Map<String, dynamic>>.from(
                                             data['foodItems']);
                                     double calo = 0;
-                                    foodItems.forEach((element) {
+                                    for (var element in foodItems) {
                                       calo += rng.nextInt(250) + 200;
-                                    });
+                                    }
                                     return Container(
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 50),
@@ -214,7 +214,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                  data['calories'].toString() + ' cal'),
+                                                  '${data['calories']} cal'),
                                             ),
                                           ],
                                         ),
@@ -299,7 +299,7 @@ class _AddFoodToMealScreenState extends State<AddFoodToMealScreen> {
                                         Expanded(
                                           flex: 5,
                                           child: Text(e.quality != null
-                                              ? e.quality! + "g"
+                                              ? "${e.quality!}g"
                                               : ''),
                                         ),
                                         Expanded(

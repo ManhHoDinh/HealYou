@@ -32,19 +32,19 @@ Future<String> getNutrition(String query) async {
 }
 
 class _DateTargetState extends State<DateTarget> {
-  List<Widget> _infoBoxes = [];
+  final List<Widget> _infoBoxes = [];
   final _formKey = GlobalKey<FormState>();
   int _boxIndex = 0;
   String _title = '';
-  int _value = 0;
-  String _unit = '';
+  final int _value = 0;
+  final String _unit = '';
   int _expandedItemIndex = -1;
 
   double totalCalories = 0.0;
   double totalProtein = 0.0;
   double totalFat = 0.0;
   final List<FoodItem> _addedFoodItems = [];
-  Map<int, List<FoodItem>> _expandedFoodItemsMap = {};
+  final Map<int, List<FoodItem>> _expandedFoodItemsMap = {};
   final List<FoodItem> _foodItems = [];
   @override
   // void initState() {
@@ -130,8 +130,8 @@ class _DateTargetState extends State<DateTarget> {
   }
 
   Widget _buildAddBox() {
-    final TextEditingController _controller = TextEditingController();
-    final List<FoodItem> _addedDuringSearch = [];
+    final TextEditingController controller = TextEditingController();
+    final List<FoodItem> addedDuringSearch = [];
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(10),
@@ -184,27 +184,27 @@ class _DateTargetState extends State<DateTarget> {
                               //   },
                               // ),
                               TextField(
-                                controller: _controller,
+                                controller: controller,
                                 decoration: InputDecoration(
                                   labelText: 'Search',
                                 ),
                                 onSubmitted: (value) {
                                   setState(() {
-                                    _controller.text = value;
+                                    controller.text = value;
                                   });
                                 },
                               ),
                               FutureBuilder<String>(
-                                future: getNutrition(_controller.text),
+                                future: getNutrition(controller.text),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<String> snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
                                     return CircularProgressIndicator();
                                   } else {
-                                    if (snapshot.hasError)
+                                    if (snapshot.hasError) {
                                       return Text('Error: ${snapshot.error}');
-                                    else {
+                                    } else {
                                       if (snapshot.hasData &&
                                           snapshot.data != null) {
                                         _apiResponseData =
@@ -263,7 +263,7 @@ class _DateTargetState extends State<DateTarget> {
                                                           .toString(),
                                                     );
                                                     setState(() {
-                                                      _addedDuringSearch
+                                                      addedDuringSearch
                                                           .add(newFoodItem);
                                                     });
                                                   },
@@ -325,7 +325,7 @@ class _DateTargetState extends State<DateTarget> {
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                getNutrition(_controller.text).then((data) {
+                                getNutrition(controller.text).then((data) {
                                   if (data != null) {
                                     final apiResponseData = jsonDecode(data);
                                     final newFoodItem = FoodItem(
@@ -361,7 +361,7 @@ class _DateTargetState extends State<DateTarget> {
                                     //   _boxIndex++;
                                     // });
                                     _handleAddFoodItems(
-                                        _addedDuringSearch); // Add all the FoodItems in the list
+                                        addedDuringSearch); // Add all the FoodItems in the list
                                     Navigator.of(context).pop();
                                   }
                                 });
@@ -482,11 +482,11 @@ class _DateTargetState extends State<DateTarget> {
   }
 
   void _handleEditFoodItem(int index, FoodItem foodItem) {
-    String _editedName = foodItem.name;
-    String _editedCalories = foodItem.calories;
-    String _editedProtein = foodItem.protein;
-    String _editedFat = foodItem.fat;
-    final TextEditingController _controller = TextEditingController();
+    String editedName = foodItem.name;
+    String editedCalories = foodItem.calories;
+    String editedProtein = foodItem.protein;
+    String editedFat = foodItem.fat;
+    final TextEditingController controller = TextEditingController();
 
     showDialog(
       context: context,
@@ -501,64 +501,64 @@ class _DateTargetState extends State<DateTarget> {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                        initialValue: _editedName,
+                        initialValue: editedName,
                         decoration: InputDecoration(labelText: 'Edit Name'),
                         onChanged: (value) {
                           setState(() {
-                            _editedName = value;
+                            editedName = value;
                           });
                         },
                       ),
                       TextFormField(
-                        initialValue: _editedCalories,
+                        initialValue: editedCalories,
                         decoration: InputDecoration(labelText: 'Calories'),
                         onChanged: (value) {
                           setState(() {
-                            _editedCalories = value;
+                            editedCalories = value;
                           });
                         },
                       ),
                       TextFormField(
-                        initialValue: _editedProtein,
+                        initialValue: editedProtein,
                         decoration: InputDecoration(labelText: 'Protein'),
                         onChanged: (value) {
                           setState(() {
-                            _editedProtein = value;
+                            editedProtein = value;
                           });
                         },
                       ),
                       TextFormField(
-                        initialValue: _editedFat,
+                        initialValue: editedFat,
                         decoration: InputDecoration(labelText: 'Fat'),
                         onChanged: (value) {
                           setState(() {
-                            _editedFat = value;
+                            editedFat = value;
                           });
                         },
                       ),
                       SizedBox(height: 10),
                       TextField(
-                        controller: _controller,
+                        controller: controller,
                         decoration: InputDecoration(
                           labelText: 'Search',
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            _controller.text = value;
+                            controller.text = value;
                           });
                         },
                       ),
                       FutureBuilder<String>(
-                        future: getNutrition(_controller.text),
+                        future: getNutrition(controller.text),
                         builder: (BuildContext context,
                             AsyncSnapshot<String> snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return CircularProgressIndicator();
                           } else {
-                            if (snapshot.hasError)
+                            if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
-                            else {
+                            } else {
                               if (snapshot.hasData && snapshot.data != null) {
                                 _apiResponseData = jsonDecode(snapshot.data!);
                                 final data = jsonDecode(snapshot.data!);
@@ -602,10 +602,10 @@ class _DateTargetState extends State<DateTarget> {
                   onPressed: () {
                     final editedFoodItem = FoodItem(
                       imageUrl: foodItem.imageUrl,
-                      name: _editedName,
-                      calories: _editedCalories,
-                      protein: _editedProtein,
-                      fat: _editedFat,
+                      name: editedName,
+                      calories: editedCalories,
+                      protein: editedProtein,
+                      fat: editedFat,
                     );
 
                     setState(() {

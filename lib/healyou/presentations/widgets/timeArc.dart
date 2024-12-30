@@ -72,19 +72,19 @@ class _TimeArcState extends State<TimeArc> with SingleTickerProviderStateMixin {
       var endTime = widget.sleep.sleepTime[i + 1].hour +
           widget.sleep.sleepTime[i + 1].minute / 60;
 
-      var startRad_temp = acos(-1) * (startTime / 6 - 0.5);
+      var startradTemp = acos(-1) * (startTime / 6 - 0.5);
       var sweepHour =
           ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
-      var sweepRad_temp = sweepHour / 12 * 2 * pi;
+      var sweepradTemp = sweepHour / 12 * 2 * pi;
       if (widget.sleep.sleepTime[i].day < widget.sleep.sleepTime[i + 1].day) {
-        sweepRad_temp = 2 * 3.1415 - sweepRad_temp;
+        sweepradTemp = 2 * 3.1415 - sweepradTemp;
       }
       result.add(
         Center(
           child: CustomPaint(
               size: Size(100, 100),
               painter: ArcPainter(widget.sleep.color ?? Colors.green.shade300,
-                  startRad_temp, sweepRad_temp)),
+                  startradTemp, sweepradTemp)),
         ),
       );
     }
@@ -96,18 +96,18 @@ class _TimeArcState extends State<TimeArc> with SingleTickerProviderStateMixin {
         widget.sleep.startTime.hour + widget.sleep.startTime.minute / 60;
     var endTime = DateTime.now().hour + DateTime.now().minute / 60;
 
-    var startRad_temp = acos(-1) * (startTime / 6 - 0.5);
+    var startradTemp = acos(-1) * (startTime / 6 - 0.5);
     var sweepHour =
         ((startTime - endTime).abs() - (startTime > endTime ? 12 : 0)).abs();
-    var sweepRad_temp = sweepHour / 12 * 2 * pi;
+    var sweepradTemp = sweepHour / 12 * 2 * pi;
     if (widget.sleep.startTime.day < DateTime.now().day) {
-      sweepRad_temp = 2 * 3.1415 - sweepRad_temp;
+      sweepradTemp = 2 * 3.1415 - sweepradTemp;
     }
     return Center(
       child: CustomPaint(
           size: Size(100, 100),
           painter:
-              ArcPainter(Colors.red.shade200, startRad_temp, sweepRad_temp)),
+              ArcPainter(Colors.red.shade200, startradTemp, sweepradTemp)),
     );
   }
 }

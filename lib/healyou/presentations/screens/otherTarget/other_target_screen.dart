@@ -56,7 +56,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
               indicatorWeight: 4,
               indicatorColor: Color(0xff1AAEEE),
               padding: EdgeInsets.symmetric(horizontal: 16),
-              tabs: [
+              tabs: const [
                 Tab(icon: Text('Water')),
                 Tab(icon: Text('Nutrition')),
                  Tab(icon: Text('Sleep')),
@@ -64,7 +64,7 @@ class _OtherTargetScreenState extends State<OtherTargetScreen>
             ),
           ),
           body: TabBarView(
-            children: [
+            children: const [
               WaterTarget(),
               NutritionSreen(),
                 SleepTarget(),

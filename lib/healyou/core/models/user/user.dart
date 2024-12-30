@@ -17,6 +17,7 @@ class UserModel with _$UserModel {
       @Default(0) int height,
       @Default("") String activity,
       @Default(3) int mealPerDay,
+      @Default(1000) int stepTarget,
       @Default("") String weightLoss,
       @Default(false) bool verified}) = _UserModel;
 

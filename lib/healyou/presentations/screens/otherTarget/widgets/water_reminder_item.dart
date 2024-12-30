@@ -1,14 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/controller/water_item_controller.dart';
 import 'package:healyou/healyou/core/models/firebase/water_item_request.dart';
-import 'package:healyou/healyou/core/models/target/target.dart';
 import 'package:healyou/healyou/core/models/waterTargetItem/water_target_item.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/constants/color_palatte.dart';
 
 class WaterReminderItem extends StatefulWidget {
   final WaterTargetItem item;

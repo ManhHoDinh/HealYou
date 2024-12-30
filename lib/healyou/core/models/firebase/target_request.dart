@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:healyou/healyou/core/helper/firebase_helper.dart';
 import 'package:healyou/healyou/core/models/display/display.dart';
 import 'package:healyou/healyou/core/models/firebase/user_request.dart';
@@ -53,27 +55,28 @@ class TargetRequest {
     UserModel? user = await UserRequest.getById(userId).first;
     print(user);
     if (user!.age != 0 &&
-        user!.height != 0 &&
+        user.height != 0 &&
         user.weight != 0 &&
         user.gender != "") {
       Display display = Display();
-      String runTargetId = await FirebaseHelper.targetCollection.doc().id;
-      String kcalTargetId = await FirebaseHelper.targetCollection.doc().id;
-      String kmTargetId = await FirebaseHelper.targetCollection.doc().id;
-      String timeTargetId = await FirebaseHelper.targetCollection.doc().id;
-      String waterTargetId = await FirebaseHelper.targetCollection.doc().id;
+      String runTargetId = FirebaseHelper.targetCollection.doc().id;
+      String kcalTargetId = FirebaseHelper.targetCollection.doc().id;
+      String kmTargetId = FirebaseHelper.targetCollection.doc().id;
+      String timeTargetId = FirebaseHelper.targetCollection.doc().id;
+      String waterTargetId = FirebaseHelper.targetCollection.doc().id;
       double caloTarget =
-          calculateCalo(user!.weight, user.height, user.gender, user.age) *
+          calculateCalo(user.weight, user.height, user.gender, user.age) *
               display.getActivityLevel(user.activity) *
               display.getWeightLoss(user.weightLoss).round().toDouble();
       double stepTarget = (caloTarget / 0.05).round().toDouble();
       double distanceTarget = (stepTarget / 1000) * 1.5;
       double time = 0;
-      double water = user!.weight * 35;
+      double water = user.weight * 35;
       if (user.gender == 'male') {
         time = (distanceTarget / 5);
-      } else
+      } else {
         time = distanceTarget / 4.5;
+      }
       bool isExist = await TargetRequest.checkTargetExist();
 
       if (!isExist) {
@@ -101,6 +104,9 @@ class TargetRequest {
             time: DateTime.now(),
             type: TargetType.distance,
             target: distanceTarget);
+            FirebaseHelper.userCollection.doc(userId).update({
+                          "stepTarget": stepTarget
+                        });
         FirebaseHelper.targetCollection.doc(kmTargetId).set(kmTarget.toJson());
         Target timeTarget = Target(
             userId: userId,
@@ -221,8 +227,9 @@ class TargetRequest {
             isExist = true;
           }
         }
-        if (!isExist)
-          listReached.add({"index": count - 1, "target": 3000, "reached": 0});
+        if (!isExist) {
+          listReached.add({"index": count - 1, "target": 10000, "reached": 0});
+        }
         count++;
       }
       streamController.add(listReached);

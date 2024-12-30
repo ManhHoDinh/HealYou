@@ -10,7 +10,7 @@ import '../../../../invite_friend_screen.dart';
 import '../../../../help_screen.dart';
 class NavigationHome extends StatefulWidget {
   const NavigationHome({super.key});
-  static final String routeName = 'navigation_screen';
+  static const String routeName = 'navigation_screen';
 
   @override
   State<NavigationHome> createState() => _NavigationHomeState();

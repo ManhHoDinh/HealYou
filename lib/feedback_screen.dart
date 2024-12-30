@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedbackScreen extends StatefulWidget {
+  const FeedbackScreen({super.key});
+
   @override
   _FeedbackScreenState createState() => _FeedbackScreenState();
 }
@@ -20,7 +22,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       query: encodeQueryParameters(<String, String>{
         'subject': 'Can you help me resolve some problems in my app?',
         'body':
-            'Hi,\nI am having trouble with the app. Can you help me? \n ${body}'
+            'Hi,\nI am having trouble with the app. Can you help me? \n $body'
       }),
     );
     await launchUrl(emailLaunchUri);

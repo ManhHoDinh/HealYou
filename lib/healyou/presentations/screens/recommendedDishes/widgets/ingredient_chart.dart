@@ -49,7 +49,7 @@ class _IngredientChartState extends State<IngredientChart> {
         Wrap(
           spacing: 10.0,
           runSpacing: 10.0,
-          children: <Widget>[
+          children: const <Widget>[
             Indicator(
               color: Color(0xff5470C6),
               text: 'Calories',

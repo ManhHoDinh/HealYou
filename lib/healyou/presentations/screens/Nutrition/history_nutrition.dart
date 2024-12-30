@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:healyou/healyou/core/constants/color_palatte.dart';
-import 'package:healyou/healyou/core/helper/text_styles.dart';
-import 'package:healyou/healyou/core/helper/assets_helper.dart';
 import 'package:healyou/healyou/core/models/nutrition/nutrition.dart';
-import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/screens/Nutrition/widgets/history_item.dart';
 
 class HistoryNutrition extends StatefulWidget {

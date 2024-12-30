@@ -37,6 +37,8 @@ class _WeekTargetState extends State<WeekTarget> {
     ];
 
     List<Stack> getListProgress(List<List<double>> targets) {
+      print("target");
+      print(targets);
       double maxTarget = getMaxTarget(targets);
       return targets
           .map((e) => Stack(children: [
@@ -78,8 +80,8 @@ class _WeekTargetState extends State<WeekTarget> {
           .toList();
     }
 
-    List<Container> dayTexts = days
-        .map((day) => Container(
+    List<SizedBox> dayTexts = days
+        .map((day) => SizedBox(
               width: width * 1 / 13,
               child: Text(day,
                   textAlign: TextAlign.center,
@@ -139,6 +141,9 @@ class _WeekTargetState extends State<WeekTarget> {
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
                                   padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xff00d800)),
                                   child: Center(
                                     child: Icon(
                                       Icons.north_east,
@@ -146,9 +151,6 @@ class _WeekTargetState extends State<WeekTarget> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff00d800)),
                                 )
                               ],
                             ),

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/controller/information_controller.dart';
 import 'package:healyou/healyou/core/controller/water_item_controller.dart';

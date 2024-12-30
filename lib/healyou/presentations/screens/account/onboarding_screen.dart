@@ -42,7 +42,7 @@ void signInWithGoogle(BuildContext context) async {
       await FirebaseAuth.instance.signInWithCredential(credential);
   if (FirebaseAuth.instance.currentUser != null) {
     await FirebaseAuth.instance.currentUser?.reload();
-    final doc = await FirebaseFirestore.instance
+    final doc = FirebaseFirestore.instance
         .collection("user")
         .doc(credentialWithGoogle.user?.uid);
     var docSnapshot = await doc.get();

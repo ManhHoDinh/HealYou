@@ -8,6 +8,8 @@ import 'package:healyou/invite_friend_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
+  const NavigationHomeScreen({super.key});
+
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }

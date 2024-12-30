@@ -200,9 +200,9 @@ class _DetectScreenState extends State<DetectScreen> {
                                         child: CircularProgressIndicator(),
                                       );
                                     } else {
-                                      if (snapshot.hasError)
+                                      if (snapshot.hasError) {
                                         return Text('Error: ${snapshot.error}');
-                                      else {
+                                      } else {
                                         if (snapshot.hasData &&
                                             snapshot.data != null) {
                                           final data =
@@ -217,10 +217,8 @@ class _DetectScreenState extends State<DetectScreen> {
                                                 ),
                                                 Expanded(
                                                   flex: 5,
-                                                  child: Text(e
-                                                          .food!.first.quantity
-                                                          .toString() +
-                                                      "g"),
+                                                  child: Text("${e
+                                                          .food!.first.quantity}g"),
                                                 ),
                                                 Expanded(
                                                     flex: 5,

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:healyou/healyou/core/models/user/user.dart';
 part 'nutrition.g.dart';
 part 'nutrition.freezed.dart';
 

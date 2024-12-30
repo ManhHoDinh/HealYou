@@ -4,8 +4,6 @@ import 'package:healyou/fitness_app/models/tabIcon_data.dart';
 import 'package:healyou/main.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-import '../models/tabIcon_data.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView(

@@ -8,7 +8,7 @@ class RelaxView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _firstHalfAnimation =
+    final firstHalfAnimation =
         Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
       CurvedAnimation(
         parent: animationController,
@@ -19,7 +19,7 @@ class RelaxView extends StatelessWidget {
         ),
       ),
     );
-    final _secondHalfAnimation =
+    final secondHalfAnimation =
         Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0)).animate(
       CurvedAnimation(
         parent: animationController,
@@ -30,7 +30,7 @@ class RelaxView extends StatelessWidget {
         ),
       ),
     );
-    final _textAnimation =
+    final textAnimation =
         Tween<Offset>(begin: Offset(0, 0), end: Offset(-2, 0)).animate(
       CurvedAnimation(
         parent: animationController,
@@ -41,7 +41,7 @@ class RelaxView extends StatelessWidget {
         ),
       ),
     );
-    final _imageAnimation =
+    final imageAnimation =
         Tween<Offset>(begin: Offset(0, 0), end: Offset(-4, 0)).animate(
       CurvedAnimation(
         parent: animationController,
@@ -53,7 +53,7 @@ class RelaxView extends StatelessWidget {
       ),
     );
 
-    final _relaxAnimation =
+    final relaxAnimation =
         Tween<Offset>(begin: Offset(0, -2), end: Offset(0, 0)).animate(
       CurvedAnimation(
         parent: animationController,
@@ -65,23 +65,23 @@ class RelaxView extends StatelessWidget {
       ),
     );
     return SlideTransition(
-      position: _firstHalfAnimation,
+      position: firstHalfAnimation,
       child: SlideTransition(
-        position: _secondHalfAnimation,
+        position: secondHalfAnimation,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SlideTransition(
-                position: _relaxAnimation,
+                position: relaxAnimation,
                 child: Text(
                   "Relax",
                   style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                 ),
               ),
               SlideTransition(
-                position: _textAnimation,
+                position: textAnimation,
                 child: Padding(
                   padding:
                       EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
@@ -92,7 +92,7 @@ class RelaxView extends StatelessWidget {
                 ),
               ),
               SlideTransition(
-                position: _imageAnimation,
+                position: imageAnimation,
                 child: Container(
                   constraints: BoxConstraints(maxWidth: 350, maxHeight: 250),
                   child: Image.asset(

@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.animationController});
-  static final String routeName = 'home_screen';
+  static const String routeName = 'home_screen';
   final AnimationController? animationController;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         .copyWith(color: Colors.white),
                                   ),
                                   Spacer(),
-                                  Container(
+                                  SizedBox(
                                     height: 50,
                                     width: 150,
                                     child: ButtonWidget(
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    SizedBox(
                       height: 170,
                       child: GridView.count(
                         crossAxisCount: 2,

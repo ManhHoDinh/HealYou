@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healyou/healyou/core/models/user/user.dart';
+import 'package:healyou/healyou/presentations/screens/Home/home_screen.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/screens/account/validation/validation_screen.dart';
 import 'package:healyou/healyou/presentations/widgets/loading.dart';
@@ -148,7 +149,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   final credential =
                                       await _handleSignup(); // var credential = await _handleSignup();
                                   if (credential != null) {
-                                    Get.to(ValidationScreen());
+                                    Get.to(GenderSelectorScreen());
                                   }
                                 } finally {
                                   Provider.of<LoadingProvider>(context,
@@ -175,7 +176,9 @@ class _SignupScreenState extends State<SignupScreen> {
   Future<UserCredential?> _handleSignup() async {
     final db = FirebaseFirestore.instance;
     if ((emailErrorText?.isNotEmpty ?? false) ||
-        (passErrorText?.isNotEmpty ?? false)) return null;
+        (passErrorText?.isNotEmpty ?? false)) {
+      return null;
+    }
     try {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -245,6 +248,7 @@ class _SignupScreenState extends State<SignupScreen> {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   void handleChangePass(String text) {

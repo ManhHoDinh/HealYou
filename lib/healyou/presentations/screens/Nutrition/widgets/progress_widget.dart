@@ -53,7 +53,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                 radius: 70.0,
                 lineWidth: 5.0,
                 backgroundColor: Color(0xffEBECFF),
-                center: new Text("100%"),
+                center: Text("100%"),
                 progressColor: Color.fromARGB(255, 241, 77, 7),
                 percent: widget.protein / widget.percent,
               ),

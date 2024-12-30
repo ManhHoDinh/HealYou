@@ -7,7 +7,7 @@ part of 'dish.dart';
 // **************************************************************************
 
 _$DishImpl _$$DishImplFromJson(Map<String, dynamic> json) => _$DishImpl(
-      RecipeId: json['RecipeId'] as int? ?? 0,
+      RecipeId: (json['RecipeId'] as num?)?.toInt() ?? 0,
       Name: json['Name'] as String? ?? "",
       CookTime: json['CookTime'] as String? ?? "",
       PrepTime: json['PrepTime'] as String? ?? "",

@@ -6,7 +6,7 @@ class RecommendFoodItem extends StatelessWidget {
   final FoodModel food;
   final VoidCallback onTap;
 
-  RecommendFoodItem({required this.food, required this.onTap});
+  const RecommendFoodItem({super.key, required this.food, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class RecommendFoodItem extends StatelessWidget {
               height: 5,
             ),
             Text(
-              "${food.Description}",
+              food.Description,
               style: TextStyles.h6.whiteTextColor.copyWith(fontSize: 10),
             ),
           ],

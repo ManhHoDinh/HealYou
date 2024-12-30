@@ -22,7 +22,7 @@ class DialogOverlay extends StatelessWidget {
       backgroundColor: Colors.white.withOpacity(0),
       shadowColor: Colors.white.withOpacity(0),
       content: Text(
-        isSuccess ? task + ' Successed!' : task + ' Failed!\n' + (error ?? ''),
+        isSuccess ? '$task Successed!' : '$task Failed!\n${error ?? ''}',
         textAlign: TextAlign.center,
         style: TextStyles.h5.copyWith(
           color: Colors.white,

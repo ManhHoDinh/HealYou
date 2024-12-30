@@ -73,7 +73,6 @@ class NotifyController {
       ReceivedNotification receivedNotification) async {
     WaterItemController waterItemController = Get.find();
     waterItemController.updateItems();
-    ;
   }
 
   /// Use this method to detect if the user dismissed a notification

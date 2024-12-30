@@ -19,8 +19,8 @@ class RecommendController {
     List<double> weights = [1.2, 1.375, 1.55, 1.725, 1.9];
     double weight = weights[activites.indexOf(user.activity)];
     print("weight: $weight");
-    double maintain_calories = calculateBmr(user) * weight;
-    return maintain_calories;
+    double maintainCalories = calculateBmr(user) * weight;
+    return maintainCalories;
   }
 
   static double calculateBmr(UserModel user) {
@@ -102,8 +102,8 @@ class RecommendController {
         ];
       }
       Generator generator = Generator(nutritionInput: recommendedNutrition);
-      var recommended_recipes = (await generator.generate())["output"];
-      recommendations.add(recommended_recipes);
+      var recommendedRecipes = (await generator.generate())["output"];
+      recommendations.add(recommendedRecipes);
     }
 
     for (var recommendation in recommendations) {

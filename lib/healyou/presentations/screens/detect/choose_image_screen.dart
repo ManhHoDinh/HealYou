@@ -10,7 +10,7 @@ import '../../../core/helper/text_styles.dart';
 
 class ChooseImageScreen extends StatefulWidget {
   const ChooseImageScreen({super.key});
-  static final String routeName = 'ChooseImage_screen';
+  static const String routeName = 'ChooseImage_screen';
 
   @override
   State<ChooseImageScreen> createState() => _ChooseImageCreenState();
@@ -18,16 +18,16 @@ class ChooseImageScreen extends StatefulWidget {
 
 class _ChooseImageCreenState extends State<ChooseImageScreen> {
   void onPickImageSelected(String source) async {
-    var imageSource;
+    ImageSource imageSource;
     if (source == 'Camera') {
       imageSource = ImageSource.camera;
     } else {
       imageSource = ImageSource.gallery;
     }
     try {
-      final ImagePicker _picker = ImagePicker();
+      final ImagePicker picker = ImagePicker();
       // Pick an image
-      final file = await _picker.pickImage(source: imageSource);
+      final file = await picker.pickImage(source: imageSource);
       if (file == null) {
         throw Exception('File is not available');
       }
@@ -84,9 +84,9 @@ class _ChooseImageCreenState extends State<ChooseImageScreen> {
                   child: Row(
                     children: [
                       Container(
+                        padding: const EdgeInsets.only(right: 30, left: 30),
                         child: ImageHelper.loadFromAsset(AssetHelper.gallery,
                             height: 30, width: 30),
-                        padding: const EdgeInsets.only(right: 30, left: 30),
                       ),
                       Text(
                         "Select image from gallery",
@@ -118,9 +118,9 @@ class _ChooseImageCreenState extends State<ChooseImageScreen> {
                   child: Row(
                     children: [
                       Container(
+                        padding: const EdgeInsets.only(right: 30, left: 30),
                         child: ImageHelper.loadFromAsset(AssetHelper.camera,
                             height: 30, width: 30),
-                        padding: const EdgeInsets.only(right: 30, left: 30),
                       ),
                       Text(
                         "Scan image from camera",

@@ -34,7 +34,7 @@ class _RuntargetScreenState extends State<RuntargetScreen> {
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 4,
               padding: EdgeInsets.symmetric(horizontal: 80),
-              tabs: [
+              tabs: const [
                 Tab(icon: Text('Date')),
                 Tab(icon: Text('Week')),
                 Tab(icon: Text('Month')),
@@ -42,7 +42,7 @@ class _RuntargetScreenState extends State<RuntargetScreen> {
             ),
           ),
           body: TabBarView(
-            children: [
+            children: const [
               SingleChildScrollView(
                   scrollDirection: Axis.vertical, child: DateTarget()),
               WeekTarget(),

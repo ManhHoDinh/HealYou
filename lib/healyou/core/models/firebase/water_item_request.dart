@@ -14,8 +14,9 @@ class WaterItemRequest {
               .map((e) => WaterTargetItem.fromJson(e.data()))
               .toList())
           .first;
-    } else
+    } else {
       return [];
+    }
   }
 
   static Future<void> updateNotify(String id, bool notifyValue) async {
@@ -25,7 +26,7 @@ class WaterItemRequest {
   }
 
   static Future<void> addWaterReminder(Map<String, dynamic> data) async {
-    String id = await FirebaseHelper.waterItemCollection.doc().id;
+    String id = FirebaseHelper.waterItemCollection.doc().id;
     data["id"] = id;
     await FirebaseHelper.waterItemCollection.doc(id).set(data);
   }

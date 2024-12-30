@@ -22,6 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  int get stepTarget => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
+      int stepTarget,
       String phoneNumber,
       String email,
       int age,
@@ -76,6 +78,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? stepTarget = null,
     Object? phoneNumber = null,
     Object? email = null,
     Object? age = null,
@@ -112,6 +115,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       targetWeight: null == targetWeight
           ? _value.targetWeight
           : targetWeight // ignore: cast_nullable_to_non_nullable
+              as int,
+              stepTarget: null == stepTarget
+          ? _value.stepTarget
+          : stepTarget // ignore: cast_nullable_to_non_nullable
               as int,
       gender: null == gender
           ? _value.gender
@@ -156,6 +163,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String name,
+      int stepTarget,
       String phoneNumber,
       String email,
       int age,
@@ -182,6 +190,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? stepTarget = null,
     Object? phoneNumber = null,
     Object? email = null,
     Object? age = null,
@@ -227,6 +236,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as int,
+       stepTarget: null == stepTarget
+          ? _value.stepTarget
+          : stepTarget // ignore: cast_nullable_to_non_nullable
+              as int,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -267,6 +280,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.activity = "",
       this.mealPerDay = 3,
       this.weightLoss = "",
+      this.stepTarget = 1000,
       this.verified = false});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -311,10 +325,13 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   @override
   @JsonKey()
   final bool verified;
+  @override
+  @JsonKey()
+  final int stepTarget;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, targetWeight: $targetWeight, gender: $gender, weight: $weight, height: $height, activity: $activity, mealPerDay: $mealPerDay, weightLoss: $weightLoss, verified: $verified)';
+    return 'UserModel(id: $id, name: $name, phoneNumber: $phoneNumber, email: $email, age: $age, targetWeight: $targetWeight, gender: $gender, weight: $weight, height: $height, activity: $activity, mealPerDay: $mealPerDay, weightLoss: $weightLoss, verified: $verified, stepTarget: $stepTarget)';
   }
 
   @override
@@ -324,6 +341,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('type', 'UserModel'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('stepTarget', stepTarget))
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('age', age))
@@ -344,6 +362,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             other is _$UserModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.stepTarget, stepTarget) || other.stepTarget == stepTarget) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.email, email) || other.email == email) &&
@@ -379,6 +398,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       activity,
       mealPerDay,
       weightLoss,
+      stepTarget,
       verified);
 
   @JsonKey(ignore: true)
@@ -409,6 +429,7 @@ abstract class _UserModel implements UserModel {
       final String activity,
       final int mealPerDay,
       final String weightLoss,
+      final int stepTarget,
       final bool verified}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -440,6 +461,8 @@ abstract class _UserModel implements UserModel {
   String get weightLoss;
   @override
   bool get verified;
+  @override
+  int get stepTarget;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

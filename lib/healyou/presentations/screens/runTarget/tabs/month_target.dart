@@ -72,6 +72,9 @@ class _MonthTargetState extends State<MonthTarget> {
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
                                   padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xff00d800)),
                                   child: Center(
                                     child: Icon(
                                       Icons.north_east,
@@ -79,9 +82,6 @@ class _MonthTargetState extends State<MonthTarget> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff00d800)),
                                 )
                               ],
                             ),
@@ -106,6 +106,7 @@ class _MonthTargetState extends State<MonthTarget> {
                               child: Text(date.day.toString()));
                         }
                       }
+                      return null;
                     },
                     todayBuilder: (context, date, _) {
                       for (int i = 0; i < listTargets.length; i++) {
@@ -115,6 +116,7 @@ class _MonthTargetState extends State<MonthTarget> {
                               value: 0.3, child: Text(date.day.toString()));
                         }
                       }
+                      return null;
                     },
                   ),
                   onDaySelected: ((selectedDay, focusedDay) {
@@ -197,7 +199,7 @@ class _MonthTargetState extends State<MonthTarget> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  '${(snapshot.data!.reached * 60).toStringAsFixed(0)}',
+                                  (snapshot.data!.reached * 60).toStringAsFixed(0),
                                   style: TextStyle(fontSize: 16),
                                 );
                               }

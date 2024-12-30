@@ -23,7 +23,7 @@ class HistoryItem extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(nutrition.name),
-              content: Container(
+              content: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: ListView.builder(
@@ -74,7 +74,7 @@ class HistoryItem extends StatelessWidget {
               height: 5,
             ),
             Text(
-              '${DateFormat('MMMM d, yyyy').format(nutrition.time!)}',
+              DateFormat('MMMM d, yyyy').format(nutrition.time!),
               style: TextStyle(fontSize: 12),
             ),
           ],

@@ -79,7 +79,7 @@ class _WaterTargetState extends State<WaterTarget> {
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: height * 3 / 10,
                                 child: SphericalBottle(
                                     key: sphericalBottleRef,

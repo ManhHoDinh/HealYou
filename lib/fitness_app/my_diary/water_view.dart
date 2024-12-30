@@ -60,13 +60,13 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(
+                                      padding: EdgeInsets.only(
                                           left: 4, bottom: 3),
                                       child: Text(
                                         '2100',
@@ -80,7 +80,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(
+                                      padding: EdgeInsets.only(
                                           left: 8, bottom: 8),
                                       child: Text(
                                         'ml',
@@ -97,7 +97,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
+                                  padding: EdgeInsets.only(
                                       left: 4, top: 2, bottom: 14),
                                   child: Text(
                                     'of daily goal 3.5L',

@@ -89,7 +89,7 @@ class _TrackResultState extends State<TrackResult>
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 250,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(

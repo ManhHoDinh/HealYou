@@ -194,7 +194,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         'Weekly average',
                         style: TextStyle(
@@ -210,7 +210,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         'Monthly average',
                         style: TextStyle(
@@ -226,7 +226,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         'Monthly average',
                         style: TextStyle(
@@ -376,7 +376,7 @@ FlTitlesData get titlesData => FlTitlesData(
     );
 
 LinearGradient get _barsGradient => LinearGradient(
-      colors: [ColorPalette.primaryColor, ColorPalette.primaryColor],
+      colors: const [ColorPalette.primaryColor, ColorPalette.primaryColor],
       begin: Alignment.bottomCenter,
       end: Alignment.topCenter,
     );

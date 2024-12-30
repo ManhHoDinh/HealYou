@@ -56,7 +56,9 @@ class _SleepTargetState extends State<SleepTarget> {
                 : -1));
         if (event.isEmpty) return;
         if (event[0].startTime.isBefore(DateTime.now()) &&
-            event[0].endTime.isAfter(DateTime.now())) _sleepTime = true;
+            event[0].endTime.isAfter(DateTime.now())) {
+          _sleepTime = true;
+        }
         if (event[0].startTime.isAfter(DateTime.now())) {
           Future.delayed(DateTime.now().difference(event[0].startTime), () {
             setState(() {
@@ -83,7 +85,7 @@ class _SleepTargetState extends State<SleepTarget> {
         stream: sleepListStream,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            var _sleepList = snapshot.data;
+            var sleepList = snapshot.data;
             return SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -93,7 +95,7 @@ class _SleepTargetState extends State<SleepTarget> {
                       child: Stack(
                         alignment: Alignment.topCenter,
                         children: [
-                          ..._sleepList!
+                          ...sleepList!
                               .asMap()
                               .map(
                                 (key, value) => MapEntry(
@@ -321,7 +323,7 @@ class _SleepTargetState extends State<SleepTarget> {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(),
                       duration: Duration(seconds: 2),
-                      child: _sleepList.isEmpty
+                      child: sleepList.isEmpty
                           ? TextButton(
                               onPressed: () {
                                 _showAddSleepModel();
@@ -330,7 +332,7 @@ class _SleepTargetState extends State<SleepTarget> {
                                   "Add sleep to start schedule your sleep"))
                           : Column(
                               children: [
-                                ..._sleepList
+                                ...sleepList
                                     .map((e) => buildNextSleepItem(e))
                                     .toList()
                               ],
@@ -576,7 +578,7 @@ class _SleepTargetState extends State<SleepTarget> {
                         Navigator.of(context).pop();
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             ColorPalette.primaryColor),
                       ),
                       child: Text(
@@ -689,10 +691,11 @@ class _SleepTargetState extends State<SleepTarget> {
         vibrate: true,
         volume: 0.8,
         fadeDuration: 3.0,
-        notificationTitle: 'Wake up.',
-        notificationBody: ' You have sleep enough',
-        enableNotificationOnKill: true,
-        androidFullScreenIntent: true,
+        androidFullScreenIntent: true, 
+        notificationSettings: NotificationSettings(
+    title: 'Wake up.',
+    body: 'You have slept enough.',
+  ),
       );
       Alarm.ringStream.stream.listen((event) {}, onDone: () {
         _handleOnRecording();

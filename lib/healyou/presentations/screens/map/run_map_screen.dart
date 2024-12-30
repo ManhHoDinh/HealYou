@@ -11,7 +11,7 @@ import 'package:healyou/healyou/presentations/screens/run/track/run_track.dart';
 
 class RunMap extends StatefulWidget {
   const RunMap({super.key});
-  static final String routeName = 'run_map_screen';
+  static const String routeName = 'run_map_screen';
 
   @override
   State<RunMap> createState() => RunMapState();
@@ -45,7 +45,7 @@ class RunMapState extends State<RunMap> {
                 style: TextStyle(fontSize: 24.0),
               ),
             ),
-            Container(
+            SizedBox(
               height: 500,
               child: GoogleMap(
                 mapType: MapType.hybrid,

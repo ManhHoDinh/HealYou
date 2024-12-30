@@ -62,7 +62,7 @@ class MapSampleState extends State<TimeRun> {
               style: TextStyle(fontSize: 24.0),
             ),
           ),
-          Container(
+          SizedBox(
             height: 500,
             child: GoogleMap(
               initialCameraPosition: initialCameraPosition,
@@ -80,7 +80,7 @@ class MapSampleState extends State<TimeRun> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Container(
+                SizedBox(
                   height: 50,
                   width: 105,
                   child: Container(
@@ -98,7 +98,7 @@ class MapSampleState extends State<TimeRun> {
                   ),
                 ),
                 VerticalDivider(color: Colors.black, thickness: 1),
-                Container(
+                SizedBox(
                   height: 50,
                   width: 105,
                   child: Container(
@@ -116,7 +116,7 @@ class MapSampleState extends State<TimeRun> {
                   ),
                 ),
                 VerticalDivider(color: Colors.black, thickness: 1),
-                Container(
+                SizedBox(
                   height: 50,
                   width: 105,
                   child: Container(
@@ -137,7 +137,7 @@ class MapSampleState extends State<TimeRun> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 300,
             child: Divider(color: Colors.black, thickness: 1),
           ),

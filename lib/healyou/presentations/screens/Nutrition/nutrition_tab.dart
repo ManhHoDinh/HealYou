@@ -41,12 +41,12 @@ Future<String> getNutrition(String query) async {
 }
 
 class _DateTargetState extends State<NutritionSreen> {
-  List<Widget> _infoBoxes = [];
+  final List<Widget> _infoBoxes = [];
   final _formKey = GlobalKey<FormState>();
 
   String _title = '';
-  int _value = 0;
-  String _unit = '';
+  final int _value = 0;
+  final String _unit = '';
   String? _expandedItemIndex;
   User? currentUser = FirebaseAuth.instance.currentUser;
   double totalCalories = 0.0;
@@ -66,6 +66,7 @@ class _DateTargetState extends State<NutritionSreen> {
   bool _expanded = false;
   var rng = Random(150);
 
+  @override
   Widget build(BuildContext context) {
     totalCalories =
         _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.calories));
@@ -127,9 +128,9 @@ class _DateTargetState extends State<NutritionSreen> {
                     List<Map<String, dynamic>> foodItems =
                         List<Map<String, dynamic>>.from(data['foodItems']);
                     double calo = 0;
-                    foodItems.forEach((element) {
+                    for (var element in foodItems) {
                       calo += rng.nextInt(100) + 200;
-                    });
+                    }
                     return Column(
                       children: [
                         _buildInfoBox(
@@ -181,7 +182,7 @@ class _DateTargetState extends State<NutritionSreen> {
           ElevatedButton(
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: const <Widget>[
                 Icon(Icons.add),
                 Text('History Meal',
                     style: TextStyle(
@@ -202,8 +203,8 @@ class _DateTargetState extends State<NutritionSreen> {
   }
 
   Widget _buildAddBox() {
-    List<FoodItem> _selectedFoodItems = [];
-    final TextEditingController _controller = TextEditingController();
+    List<FoodItem> selectedFoodItems = [];
+    final TextEditingController controller = TextEditingController();
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(10),
@@ -216,7 +217,7 @@ class _DateTargetState extends State<NutritionSreen> {
           ElevatedButton(
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: const <Widget>[
                 Icon(Icons.add),
                 Text('Add Meal',
                     style: TextStyle(
@@ -233,7 +234,7 @@ class _DateTargetState extends State<NutritionSreen> {
                     builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
                         title: Text('Add new item'),
-                        content: Container(
+                        content: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: Form(
@@ -250,27 +251,27 @@ class _DateTargetState extends State<NutritionSreen> {
                                   },
                                 ),
                                 TextField(
-                                  controller: _controller,
+                                  controller: controller,
                                   decoration: InputDecoration(
                                     labelText: 'Search',
                                   ),
                                   onSubmitted: (value) {
                                     setState(() {
-                                      _controller.text = value;
+                                      controller.text = value;
                                     });
                                   },
                                 ),
                                 FutureBuilder<String>(
-                                  future: getNutrition(_controller.text),
+                                  future: getNutrition(controller.text),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<String> snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
                                       return CircularProgressIndicator();
                                     } else {
-                                      if (snapshot.hasError)
+                                      if (snapshot.hasError) {
                                         return Text('Error: ${snapshot.error}');
-                                      else {
+                                      } else {
                                         if (snapshot.hasData &&
                                             snapshot.data != null) {
                                           _apiResponseData =
@@ -330,7 +331,7 @@ class _DateTargetState extends State<NutritionSreen> {
                                                       );
 
                                                       setState(() {
-                                                        _selectedFoodItems
+                                                        selectedFoodItems
                                                             .add(newFoodItem);
                                                       });
                                                     },
@@ -367,17 +368,17 @@ class _DateTargetState extends State<NutritionSreen> {
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                getNutrition(_controller.text).then((data) {
+                                getNutrition(controller.text).then((data) {
                                   if (data != null) {
                                     setState(() {
                                       _isLoading = false;
-                                      _foodItems.addAll(_selectedFoodItems);
+                                      _foodItems.addAll(selectedFoodItems);
                                       _handleAddFoodItem(
-                                          _selectedFoodItems, id);
+                                          selectedFoodItems, id);
                                       _expandedItemIndex = (id);
                                       uploadDataToFirebase(_title,
-                                          _selectedFoodItems, currentUser!.uid);
-                                      _selectedFoodItems.clear();
+                                          selectedFoodItems, currentUser!.uid);
+                                      selectedFoodItems.clear();
                                     });
                                     Navigator.of(context).pop();
                                   }
@@ -405,14 +406,14 @@ class _DateTargetState extends State<NutritionSreen> {
 
     List<Map<String, dynamic>> foodItemsList = [];
 
-    foodItems.forEach((foodItem) {
+    for (var foodItem in foodItems) {
       foodItemsList.add({
         'meal': foodItem.name,
         'calories': foodItem.calories,
         'protein': foodItem.protein,
         'fat': foodItem.fat,
       });
-    });
+    }
 
     DocumentReference docRef = collection.doc();
     try {

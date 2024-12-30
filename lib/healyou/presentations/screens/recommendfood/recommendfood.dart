@@ -22,7 +22,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class RecommendFoodSrceen extends StatefulWidget {
   const RecommendFoodSrceen({super.key, this.animationController});
-  static final String routeName = 'recommendFood_screen';
+  static const String routeName = 'recommendFood_screen';
   final AnimationController? animationController;
   @override
   State<RecommendFoodSrceen> createState() => _RecommendFoodSrceenState();
@@ -38,7 +38,7 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
     print(response.body);
     List<dynamic> data = json['hits'];
     recommendFood.clear();
-    data.forEach((item) {
+    for (var item in data) {
       FoodModel food = FoodModel(
         Id: item['recipe']['uri'],
         Name: item['recipe']['label'],
@@ -50,11 +50,12 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
       setState(() {
         recommendFood.add(food);
       });
-    });
+    }
   }
 
   String? text;
 
+  @override
   void initState() {
     super.initState();
     getApiData();
@@ -155,7 +156,7 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  SizedBox(
                     height: 600,
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -190,7 +191,7 @@ class _RecommendFoodSrceenState extends State<RecommendFoodSrceen>
 
 class SearchPage extends StatefulWidget {
   String? search;
-  SearchPage({this.search});
+  SearchPage({super.key, this.search});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -204,7 +205,7 @@ class _SearchPageState extends State<SearchPage> {
     Map<String, dynamic> json = jsonDecode(response.body);
     List<dynamic> data = json['hits'];
     recommendFood.clear();
-    data.forEach((item) {
+    for (var item in data) {
       FoodModel food = FoodModel(
         Id: item['recipe']['uri'],
         Name: item['recipe']['label'],
@@ -214,12 +215,13 @@ class _SearchPageState extends State<SearchPage> {
         url: item['recipe']['url'],
       );
       recommendFood.add(food);
-    });
+    }
     setState(() {});
   }
 
   String? text;
 
+  @override
   void initState() {
     super.initState();
     getApiData(widget.search);
@@ -283,7 +285,7 @@ class _SearchPageState extends State<SearchPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  SizedBox(
                     height: 600,
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -319,19 +321,36 @@ class _SearchPageState extends State<SearchPage> {
 class WebPage extends StatefulWidget {
   final String url;
 
-  WebPage({required this.url});
+  const WebPage({super.key, required this.url});
 
   @override
   _WebPageState createState() => _WebPageState();
 }
 
 class _WebPageState extends State<WebPage> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(
+        onPageStarted: (String url) {
+        },
+        onPageFinished: (String url) {
+          // Handle page finish
+        },
+      ))
+      ..loadRequest(Uri.parse('https://flutter.dev'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: WebView(
-          initialUrl: widget.url,
+        child: WebViewWidget(
+          controller: controller,
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:healyou/healyou/core/models/user/user.dart';
 import 'package:healyou/healyou/presentations/routes/app_router.dart';
 import 'package:healyou/healyou/presentations/screens/Home/navigation_home.dart';
 import 'package:healyou/healyou/presentations/screens/account/onboarding_screen.dart';
+import 'package:healyou/healyou/presentations/screens/account/signup_screen.dart';
 import 'package:healyou/healyou/presentations/screens/information/age.dart';
 import 'package:healyou/healyou/presentations/screens/information/gender.dart';
 import 'package:healyou/healyou/presentations/screens/splash/splash_screen.dart';
@@ -45,6 +46,8 @@ class _healyouAppState extends State<healyouApp> {
 }
 
 class AuthenticationWrapper extends StatefulWidget {
+  const AuthenticationWrapper({super.key});
+
   @override
   _AuthenticationWrapperState createState() => _AuthenticationWrapperState();
 }
@@ -84,10 +87,13 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                         // Show a loading indicator if necessary
                         return SplashScreen();
                       } else {
-                        if (!AuthServices.CurrentUser!.verified) {
-                          return ValidationScreen();
+                        // if (!AuthServices.CurrentUser!.verified) {
+                        //   return ValidationScreen();
+                        // }
+                        debugPrint("Hello ${AuthServices.CurrentUser}");
+                        if(AuthServices.CurrentUser == null){
+                          return SignupScreen();
                         }
-                        debugPrint("Hello "+AuthServices.CurrentUser.toString());
                         if (AuthServices.CurrentUser!.gender == "" ||
                             AuthServices.CurrentUser!.age == 0 || AuthServices.CurrentUser!.height == 0 || AuthServices.CurrentUser!.weight == 0
                       || AuthServices.CurrentUser!.targetWeight == 0 

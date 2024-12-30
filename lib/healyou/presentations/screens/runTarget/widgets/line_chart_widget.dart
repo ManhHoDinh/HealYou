@@ -148,11 +148,11 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   LineChartData mainData(List<Map<String, dynamic>> data) {
     double maxValue = 0;
-    data.forEach((element) {
+    for (var element in data) {
       if (element["reached"].toDouble() >= maxValue) {
         maxValue = element["reached"].toDouble();
       }
-    });
+    }
     if (maxValue <= widget.target) {
       maxValue = widget.target;
     }

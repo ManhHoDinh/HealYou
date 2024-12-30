@@ -11,6 +11,8 @@ import '../../../core/constants/color_palatte.dart';
 import '../../bottom_navigation_view/bottom_bar_view.dart';
 
 class BottomHomeScreen extends StatefulWidget {
+  const BottomHomeScreen({super.key});
+
   @override
   _BottomHomeScreenState createState() => _BottomHomeScreenState();
 }
@@ -27,9 +29,9 @@ class _BottomHomeScreenState extends State<BottomHomeScreen>
 
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab) {
+    for (var tab in tabIconsList) {
       tab.isSelected = false;
-    });
+    }
     tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(

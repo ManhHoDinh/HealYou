@@ -6,8 +6,8 @@ class FoodItem extends StatelessWidget {
   final String calories;
   final String protein;
   final String fat;
-  FoodItem(
-      {required this.imageUrl,
+  const FoodItem(
+      {super.key, required this.imageUrl,
       required this.name,
       required this.calories,
       required this.protein,

@@ -12,14 +12,15 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String? ?? "",
       phoneNumber: json['phoneNumber'] as String? ?? "",
       email: json['email'] as String? ?? "",
-      age: json['age'] as int? ?? 0,
-      targetWeight: json['targetWeight'] as int? ?? 0,
+      age: (json['age'] as num?)?.toInt() ?? 0,
+      targetWeight: (json['targetWeight'] as num?)?.toInt() ?? 0,
       gender: json['gender'] as String? ?? "",
-      weight: json['weight'] as int? ?? 0,
-      height: json['height'] as int? ?? 0,
+      weight: (json['weight'] as num?)?.toInt() ?? 0,
+      height: (json['height'] as num?)?.toInt() ?? 0,
       activity: json['activity'] as String? ?? "",
-      mealPerDay: json['mealPerDay'] as int? ?? 3,
+      mealPerDay: (json['mealPerDay'] as num?)?.toInt() ?? 3,
       weightLoss: json['weightLoss'] as String? ?? "",
+      stepTarget: (json['stepTarget'] as num?)?.toInt() ?? 1000,
       verified: json['verified'] as bool? ?? false,
     );
 
@@ -38,4 +39,5 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'mealPerDay': instance.mealPerDay,
       'weightLoss': instance.weightLoss,
       'verified': instance.verified,
+      'stepTarget': instance.stepTarget,
     };

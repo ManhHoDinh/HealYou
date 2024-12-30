@@ -2,10 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:healyou/healyou/presentations/bottom_navigation_view/tabIconData.dart';
 
-import '../../../main.dart';
 import '../../core/constants/color_palatte.dart';
 import '../../core/helper/image_helper.dart';
-import '../../healYouMain.dart';
 
 class WindouBottomBarView extends StatefulWidget {
   const WindouBottomBarView(

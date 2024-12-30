@@ -89,13 +89,13 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                       if (snapshot.hasData) {
                         return SetItemWidget(
                             title: Row(
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.water_drop,
                                   color: ColorPalette.mainRunColor,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     'Water',
                                     style: TextStyle(fontSize: 16),
@@ -151,7 +151,7 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.ads_click,
                             fill: 1,
@@ -159,7 +159,7 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                             color: ColorPalette.mainRunColor,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 10),
+                            padding: EdgeInsets.only(left: 10),
                             child: Text('More targets',
                                 style: TextStyle(fontSize: 16)),
                           )
@@ -190,11 +190,11 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
                                       title: Row(
-                                        children: [
+                                        children: const [
                                           Icon(Icons.local_fire_department,
                                               color: ColorPalette.mainRunColor),
                                           Padding(
-                                            padding: const EdgeInsets.only(
+                                            padding: EdgeInsets.only(
                                                 left: 8.0),
                                             child: Text(
                                               'kcal',
@@ -226,11 +226,11 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
                                       title: Row(
-                                        children: [
+                                        children: const [
                                           Icon(Icons.arrow_forward,
                                               color: ColorPalette.mainRunColor),
                                           Padding(
-                                            padding: const EdgeInsets.only(
+                                            padding: EdgeInsets.only(
                                                 left: 8.0),
                                             child: Text(
                                               'km',
@@ -262,11 +262,11 @@ class _SetTargetScreenState extends State<SetTargetScreen> {
                                 if (snapshot.hasData) {
                                   return SetItemWidget(
                                       title: Row(
-                                        children: [
+                                        children: const [
                                           Icon(Icons.schedule,
                                               color: ColorPalette.mainRunColor),
                                           Padding(
-                                            padding: const EdgeInsets.only(
+                                            padding: EdgeInsets.only(
                                                 left: 8.0),
                                             child: Text(
                                               'minutes',
