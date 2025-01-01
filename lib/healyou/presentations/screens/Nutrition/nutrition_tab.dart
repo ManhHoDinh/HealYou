@@ -69,9 +69,9 @@ class _DateTargetState extends State<NutritionSreen> {
   @override
   Widget build(BuildContext context) {
     totalCalories =
-        _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.calories));
+        _foodItems.fold(0.0, (sum, item) => sum + 0);
     totalProtein =
-        _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.protein));
+        _foodItems.fold(0.0, (sum, item) => sum + 0);
     totalFat =
         _foodItems.fold(0.0, (sum, item) => sum + double.parse(item.fat));
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -445,7 +445,7 @@ class _DateTargetState extends State<NutritionSreen> {
   }
 
   Widget _buildInfoBox(String name, double calories, String id,
-      [String unit = 'cal']) {
+      [String unit = ' cal']) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     return Container(
       width: double.infinity,
@@ -468,21 +468,15 @@ class _DateTargetState extends State<NutritionSreen> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "$name: $calories",
+                            text: "$name: $calories $unit",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextSpan(
-                            text: unit,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          
+                         
                         ],
                       ),
                     ),
